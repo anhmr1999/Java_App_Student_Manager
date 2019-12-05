@@ -18,18 +18,9 @@ public class Tbl_Mark {
     private int status;
     private String note;
 
-    //Contructor dùng để lấy và sửa dữ liệu
+    //Contructor dùng để lấy và sửa, thêm dữ liệu
     public Tbl_Mark(int Student_ID, int Subject_ID, float Mark, int Exam_Time, int status, String note) {
         this.Student_ID = Student_ID;
-        this.Subject_ID = Subject_ID;
-        this.Mark = Mark;
-        this.Exam_Time = Exam_Time;
-        this.status = status;
-        this.note = note;
-    }
-
-    //Contructor dùng để thêm dữ liệu
-    public Tbl_Mark(int Subject_ID, float Mark, int Exam_Time, int status, String note) {
         this.Subject_ID = Subject_ID;
         this.Mark = Mark;
         this.Exam_Time = Exam_Time;

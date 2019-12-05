@@ -188,6 +188,8 @@ create proc edit_mark @sub int, @student int, @mark float, @exam tinyint, @statu
 AS
 BEGIN
 	update tbl_Mark SET Mark = @mark, Exam_Times = @exam, _Status = @statuss, Note = @note WHERE Subject_ID = @sub AND Student_ID = @student
-	INSERT INTO tbl_History(_Type,Acc_ID,Tbl_Edit) VALUES(N'Thêm điểm cho sinh viên',@acc_ID,N'Bảng điểm')
+	INSERT INTO tbl_History(_Type,Acc_ID,Tbl_Edit) VALUES(N'Sửa điểm cho sinh viên',@acc_ID,N'Bảng điểm')
 END 
 /* 13-END */
+
+select * from tbl_Mark where ID in (select * from tbl_Student where ID = 1)

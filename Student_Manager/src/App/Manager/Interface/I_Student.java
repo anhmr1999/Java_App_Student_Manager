@@ -15,6 +15,7 @@ import java.util.List;
 public interface I_Student {
     public void insert(Tbl_Student s);
     public List<Tbl_Student> select();
+    public List<Tbl_Student> select_all();
     public void update(Tbl_Student s);
     public void delete(int id);
 }

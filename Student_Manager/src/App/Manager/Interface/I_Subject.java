@@ -15,6 +15,7 @@ import java.util.List;
 public interface I_Subject {
     public void insert(Tbl_Subject s);
     public List<Tbl_Subject> select();
+    public List<Tbl_Subject> select_all();
     public void update(Tbl_Subject s);
     public void delete(int id);
 }

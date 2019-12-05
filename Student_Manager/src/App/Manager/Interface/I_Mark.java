@@ -15,6 +15,7 @@ import java.util.List;
 public interface I_Mark {
     public void insert(Tbl_Mark m);
     public List<Tbl_Mark> select();
+    public List<Tbl_Mark> select_all();
     public void update(Tbl_Mark m);
     public void delete(int id_student, int id_subject);
 }
