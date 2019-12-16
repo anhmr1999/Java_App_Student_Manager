@@ -5,17 +5,22 @@
  */
 package App;
 
+import App.connect.ConnectDB;
+
 /**
  *
  * @author PC Hoang Anh
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    
+    ConnectDB c = new ConnectDB();
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        c.connect();
     }
 
     /**
