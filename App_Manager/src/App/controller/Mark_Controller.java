@@ -5,10 +5,18 @@
  */
 package App.controller;
 
+import java.sql.Connection;
+
 /**
  *
  * @author PC Hoang Anh
  */
 public class Mark_Controller {
+    Connection cnn;
+
+    public Mark_Controller(Connection cnn) {
+        this.cnn = cnn;
+    }
+    
     
 }

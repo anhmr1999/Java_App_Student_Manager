@@ -81,3 +81,5 @@ insert into tbl_Role values
 (N'Giảng viên'),
 (N'Giảng viên thực tập')
 GO
+
+update tbl_Course set Name = ?, Begin_date = ?, End_date = ? where ID = ?
