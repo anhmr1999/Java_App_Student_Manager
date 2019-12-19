@@ -14,6 +14,7 @@ public class tbl_Class {
     private int id;
     private String name;
     private int Course_id;
+    private int Teacher_id;
 
     public int getId() {
         return id;
@@ -39,15 +40,25 @@ public class tbl_Class {
         this.Course_id = Course_id;
     }
 
-    public tbl_Class(int id, String name, int Course_id) {
+    public int getTeacher_id() {
+        return Teacher_id;
+    }
+
+    public void setTeacher_id(int Teacher_id) {
+        this.Teacher_id = Teacher_id;
+    }
+
+    public tbl_Class(int id, String name, int Course_id, int Teacher_id) {
         this.id = id;
         this.name = name;
         this.Course_id = Course_id;
+        this.Teacher_id = Teacher_id;
     }
 
-    public tbl_Class(String name, int Course_id) {
+    public tbl_Class(String name, int Course_id, int Teacher_id) {
         this.name = name;
         this.Course_id = Course_id;
+        this.Teacher_id = Teacher_id;
     }
 
     @Override

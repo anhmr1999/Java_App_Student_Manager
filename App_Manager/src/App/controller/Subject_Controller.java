@@ -5,10 +5,84 @@
  */
 package App.controller;
 
+import App.model.tbl_Subject;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author PC Hoang Anh
  */
 public class Subject_Controller {
+    Connection cnn;
+
+    public Subject_Controller(Connection cnn) {
+        this.cnn = cnn;
+    }
     
+    public int insert(tbl_Subject s){
+        int row = 0;
+        String sql = "insert into tbl_Subject(Name) values(?)";
+        try {
+            PreparedStatement PS = cnn.prepareCall(sql);
+            PS.setString(1, s.getName());
+            row = PS.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Subject_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return row;
+    }
+    
+    public List<tbl_Subject> select(){
+        List<tbl_Subject> LS = new ArrayList<>();
+        String sql = "select * from tbl_Subject";
+        PreparedStatement PS;
+        try {
+            PS = cnn.prepareCall(sql);
+            ResultSet rs = PS.executeQuery();
+            while (rs.next()) {                
+                int id = rs.getInt("ID");
+                String name = rs.getString("Name");
+                LS.add(new tbl_Subject(id, name));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Subject_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return LS;
+    }
+    
+    public boolean update(tbl_Subject s){
+        boolean check = false;
+        String sql = "update tbl_Subject set Name = ? where ID = ?";
+        try {
+            PreparedStatement PS = cnn.prepareCall(sql);
+            PS.setString(1, s.getName());
+            PS.setInt(2, s.getID());
+            PS.execute();
+            check = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Subject_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return check;
+    }
+    
+    public boolean delete(int id){
+        boolean check = false;
+        String sql = "delete from tbl_Subject where ID = ?";
+        try {
+            PreparedStatement PS = cnn.prepareCall(sql);
+            PS.setInt(1, id);
+            PS.execute();
+            check = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Subject_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return check;
+    }
 }

@@ -14,27 +14,6 @@ create table tbl_Course(
 )
 GO
 
-create table tbl_Class(
-	ID int identity primary key,
-	Name nvarchar(100),
-	Course_ID int foreign key references tbl_Course(ID)
-)
-GO
-
-create table tbl_Student(
-	ID int identity primary key,
-	RollNo nvarchar(100) not null unique,
-	Name nvarchar(100) not null,
-	Phone varchar(10) unique,
-	Email varchar(100) unique,
-	Address nvarchar(100),
-	DOB date default('2000/01/01'),
-	img nvarchar(100),
-	Status tinyint default(1), /* 1 - đang học, 2 - đang bảo lưu, 3 - đã thôi học, 4 - đã tốt nghiệp */
-	Class_ID int foreign key references tbl_Class(ID)
-)
-GO
-
 create table tbl_Role(
 	ID int identity primary key,
 	Name nvarchar(100)
@@ -54,22 +33,38 @@ create table tbl_Teacher(
 )
 GO
 
+create table tbl_Class(
+	ID int identity primary key,
+	Name nvarchar(100),
+	Course_ID int foreign key references tbl_Course(ID),
+	Teacher_ID int foreign key references tbl_Teacher(ID)
+)
+GO
+
+create table tbl_Student(
+	ID int identity primary key,
+	RollNo nvarchar(100) not null unique,
+	Name nvarchar(100) not null,
+	Phone varchar(10) unique,
+	Email varchar(100) unique,
+	Address nvarchar(100),
+	DOB date default('2000/01/01'),
+	Gender tinyint default(1), /* 1 là nam, 2 là nữ, 3 là chưa xác định */
+	img nvarchar(100),
+	Status tinyint default(1), /* 1 - đang học, 2 - đang bảo lưu, 3 - đã thôi học, 4 - đã tốt nghiệp */
+	Class_ID int foreign key references tbl_Class(ID)
+)
+GO
+
 create table tbl_Subject(
 	ID int identity primary key,
 	Name nvarchar(100)
 )
 GO
 
-create table tbl_Teach_Sub(
-	ID int identity primary key,
-	Teacher_ID int foreign key references tbl_Teacher(ID),
-	Subject_ID int foreign key references tbl_Subject(ID)
-)
-GO
-
 create table tbl_Mark(
 	Student_ID int foreign key references tbl_Student(ID),
-	Sub_ID int foreign key references tbl_Teach_Sub(ID),
+	Sub_ID int foreign key references tbl_Subject(ID),
 	Mark float default(0),
 	Note nvarchar(500)
 )
@@ -81,5 +76,3 @@ insert into tbl_Role values
 (N'Giảng viên'),
 (N'Giảng viên thực tập')
 GO
-
-update tbl_Course set Name = ?, Begin_date = ?, End_date = ? where ID = ?

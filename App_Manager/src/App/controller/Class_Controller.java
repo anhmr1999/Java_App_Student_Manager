@@ -29,10 +29,11 @@ public class Class_Controller {
     public int insert(tbl_Class c){
         int row = 0;
         try {
-            String sql = "insert into tbl_Class(Name,Course_ID) values(?,?)";
+            String sql = "insert into tbl_Class(Name,Course_ID,Teacher_ID) values(?,?,?)";
             PreparedStatement PS = cnn.prepareCall(sql);
             PS.setString(1, c.getName());
             PS.setInt(2, c.getCourse_id());
+            PS.setInt(3, c.getTeacher_id());
             row = PS.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Class_Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -40,9 +41,9 @@ public class Class_Controller {
         return row;
     }
     
-    public List<tbl_Class> select(){
+    public List<tbl_Class> select(String check){
         List<tbl_Class> LC = new ArrayList<>();
-        String sql = "select * from tbl_Class";
+        String sql = "select * from tbl_Class "+check;
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             ResultSet rs =PS.executeQuery();
@@ -50,7 +51,8 @@ public class Class_Controller {
                 int id = rs.getInt("ID");
                 String name = rs.getString("Name");
                 int course_id = rs.getInt("Course_ID");
-                LC.add(new tbl_Class(id, name, course_id));
+                int teach_id = rs.getInt("Teacher_ID");
+                LC.add(new tbl_Class(id, name, course_id, teach_id));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Class_Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,12 +62,13 @@ public class Class_Controller {
     
     public boolean update(tbl_Class c){
         boolean check = false;
-        String sql = "update tbl_Class set Name = ?, Course_ID = ? where ID = ?";
+        String sql = "update tbl_Class set Name = ?, Course_ID = ?, Teacher_ID = ? where ID = ?";
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             PS.setString(1, c.getName());
             PS.setInt(2, c.getCourse_id());
-            PS.setInt(3, c.getId());
+            PS.setInt(3, c.getTeacher_id());
+            PS.setInt(4, c.getId());
             PS.execute();
             check = true;
         } catch (SQLException ex) {

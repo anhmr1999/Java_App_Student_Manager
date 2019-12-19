@@ -19,6 +19,10 @@ public class tbl_Subject {
         this.name = name;
     }
 
+    public tbl_Subject(String name) {
+        this.name = name;
+    }
+
     public int getID() {
         return ID;
     }

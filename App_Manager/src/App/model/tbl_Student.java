@@ -19,8 +19,9 @@ public class tbl_Student {
     private String address;
     private String DOB;
     private int Status;
-    private String Class_ID;
+    private int Class_ID;
     private String img;
+    private int gender;
 
     public int getId() {
         return id;
@@ -86,11 +87,11 @@ public class tbl_Student {
         this.Status = Status;
     }
 
-    public String getClass_ID() {
+    public int getClass_ID() {
         return Class_ID;
     }
 
-    public void setClass_ID(String Class_ID) {
+    public void setClass_ID(int Class_ID) {
         this.Class_ID = Class_ID;
     }
 
@@ -102,7 +103,15 @@ public class tbl_Student {
         this.img = img;
     }
 
-    public tbl_Student(int id, String roll, String name, String phone, String email, String address, String DOB, int Status, String Class_ID, String img) {
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public tbl_Student(int id, String roll, String name, String phone, String email, String address, String DOB, int Status, int Class_ID, String img, int gender) {
         this.id = id;
         this.roll = roll;
         this.name = name;
@@ -113,9 +122,10 @@ public class tbl_Student {
         this.Status = Status;
         this.Class_ID = Class_ID;
         this.img = img;
+        this.gender = gender;
     }
 
-    public tbl_Student(String roll, String name, String phone, String email, String address, String DOB, int Status, String Class_ID, String img) {
+    public tbl_Student(String roll, String name, String phone, String email, String address, String DOB, int Status, int Class_ID, String img, int gender) {
         this.roll = roll;
         this.name = name;
         this.phone = phone;
@@ -125,6 +135,7 @@ public class tbl_Student {
         this.Status = Status;
         this.Class_ID = Class_ID;
         this.img = img;
+        this.gender = gender;
     }
 
     @Override
