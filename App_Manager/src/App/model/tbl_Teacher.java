@@ -116,4 +116,9 @@ public class tbl_Teacher {
         this.role_ID = role_ID;
     }
 
+    @Override
+    public String toString() {
+        return "tbl_Teacher{" + "ID=" + ID + ", name=" + name + ", phone=" + phone + ", email=" + email + ", pass=" + pass + ", address=" + address + ", DOB=" + DOB + ", status=" + status + ", role_ID=" + role_ID + '}';
+    }
+
 }

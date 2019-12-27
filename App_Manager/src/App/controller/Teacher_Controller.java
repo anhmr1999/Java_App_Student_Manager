@@ -46,9 +46,9 @@ public class Teacher_Controller {
         return row;
     }
     
-    public List<tbl_Teacher> select(){
+    public List<tbl_Teacher> select(String check){
         List<tbl_Teacher> LT = new ArrayList<>();
-        String sql = "select * from tbl_Teacher";
+        String sql = "select * from tbl_Teacher "+check;
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             ResultSet rs = PS.executeQuery();
