@@ -131,6 +131,16 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         jRole.setModel(dcm);
     }
 
+    private boolean check_Mail_Phone(String mail, String phone) {
+        boolean check = false;
+        for (tbl_Teacher t : LT) {
+            if (t.getPhone().equals(phone) || t.getEmail().equals(mail)) {
+                check = true;
+            }
+        }
+        return check;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -680,10 +690,11 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String seach = Seach.getText();
-        load_table(" where Name like N'%"+seach+"%'");
+        load_table(" where Name like N'%" + seach + "%'");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String regex_Phone = "^0[0-9]{9,10}$";
         if (acc.getRole_ID() == 4) {
             JOptionPane.showMessageDialog(null, "Xin lỗi, bạn không có quyền thêm tài khoản");
         } else {
@@ -695,7 +706,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String new_DOB = sdf.format(jDate.getDate());
             int selectRole = jRole.getSelectedIndex();
-            int new_id_Role = LR.get(selectRole).getId();
+            int new_id_Role = LR.get(selectRole+2).getId();
             int new_status;
             if (jStatus_1.isSelected()) {
                 new_status = 1;
@@ -704,13 +715,16 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             }
             if (new_name.length() == 0 || new_Phone.length() == 0 || new_Email.length() == 0 || new_Address.length() == 0 || new_DOB.length() == 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin vào các trường để tiến hành");
-            } else if (new_Phone.length() > 11 || new_Phone.length() < 10) {
+            } else if (new_Phone.length() > 11 || new_Phone.length() < 10 || regex_Phone.matches(new_Phone)) {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng số điện thoại để tiếp tục");
+            } else if (check_Mail_Phone(new_Email, new_Phone)) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại hoặc Email đã được sử dụng!");
             } else {
                 int choose = JOptionPane.showConfirmDialog(null, "Bạn có chắc sẽ thêm một tài khoản với các dữ liệu trên?");
                 if (choose == JOptionPane.YES_OPTION) {
                     tbl_Teacher newTeacher = new tbl_Teacher(new_name, new_Phone, new_Email, new_pass, new_Address, new_DOB, new_status, new_id_Role);
-                       Teacher_Controller TC = new Teacher_Controller(conn);
+                    System.out.println(newTeacher.toString());
+                    Teacher_Controller TC = new Teacher_Controller(conn);
                     if (TC.insert(acc) == 1) {
                         JOptionPane.showMessageDialog(null, "Bạn đã thêm tài khoản thành công");
                         load_table("");
@@ -729,9 +743,13 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
     private void Edit_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_TeacherActionPerformed
         tbl_Teacher teacher_edit = LT.get(jTable_Teacher.getSelectedRow());
-        Edit_Teacher et = new Edit_Teacher(teacher_edit, conn, this);
-        jDesktopPane.add(et);
-        et.setVisible(true);
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2 || teacher_edit.getID() == acc.getID()) {
+            Edit_Teacher et = new Edit_Teacher(teacher_edit, conn, this);
+            jDesktopPane.add(et);
+            et.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Bạn không đủ quyền hạn để sử dụng chức năng này");
+        }
     }//GEN-LAST:event_Edit_TeacherActionPerformed
 
     private void showPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassActionPerformed

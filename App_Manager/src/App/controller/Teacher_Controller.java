@@ -20,13 +20,14 @@ import java.util.logging.Logger;
  * @author PC Hoang Anh
  */
 public class Teacher_Controller {
+
     Connection cnn;
 
     public Teacher_Controller(Connection cnn) {
         this.cnn = cnn;
     }
-    
-    public int insert(tbl_Teacher t){
+
+    public int insert(tbl_Teacher t) {
         int row = 0;
         String sql = "insert into tbl_Teacher(Name,Phone,Email,Password,Address,DOB,Status,Role_ID) values(?,?,?,?,?,?,?,?)";
         try {
@@ -45,14 +46,14 @@ public class Teacher_Controller {
         }
         return row;
     }
-    
-    public List<tbl_Teacher> select(String check){
+
+    public List<tbl_Teacher> select(String check) {
         List<tbl_Teacher> LT = new ArrayList<>();
-        String sql = "select * from tbl_Teacher "+check;
+        String sql = "select * from tbl_Teacher " + check;
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             ResultSet rs = PS.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 int id = rs.getInt("ID");
                 String name = rs.getString("Name");
                 String phone = rs.getString("Phone");
@@ -69,8 +70,8 @@ public class Teacher_Controller {
         }
         return LT;
     }
-    
-    public tbl_Teacher login(String mail, String password){
+
+    public tbl_Teacher login(String mail, String password) {
         tbl_Teacher acc = null;
         String sql = "select * from tbl_Teacher where Email = ? AND Password = ?";
         try {
@@ -78,7 +79,7 @@ public class Teacher_Controller {
             PS.setString(1, mail);
             PS.setString(2, password);
             ResultSet rs = PS.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 int id = rs.getInt("ID");
                 String name = rs.getString("Name");
                 String phone = rs.getString("Phone");
@@ -95,8 +96,8 @@ public class Teacher_Controller {
         }
         return acc;
     }
-    
-    public boolean update(tbl_Teacher t){
+
+    public boolean update(tbl_Teacher t) {
         boolean check = false;
         String sql = "update tbl_Teacher set Name = ?, Phone = ?, Email = ?, Password = ?, Address = ?, DOB = ?, Status = ?, Role_ID = ? where ID = ?";
         try {

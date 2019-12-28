@@ -9,9 +9,13 @@ import App.Internal.Edit_Student;
 import App.Internal.View_Info_Student;
 import App.Internal.View_Mark;
 import App.controller.Class_Controller;
+import App.controller.Mark_Controller;
 import App.controller.Student_Controller;
+import App.controller.Subject_Controller;
 import App.model.tbl_Class;
+import App.model.tbl_Mark;
 import App.model.tbl_Student;
+import App.model.tbl_Subject;
 import App.model.tbl_Teacher;
 import java.sql.Connection;
 import java.text.ParseException;
@@ -56,6 +60,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
             loadTable();
             admin.setText("Xin chào " + acc.getName());
             Nam.doClick();
+            setRollNoNewStudent();
             try {
                 jDate.setDate(new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01"));
             } catch (ParseException ex) {
@@ -124,6 +129,30 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         Data_Table.setModel(dtm);
     }
 
+    private void setRollNoNewStudent() {
+        int ID = 0;
+        for (tbl_Student rollS : LS) {
+            ID = Integer.valueOf(rollS.getRoll().substring(1));
+        }
+        ID = ID + 1;
+        if (ID < 10) {
+            JRoll.setText("S000" + ID);
+        } else if (ID >= 10 && ID < 100) {
+            JRoll.setText("S00" + ID);
+        } else if (ID >= 100 && ID < 1000) {
+            JRoll.setText("S0" + ID);
+        } else if (ID >= 1000) {
+            JRoll.setText("S" + ID);
+        }
+    }
+
+    private boolean check_Mail_Phone(String email,String phone) {
+        Student_Controller SC = new Student_Controller(conn);
+        List<tbl_Student> LS_check = SC.select(" WHERE Email = N'" + email+ "' OR Phone = N'"+phone+"'");
+        boolean check = LS_check.size() > 0;
+        return check;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -140,6 +169,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         View = new javax.swing.JMenuItem();
         Edit = new javax.swing.JMenuItem();
         Show_mark = new javax.swing.JMenuItem();
+        Edit_mark_student = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         admin = new javax.swing.JLabel();
@@ -182,6 +212,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         JRoll = new javax.swing.JTextField();
         JEmail = new javax.swing.JTextField();
         JAdress = new javax.swing.JTextField();
+        Update_Mark_Student = new javax.swing.JButton();
 
         jPanel3.setBackground(new java.awt.Color(204, 255, 204));
         jPanel3.setPreferredSize(new java.awt.Dimension(565, 150));
@@ -234,6 +265,16 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         });
         jPopupMenu1.add(Show_mark);
 
+        Edit_mark_student.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Edit_mark_student.setText("Sửa Điểm");
+        Edit_mark_student.setToolTipText("Sửa điểm cho sinh viên này");
+        Edit_mark_student.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Edit_mark_studentActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(Edit_mark_student);
+
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 150));
 
@@ -275,10 +316,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(33, 33, 33))
+            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel5.setBackground(new java.awt.Color(204, 255, 255));
@@ -299,7 +337,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         Class_Seach.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         Class_Seach.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jButton1.setText("Tải lại danh sách");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,7 +375,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                 .addGap(5, 5, 5))
         );
 
-        Data_Table.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Data_Table.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         Data_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -364,7 +402,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -441,8 +479,8 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Refesh, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE)
+                .addComponent(Refesh, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -457,11 +495,20 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        JRoll.setEditable(false);
         JRoll.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         JEmail.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         JAdress.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
+        Update_Mark_Student.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        Update_Mark_Student.setText("Cập Nhập Điểm Môn Cho Tất Cả Sinh Viên");
+        Update_Mark_Student.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Update_Mark_StudentActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -495,7 +542,10 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                             .addComponent(JRoll)
                             .addComponent(JEmail)
                             .addComponent(JAdress, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Update_Mark_Student, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
@@ -535,9 +585,10 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(JClass_Student, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Update_Mark_Student, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -558,8 +609,8 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -574,8 +625,10 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(7, 7, 7))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -605,9 +658,11 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 583, Short.MAX_VALUE)
+            .addGap(0, 565, Short.MAX_VALUE)
             .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -621,10 +676,9 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jDesktopPane))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -645,7 +699,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
                 .addGap(5, 5, 5)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -712,20 +766,84 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
         int number_edit = Data_Table.getSelectedRow();
         tbl_Student student_edit = LS.get(number_edit);
-        Edit_Student es = new Edit_Student(conn, student_edit, acc.getID(), acc.getRole_ID(),this);
+        Edit_Student es = new Edit_Student(conn, student_edit, acc.getID(), acc.getRole_ID(), this);
         jDesktopPane.add(es);
         es.setVisible(true);
     }//GEN-LAST:event_EditActionPerformed
 
     private void Show_markActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Show_markActionPerformed
-        View_Mark vm = new View_Mark();
+        int number_view_mark = Data_Table.getSelectedRow();
+        tbl_Student student_view_mark = LS.get(number_view_mark);
+        View_Mark vm = new View_Mark(conn, student_view_mark);
         jDesktopPane.add(vm);
         vm.setVisible(true);
     }//GEN-LAST:event_Show_markActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        // TODO add your handling code here:
+        String regex_Phone = "^0[0-9]{9,10}$";
+        String Roll_New_Student = JRoll.getText();
+        String Name_New_Student = JName.getText();
+        String Phone_New_Student = JPhone.getText();
+        String Email_New_Student = JEmail.getText();
+        String Addrees_New_Student = JAdress.getText();
+        String DOB_New_Student = String.valueOf(new SimpleDateFormat("yyyy/MM/dd").format(jDate.getDate()));
+        int gender_New_Student = 1;
+        if (Nam.isSelected()) {
+            gender_New_Student = 1;
+        } else if (Nu.isSelected()) {
+            gender_New_Student = 2;
+        } else if (Unisex.isSelected()) {
+            gender_New_Student = 3;
+        }
+        int Class_ID_New_Student = LC.get(JClass_Student.getSelectedIndex()).getId();
+        if (Name_New_Student.length() == 0 || Phone_New_Student.length() == 0 || Email_New_Student.length() == 0 || Addrees_New_Student.length() == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin vào các trường để tiến hành thêm mới");
+        } else if (Phone_New_Student.length() > 11 || Phone_New_Student.length() < 10 || regex_Phone.matches(Phone_New_Student)) {
+            JOptionPane.showMessageDialog(null, "Vui lòng điển đúng số điện thoại để tiếp tục!");
+        } else if (check_Mail_Phone(Email_New_Student,Phone_New_Student)) {
+            JOptionPane.showMessageDialog(null, "Email hoặc Số điện thoại đã được sử dụng!");
+        } else {
+            tbl_Student New_Student = new tbl_Student(Roll_New_Student, Name_New_Student, Phone_New_Student,
+                    Email_New_Student, Addrees_New_Student, DOB_New_Student, 1, Class_ID_New_Student, "", gender_New_Student);
+            Student_Controller SC = new Student_Controller(conn);
+            if (SC.insert(New_Student) == 1) {
+                JOptionPane.showMessageDialog(null, "Bạn đã thêm học sinh mới thành công");
+                if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+                    getStudent("");
+                } else {
+                    getStudent(" where Class_ID in (select ID from tbl_Class where Teacher_ID = " + acc.getID() + " )");
+                }
+                loadTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra, vui lòng kiểm tra lại");
+            }
+        }
     }//GEN-LAST:event_addActionPerformed
+
+    private void Update_Mark_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_Mark_StudentActionPerformed
+        List<tbl_Subject> LSub;
+        Subject_Controller SubCon = new Subject_Controller(conn);
+        LSub = SubCon.select();
+        boolean check_insert = false;
+        Mark_Controller markControll = new Mark_Controller(conn);
+        for (tbl_Student st : LS) {
+            for (tbl_Subject sub : LSub) {
+                tbl_Mark mark = new tbl_Mark(st.getId(), sub.getID(), 0, 3, "");
+                if (markControll.insert(mark) == 1) {
+                    check_insert = true;
+                }
+            }
+        }
+        if (check_insert) {
+            JOptionPane.showMessageDialog(null, "Bạn đã cập nhập danh sách điểm thành công!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Hệ Thống xảy ra lỗi, vui lòng kiểm tra lại");
+        }
+    }//GEN-LAST:event_Update_Mark_StudentActionPerformed
+
+    private void Edit_mark_studentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_mark_studentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Edit_mark_studentActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -733,6 +851,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JComboBox<String> Class_Seach;
     private javax.swing.JTable Data_Table;
     private javax.swing.JMenuItem Edit;
+    private javax.swing.JMenuItem Edit_mark_student;
     private javax.swing.ButtonGroup Gender;
     private javax.swing.JTextField JAdress;
     private javax.swing.JComboBox<String> JClass_Student;
@@ -746,6 +865,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JTextField Seach;
     private javax.swing.JMenuItem Show_mark;
     private javax.swing.JRadioButton Unisex;
+    private javax.swing.JButton Update_Mark_Student;
     private javax.swing.JMenuItem View;
     private javax.swing.JButton add;
     private javax.swing.JLabel admin;
