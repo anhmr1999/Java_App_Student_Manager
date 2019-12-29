@@ -29,6 +29,7 @@ public class Teacher_Controller {
 
     public int insert(tbl_Teacher t) {
         int row = 0;
+//        System.out.println(t.toString());
         String sql = "insert into tbl_Teacher(Name,Phone,Email,Password,Address,DOB,Status,Role_ID) values(?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement PS = cnn.prepareCall(sql);

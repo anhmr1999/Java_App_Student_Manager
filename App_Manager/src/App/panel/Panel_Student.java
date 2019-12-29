@@ -169,7 +169,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         View = new javax.swing.JMenuItem();
         Edit = new javax.swing.JMenuItem();
         Show_mark = new javax.swing.JMenuItem();
-        Edit_mark_student = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         admin = new javax.swing.JLabel();
@@ -200,7 +199,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         JName = new javax.swing.JTextField();
-        JPhone = new javax.swing.JFormattedTextField();
         jDate = new com.toedter.calendar.JDateChooser();
         Nam = new javax.swing.JRadioButton();
         Nu = new javax.swing.JRadioButton();
@@ -213,6 +211,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         JEmail = new javax.swing.JTextField();
         JAdress = new javax.swing.JTextField();
         Update_Mark_Student = new javax.swing.JButton();
+        JPhone = new javax.swing.JTextField();
 
         jPanel3.setBackground(new java.awt.Color(204, 255, 204));
         jPanel3.setPreferredSize(new java.awt.Dimension(565, 150));
@@ -265,15 +264,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         });
         jPopupMenu1.add(Show_mark);
 
-        Edit_mark_student.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Edit_mark_student.setText("Sửa Điểm");
-        Edit_mark_student.setToolTipText("Sửa điểm cho sinh viên này");
-        Edit_mark_student.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Edit_mark_studentActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(Edit_mark_student);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 150));
@@ -375,6 +366,8 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                 .addGap(5, 5, 5))
         );
 
+        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
         Data_Table.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         Data_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -402,7 +395,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
         );
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -435,9 +428,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jLabel13.setText("Lớp:");
 
         JName.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-
-        JPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        JPhone.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         jDate.setDateFormatString("dd/MM/yyyy");
 
@@ -504,11 +494,14 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
 
         Update_Mark_Student.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         Update_Mark_Student.setText("Cập Nhập Điểm Môn Cho Tất Cả Sinh Viên");
+        Update_Mark_Student.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Update_Mark_Student.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Update_Mark_StudentActionPerformed(evt);
             }
         });
+
+        JPhone.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -530,7 +523,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(JName, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(JPhone)
                             .addGroup(jPanel11Layout.createSequentialGroup()
                                 .addComponent(Nam)
                                 .addGap(18, 18, 18)
@@ -541,7 +533,8 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                             .addComponent(JClass_Student, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(JRoll)
                             .addComponent(JEmail)
-                            .addComponent(JAdress, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(JAdress, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(JPhone)))
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addContainerGap()
@@ -561,8 +554,8 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -841,23 +834,18 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         }
     }//GEN-LAST:event_Update_Mark_StudentActionPerformed
 
-    private void Edit_mark_studentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_mark_studentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Edit_mark_studentActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button_Seach;
     private javax.swing.JComboBox<String> Class_Seach;
     private javax.swing.JTable Data_Table;
     private javax.swing.JMenuItem Edit;
-    private javax.swing.JMenuItem Edit_mark_student;
     private javax.swing.ButtonGroup Gender;
     private javax.swing.JTextField JAdress;
     private javax.swing.JComboBox<String> JClass_Student;
     private javax.swing.JTextField JEmail;
     private javax.swing.JTextField JName;
-    private javax.swing.JFormattedTextField JPhone;
+    private javax.swing.JTextField JPhone;
     private javax.swing.JTextField JRoll;
     private javax.swing.JRadioButton Nam;
     private javax.swing.JRadioButton Nu;
