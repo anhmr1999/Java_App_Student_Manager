@@ -14,6 +14,7 @@ public class tbl_Mark {
     private int Student_ID;
     private int Subject_ID;
     private float mark;
+    private int status;
     private String note;
 
     public int getStudent_ID() {
@@ -48,10 +49,19 @@ public class tbl_Mark {
         this.note = note;
     }
 
-    public tbl_Mark(int Student_ID, int Subject_ID, float mark, String note) {
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public tbl_Mark(int Student_ID, int Subject_ID, float mark, int status, String note) {
         this.Student_ID = Student_ID;
         this.Subject_ID = Subject_ID;
         this.mark = mark;
+        this.status = status;
         this.note = note;
     }
 

@@ -61,7 +61,6 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         Home = new javax.swing.JButton();
         User = new javax.swing.JButton();
         Student = new javax.swing.JButton();
-        Mark = new javax.swing.JButton();
         Subject = new javax.swing.JButton();
         Chart = new javax.swing.JButton();
         Setting = new javax.swing.JButton();
@@ -90,7 +89,7 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 649, Short.MAX_VALUE)
+            .addGap(0, 670, Short.MAX_VALUE)
         );
 
         jLayeredPane.add(jPanel, "card2");
@@ -153,20 +152,6 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
             }
         });
         jToolBar.add(Student);
-
-        Mark.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Mark.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Mark-icon.png"))); // NOI18N
-        Mark.setText("Quản lý điểm");
-        Mark.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Mark.setFocusable(false);
-        Mark.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Mark.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Mark.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                MarkMouseClicked(evt);
-            }
-        });
-        jToolBar.add(Mark);
 
         Subject.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Subject.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Subjec-icon.png"))); // NOI18N
@@ -293,10 +278,6 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         
     }//GEN-LAST:event_StudentMouseClicked
 
-    private void MarkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MarkMouseClicked
-        
-    }//GEN-LAST:event_MarkMouseClicked
-
     private void SubjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SubjectMouseClicked
         
     }//GEN-LAST:event_SubjectMouseClicked
@@ -368,7 +349,6 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Chart;
     private javax.swing.JButton Home;
-    private javax.swing.JButton Mark;
     private javax.swing.JButton Setting;
     private javax.swing.JButton Student;
     private javax.swing.JButton Subject;

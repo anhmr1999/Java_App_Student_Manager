@@ -374,6 +374,7 @@ public class Edit_Teacher extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_showPassActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String regex_Phone = "^0[0-9]{9,10}$";
         String DOB = teacher.getDOB();
         String name = jName.getText();
         String Phone = jPhone.getText();
@@ -392,7 +393,7 @@ public class Edit_Teacher extends javax.swing.JInternalFrame {
         }
         if (name.length() == 0 || Phone.length() == 0 || Email.length() == 0 || Address.length() == 0 || DOB.length() == 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin vào các trường để tiến hành thay đổi");
-        } else if (Phone.length() > 11 || Phone.length() < 10) {
+        } else if (Phone.length() > 11 || Phone.length() < 10 || regex_Phone.matches(Phone)) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng số điện thoại để tiếp tục");
         } else {
             int choose = JOptionPane.showConfirmDialog(null, "Bạn có chắc sẽ cập nhập giáo viên với các dữ liệu trên?");

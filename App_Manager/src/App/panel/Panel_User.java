@@ -131,6 +131,30 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         jRole.setModel(dcm);
     }
 
+    private boolean check_Mail_Phone(String mail, String phone) {
+        boolean check = false;
+        for (tbl_Teacher t : LT) {
+            if (t.getPhone().equals(phone) || t.getEmail().equals(mail)) {
+                check = true;
+            }
+        }
+        return check;
+    }
+    
+    private void refesh_Form(){
+        jName.setText("");
+        jPhone.setText("");
+        jEmail.setText("");
+        jAddress.setText("");
+        try {
+            jDate.setDate(new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01"));
+        } catch (ParseException ex) {
+            Logger.getLogger(Panel_User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jRole.setSelectedIndex(0);
+        jStatus_1.doClick();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,7 +179,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         jPanel5 = new javax.swing.JPanel();
         Seach = new javax.swing.JTextField();
         Reload = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Seach_Teacher = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -186,8 +210,8 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         jPassword = new javax.swing.JPasswordField();
         showPass = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        New_Teacher_Add = new javax.swing.JButton();
+        Refesh_Form_Insert = new javax.swing.JButton();
 
         Edit_Teacher.setText("Sửa");
         Edit_Teacher.setToolTipText("Sửa thông tin giảng viên");
@@ -274,11 +298,11 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton2.setText("Tìm kiếm");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Seach_Teacher.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Seach_Teacher.setText("Tìm kiếm");
+        Seach_Teacher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                Seach_TeacherActionPerformed(evt);
             }
         });
 
@@ -295,7 +319,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Seach, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Seach_Teacher, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Reload, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
@@ -306,7 +330,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Seach, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Seach_Teacher, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Reload, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
@@ -340,7 +364,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -540,23 +564,23 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
         jPanel11.add(jPanel13);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/add.png"))); // NOI18N
-        jButton3.setText("Thêm mới");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        New_Teacher_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/add.png"))); // NOI18N
+        New_Teacher_Add.setText("Thêm mới");
+        New_Teacher_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                New_Teacher_AddActionPerformed(evt);
             }
         });
-        jPanel15.add(jButton3);
+        jPanel15.add(New_Teacher_Add);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/reset.png"))); // NOI18N
-        jButton1.setText("Làm lại");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Refesh_Form_Insert.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/reset.png"))); // NOI18N
+        Refesh_Form_Insert.setText("Làm lại");
+        Refesh_Form_Insert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Refesh_Form_InsertActionPerformed(evt);
             }
         });
-        jPanel15.add(jButton1);
+        jPanel15.add(Refesh_Form_Insert);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -574,7 +598,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -634,7 +658,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 613, Short.MAX_VALUE)
+            .addGap(0, 543, Short.MAX_VALUE)
             .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jDesktopPane))
         );
@@ -660,30 +684,21 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         // TODO add your handling code here:
     }//GEN-LAST:event_jStatus_2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jName.setText("");
-        jPhone.setText("");
-        jEmail.setText("");
-        jAddress.setText("");
-        try {
-            jDate.setDate(new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01"));
-        } catch (ParseException ex) {
-            Logger.getLogger(Panel_User.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        jRole.setSelectedIndex(0);
-        jStatus_1.doClick();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void Refesh_Form_InsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Refesh_Form_InsertActionPerformed
+        refesh_Form();
+    }//GEN-LAST:event_Refesh_Form_InsertActionPerformed
 
     private void ReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReloadActionPerformed
         load_table("");
     }//GEN-LAST:event_ReloadActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void Seach_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seach_TeacherActionPerformed
         String seach = Seach.getText();
-        load_table(" where Name like N'%"+seach+"%'");
-    }//GEN-LAST:event_jButton2ActionPerformed
+        load_table(" where Name like N'%" + seach + "%'");
+    }//GEN-LAST:event_Seach_TeacherActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void New_Teacher_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_New_Teacher_AddActionPerformed
+        String regex_Phone = "^0[0-9]{9,10}$";
         if (acc.getRole_ID() == 4) {
             JOptionPane.showMessageDialog(null, "Xin lỗi, bạn không có quyền thêm tài khoản");
         } else {
@@ -695,7 +710,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String new_DOB = sdf.format(jDate.getDate());
             int selectRole = jRole.getSelectedIndex();
-            int new_id_Role = LR.get(selectRole).getId();
+            int new_id_Role = LR.get(selectRole+2).getId();
             int new_status;
             if (jStatus_1.isSelected()) {
                 new_status = 1;
@@ -704,16 +719,20 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             }
             if (new_name.length() == 0 || new_Phone.length() == 0 || new_Email.length() == 0 || new_Address.length() == 0 || new_DOB.length() == 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin vào các trường để tiến hành");
-            } else if (new_Phone.length() > 11 || new_Phone.length() < 10) {
+            } else if (new_Phone.length() > 11 || new_Phone.length() < 10 || regex_Phone.matches(new_Phone)) {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng số điện thoại để tiếp tục");
+            } else if (check_Mail_Phone(new_Email, new_Phone)) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại hoặc Email đã được sử dụng!");
             } else {
                 int choose = JOptionPane.showConfirmDialog(null, "Bạn có chắc sẽ thêm một tài khoản với các dữ liệu trên?");
                 if (choose == JOptionPane.YES_OPTION) {
                     tbl_Teacher newTeacher = new tbl_Teacher(new_name, new_Phone, new_Email, new_pass, new_Address, new_DOB, new_status, new_id_Role);
-                       Teacher_Controller TC = new Teacher_Controller(conn);
-                    if (TC.insert(acc) == 1) {
+//                    System.out.println(newTeacher.toString());
+                    Teacher_Controller TC = new Teacher_Controller(conn);
+                    if (TC.insert(newTeacher) == 1) {
                         JOptionPane.showMessageDialog(null, "Bạn đã thêm tài khoản thành công");
                         load_table("");
+                        refesh_Form();
                     } else {
                         JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra! \nVui lòng kiểm tra lại Email hoặc SĐT");
                     }
@@ -721,7 +740,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
             }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_New_Teacher_AddActionPerformed
 
     private void jTable_TeacherMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_TeacherMousePressed
         jPopupMenu.show(jTable_Teacher, evt.getX(), evt.getY());
@@ -729,9 +748,13 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
     private void Edit_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_TeacherActionPerformed
         tbl_Teacher teacher_edit = LT.get(jTable_Teacher.getSelectedRow());
-        Edit_Teacher et = new Edit_Teacher(teacher_edit, conn, this);
-        jDesktopPane.add(et);
-        et.setVisible(true);
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2 || teacher_edit.getID() == acc.getID()) {
+            Edit_Teacher et = new Edit_Teacher(teacher_edit, conn, this);
+            jDesktopPane.add(et);
+            et.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Bạn không đủ quyền hạn để sử dụng chức năng này");
+        }
     }//GEN-LAST:event_Edit_TeacherActionPerformed
 
     private void showPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassActionPerformed
@@ -741,14 +764,14 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Edit_Teacher;
+    private javax.swing.JButton New_Teacher_Add;
+    private javax.swing.JButton Refesh_Form_Insert;
     private javax.swing.JButton Reload;
     private javax.swing.JTextField Seach;
+    private javax.swing.JButton Seach_Teacher;
     private javax.swing.ButtonGroup Status;
     private javax.swing.JLabel admin;
     private javax.swing.JTextField jAddress;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JTextField jEmail;

@@ -63,10 +63,12 @@ create table tbl_Subject(
 GO
 
 create table tbl_Mark(
-	Student_ID int foreign key references tbl_Student(ID),
-	Sub_ID int foreign key references tbl_Subject(ID),
-	Mark float default(0),
-	Note nvarchar(500)
+	Student_ID int foreign key references tbl_Student(ID) not null,
+	Sub_ID int foreign key references tbl_Subject(ID) not null,
+	Mark float,
+	Status int default(3), /*1 - Đã thi, 2- Cấm thi, 3- Chưa thi*/
+	Note nvarchar(500),
+	primary key (Student_ID,Sub_ID)
 )
 GO
 
@@ -83,6 +85,7 @@ insert into tbl_Course(Name,Begin_date,End_date) values
 (N'Khóa học 3','2018-09-05','2022-05-25'),
 (N'Khóa học 4','2019-09-05','2023-05-25'),
 (N'Khóa học 5','2020-09-05','2024-05-25')
+GO
 
 insert into tbl_Class(Name,Course_ID,Teacher_ID) values
 (N'CA1_K1_DNO',1,2),
@@ -92,6 +95,7 @@ insert into tbl_Class(Name,Course_ID,Teacher_ID) values
 (N'CA3_K1_DNO',1,2),
 (N'CA3_K2_DNO',1,2),
 (N'CA3_K3_DNO',1,2)
+GO
 
 insert into tbl_Student(RollNo,Name,Phone,Email,Address,DOB,Gender,img,Status,Class_ID) values
 ('S0001',N'Ngô Thị Anh','012332112','Le.NT@gmail.com',N'Phạm Văn Đồng, Bắc Từ Liêm, Hà Nội','2004-01-09',2,'',1,1),
@@ -113,9 +117,27 @@ insert into tbl_Student(RollNo,Name,Phone,Email,Address,DOB,Gender,img,Status,Cl
 ('S0017',N'Hải Lê Hoàng','00383426','Hoang.HL1@gmail.com',N'Xuân Phương, Nam Từ Liêm, Hà Nội','2005-07-09',1,'',1,2),
 ('S0018',N'Nguyễn Thị Duy Loan','04089172','Loan.NTD@gmail.com',N'Vân Canh, Từ Liêm, Hà Nội','2005-06-06',2,'',1,2),
 ('S0020',N'Ngô Cao Ánh','09034556','Anh.NCC@gmail.com',N'Lê Quang Đạo, Mễ Trì, Từ Liêm, Hà Nội','2005-09-01',2,'',1,2)
+GO
+
+insert into tbl_Subject values
+(N'Kinh Tế Vĩ Mô'),
+(N'Kinh tế phát triển'),
+(N'Kinh tế môi trường'),
+(N'Lịch sử các học thuyết kinh tế'),
+(N'Toán cao cấp'),
+(N'Triết học Mác Lênin'),
+(N'Tư tưởng Hồ Chí Minh'),
+(N'Quan hệ kinh tế quốc tế'),
+(N'Nguyên lý thống kê kinh tế'),
+(N'Giao nhận vận tải'),
+(N'Tin học đại cương'),
+(N'Tiếng Anh giao tiếp')
+GO
 
 select * from tbl_Teacher
 select * from tbl_Course
 select * from tbl_Class 
 select * from tbl_Student
 select * from tbl_Role
+select * from tbl_Subject
+select * from tbl_Mark

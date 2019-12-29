@@ -370,6 +370,7 @@ public class Edit_Student extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String regex_Phone = "^0[0-9]{9,10}$";
         int id = student.getId();
         String roll = Roll.getText();
         String name = Name.getText();
@@ -377,7 +378,7 @@ public class Edit_Student extends javax.swing.JInternalFrame {
         String mail = Email.getText();
         String addres = Address.getText();
         String birthday = new SimpleDateFormat("yyyy/MM/dd").format(DOB.getDate());
-        int gen = 0;
+        int gen = 1;
         if (Nam.isSelected()) {
             gen = 1;
         } else if (Nu.isSelected()) {
@@ -392,14 +393,20 @@ public class Edit_Student extends javax.swing.JInternalFrame {
         } else {
             status = 2;
         }
-        tbl_Student student_edit = new tbl_Student(id, roll, name, phone, mail, addres, birthday, status, class_choose, "", gen);
-        Student_Controller SC = new Student_Controller(conn);
-        if (SC.update(student_edit)) {
-            JOptionPane.showMessageDialog(null, "Bạn đã thay đổi thông tin học viên thành công!");
-            load.load_table();
-            this.dispose();
+        if (name.length() == 0 || phone.length() == 0 || mail.length() == 0 || addres.length() == 0) {
+            JOptionPane.showMessageDialog(null, "Bạn đã cập nhập thành công thông tin sinh viên");
+        } else if (phone.length() > 11 || phone.length() < 10 || regex_Phone.matches(phone)) {
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đúng số điện thoại để tiếp tục");
         } else {
-            JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra");
+            tbl_Student student_edit = new tbl_Student(id, roll, name, phone, mail, addres, birthday, status, class_choose, "", gen);
+            Student_Controller SC = new Student_Controller(conn);
+            if (SC.update(student_edit)) {
+                JOptionPane.showMessageDialog(null, "Bạn đã thay đổi thông tin học viên thành công!");
+                load.load_table();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra");
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
