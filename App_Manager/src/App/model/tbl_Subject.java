@@ -13,14 +13,39 @@ public class tbl_Subject {
 
     private int ID;
     private String name;
+    private int accredit;
+    private float price;
+    private int status;
 
-    public tbl_Subject(int ID, String name) {
+    public tbl_Subject(int ID, String name, int accredit, float price, int status) {
         this.ID = ID;
         this.name = name;
+        this.accredit = accredit;
+        this.price = price;
+        this.status = status;
     }
 
-    public tbl_Subject(String name) {
+    public tbl_Subject(String name, int accredit, float price, int status) {
         this.name = name;
+        this.accredit = accredit;
+        this.price = price;
+        this.status = status;
+    }
+
+    public int getAccredit() {
+        return accredit;
+    }
+
+    public void setAccredit(int accredit) {
+        this.accredit = accredit;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public int getID() {
@@ -39,9 +64,17 @@ public class tbl_Subject {
         this.name = name;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "tbl_Subject{" + "ID=" + ID + ", name=" + name + '}';
+        return "tbl_Subject{" + "ID=" + ID + ", name=" + name + ", accredit=" + accredit + ", price=" + price + ", status=" + status + '}';
     }
 
 }

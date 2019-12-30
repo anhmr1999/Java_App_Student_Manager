@@ -421,7 +421,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
         });
 
         Filter1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        Filter1.setText("Cập Nhập Lại Danh Sách\n");
+        Filter1.setText("Cập Nhập Lại Danh Sách ");
         Filter1.setToolTipText("Cập nhập lại danh sách điểm môn cho sinh viên");
         Filter1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Filter1.addActionListener(new java.awt.event.ActionListener() {
@@ -436,7 +436,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox, 0, 471, Short.MAX_VALUE)
+                .addComponent(jComboBox, 0, 467, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(Filter, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -613,11 +613,13 @@ public class View_Mark extends javax.swing.JInternalFrame {
         Mark_Controller MC = new Mark_Controller(conn);
         boolean check = false;
         for (tbl_Subject sub : LS) {
-            tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "");
-            if (MC.insert(m) == 1) {
-                check = true;
-            } else {
-                check = false;
+            if (sub.getStatus() == 1) {
+                tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "");
+                if (MC.insert(m) == 1) {
+                    check = true;
+                } else {
+                    check = false;
+                }
             }
         }
         if (check) {
@@ -637,9 +639,11 @@ public class View_Mark extends javax.swing.JInternalFrame {
         Mark_Controller MC = new Mark_Controller(conn);
         boolean check = false;
         for (tbl_Subject sub : LS) {
-            tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "");
-            if (MC.insert(m) == 1) {
-                check = true;
+            if (sub.getStatus() == 1) {
+                tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "");
+                if (MC.insert(m) == 1) {
+                    check = true;
+                }
             }
         }
         if (check) {
@@ -667,7 +671,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn môn học cần sửa điểm để tiến hành");
         } else {
             float new_mark = Float.parseFloat(jMark_Student.getText());
-            int new_Status_Mark = jComboStatus.getSelectedIndex();
+            int new_Status_Mark = jComboStatus.getSelectedIndex() + 1;
             String new_not_mark = jNote.getText();
             if (new_mark > 10 || new_mark < 0) {
                 JOptionPane.showMessageDialog(null, "Điểm không hợp lệ");
@@ -678,7 +682,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
             } else {
                 mark_edit.setMark(new_mark);
                 mark_edit.setNote(new_not_mark);
-                mark_edit.setStatus(new_Status_Mark+1);
+                mark_edit.setStatus(new_Status_Mark + 1);
                 Mark_Controller MC = new Mark_Controller(conn);
                 if (MC.update(mark_edit)) {
                     JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm thành công");

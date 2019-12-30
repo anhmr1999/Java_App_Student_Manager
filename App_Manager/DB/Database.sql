@@ -58,7 +58,10 @@ GO
 
 create table tbl_Subject(
 	ID int identity primary key,
-	Name nvarchar(100)
+	Name nvarchar(100),
+	accredit int default(3),
+	price float default(500),
+	status int default(1) /* 1 - đang giảng dạy, 2 - đã ngừng giảng dạy */
 )
 GO
 

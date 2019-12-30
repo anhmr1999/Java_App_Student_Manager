@@ -146,9 +146,9 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         }
     }
 
-    private boolean check_Mail_Phone(String email,String phone) {
+    private boolean check_Mail_Phone(String email, String phone) {
         Student_Controller SC = new Student_Controller(conn);
-        List<tbl_Student> LS_check = SC.select(" WHERE Email = N'" + email+ "' OR Phone = N'"+phone+"'");
+        List<tbl_Student> LS_check = SC.select(" WHERE Email = N'" + email + "' OR Phone = N'" + phone + "'");
         boolean check = LS_check.size() > 0;
         return check;
     }
@@ -266,9 +266,10 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jPanel2.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 150));
 
+        admin.setBackground(new java.awt.Color(204, 204, 255));
         admin.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         admin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/user-icon.png"))); // NOI18N
         admin.setText("Xin chào admin");
@@ -289,10 +290,11 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
             .addComponent(admin, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
         );
 
-        jPanel4.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel4.setBackground(new java.awt.Color(204, 204, 255));
         jPanel4.setPreferredSize(new java.awt.Dimension(565, 150));
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 2, 48)); // NOI18N
+        jLabel4.setBackground(new java.awt.Color(204, 204, 255));
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Quản lí sinh viên");
 
@@ -793,7 +795,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin vào các trường để tiến hành thêm mới");
         } else if (Phone_New_Student.length() > 11 || Phone_New_Student.length() < 10 || regex_Phone.matches(Phone_New_Student)) {
             JOptionPane.showMessageDialog(null, "Vui lòng điển đúng số điện thoại để tiếp tục!");
-        } else if (check_Mail_Phone(Email_New_Student,Phone_New_Student)) {
+        } else if (check_Mail_Phone(Email_New_Student, Phone_New_Student)) {
             JOptionPane.showMessageDialog(null, "Email hoặc Số điện thoại đã được sử dụng!");
         } else {
             tbl_Student New_Student = new tbl_Student(Roll_New_Student, Name_New_Student, Phone_New_Student,
@@ -821,9 +823,11 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         Mark_Controller markControll = new Mark_Controller(conn);
         for (tbl_Student st : LS) {
             for (tbl_Subject sub : LSub) {
-                tbl_Mark mark = new tbl_Mark(st.getId(), sub.getID(), 0, 3, "");
-                if (markControll.insert(mark) == 1) {
-                    check_insert = true;
+                if (sub.getStatus() == 1) {
+                    tbl_Mark mark = new tbl_Mark(st.getId(), sub.getID(), 0, 3, "");
+                    if (markControll.insert(mark) == 1) {
+                        check_insert = true;
+                    }
                 }
             }
         }

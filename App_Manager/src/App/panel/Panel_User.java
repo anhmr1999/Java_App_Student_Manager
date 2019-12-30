@@ -224,6 +224,8 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+
         admin.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         admin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/user-icon.png"))); // NOI18N
         admin.setText("Hi Admin");
@@ -245,7 +247,9 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
                 .addContainerGap())
         );
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Tài khoản người dùng");
 
@@ -329,7 +333,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Seach, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Seach, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Seach_Teacher, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Reload, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
@@ -364,7 +368,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -483,6 +487,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         jLabel12.setText("Role:");
 
         jDate.setDateFormatString("dd/MM/yyyy");
+        jDate.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
         jRole.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
