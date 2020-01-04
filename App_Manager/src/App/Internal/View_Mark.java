@@ -52,7 +52,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
 
     private void getListSubject() {
         Subject_Controller SC = new Subject_Controller(conn);
-        LS = SC.select();
+        LS = SC.select("");
     }
 
     private void setLayer() {

@@ -319,7 +319,7 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
     }//GEN-LAST:event_StudentActionPerformed
 
     private void SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubjectActionPerformed
-        Panel_Subject Sub = new Panel_Subject();
+        Panel_Subject Sub = new Panel_Subject(conn, acc);
         setLayer(Sub);
     }//GEN-LAST:event_SubjectActionPerformed
 

@@ -818,7 +818,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private void Update_Mark_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_Mark_StudentActionPerformed
         List<tbl_Subject> LSub;
         Subject_Controller SubCon = new Subject_Controller(conn);
-        LSub = SubCon.select();
+        LSub = SubCon.select("");
         boolean check_insert = false;
         Mark_Controller markControll = new Mark_Controller(conn);
         for (tbl_Student st : LS) {

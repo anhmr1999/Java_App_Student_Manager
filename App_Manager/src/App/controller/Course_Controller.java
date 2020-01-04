@@ -41,9 +41,9 @@ public class Course_Controller {
         return row;
     }
     
-    public List<tbl_Course> select(){
+    public List<tbl_Course> select(String check){
         List<tbl_Course> LC = new ArrayList<>();
-        String sql = "select * from tbl_Course";
+        String sql = "select * from tbl_Course "+check;
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             ResultSet rs = PS.executeQuery();

@@ -41,9 +41,9 @@ public class Subject_Controller {
         return row;
     }
     
-    public List<tbl_Subject> select(){
+    public List<tbl_Subject> select(String check){
         List<tbl_Subject> LS = new ArrayList<>();
-        String sql = "select * from tbl_Subject";
+        String sql = "select * from tbl_Subject "+check;
         PreparedStatement PS;
         try {
             PS = cnn.prepareCall(sql);
