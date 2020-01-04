@@ -58,7 +58,10 @@ GO
 
 create table tbl_Subject(
 	ID int identity primary key,
-	Name nvarchar(100)
+	Name nvarchar(100),
+	accredit int default(3),
+	price float default(500),
+	status int default(1) /* 1 - đang giảng dạy, 2 - đã ngừng giảng dạy */
 )
 GO
 
@@ -91,10 +94,10 @@ insert into tbl_Class(Name,Course_ID,Teacher_ID) values
 (N'CA1_K1_DNO',1,2),
 (N'CA2_K1_DNO',1,2),
 (N'CA2_K1_DNO',1,2),
-(N'CA2_K2_DNO',1,2),
-(N'CA3_K1_DNO',1,2),
-(N'CA3_K2_DNO',1,2),
-(N'CA3_K3_DNO',1,2)
+(N'CA2_K2_DNO',1,3),
+(N'CA3_K1_DNO',1,3),
+(N'CA3_K2_DNO',1,3),
+(N'CA3_K3_DNO',1,3)
 GO
 
 insert into tbl_Student(RollNo,Name,Phone,Email,Address,DOB,Gender,img,Status,Class_ID) values
@@ -136,8 +139,8 @@ GO
 
 select * from tbl_Teacher
 select * from tbl_Course
-select * from tbl_Class 
+select * from tbl_Class
+select * from tbl_Subject
 select * from tbl_Student
 select * from tbl_Role
-select * from tbl_Subject
 select * from tbl_Mark

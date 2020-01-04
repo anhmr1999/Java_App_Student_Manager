@@ -213,6 +213,7 @@ public class Edit_Teacher extends javax.swing.JInternalFrame {
         });
 
         jDate.setDateFormatString("dd/MM/yyyy ");
+        jDate.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel11.setText("Ngày sinh:");

@@ -28,10 +28,12 @@ public class Subject_Controller {
     
     public int insert(tbl_Subject s){
         int row = 0;
-        String sql = "insert into tbl_Subject(Name) values(?)";
+        String sql = "insert into tbl_Subject(Name,accredit,price) values(?,?,?)";
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             PS.setString(1, s.getName());
+            PS.setInt(2, s.getAccredit());
+            PS.setFloat(3, s.getPrice());
             row = PS.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Subject_Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -39,9 +41,9 @@ public class Subject_Controller {
         return row;
     }
     
-    public List<tbl_Subject> select(){
+    public List<tbl_Subject> select(String check){
         List<tbl_Subject> LS = new ArrayList<>();
-        String sql = "select * from tbl_Subject";
+        String sql = "select * from tbl_Subject "+check;
         PreparedStatement PS;
         try {
             PS = cnn.prepareCall(sql);
@@ -49,7 +51,10 @@ public class Subject_Controller {
             while (rs.next()) {                
                 int id = rs.getInt("ID");
                 String name = rs.getString("Name");
-                LS.add(new tbl_Subject(id, name));
+                int accredit = rs.getInt("accredit");
+                float price = rs.getFloat("price");
+                int status = rs.getInt("status");
+                LS.add(new tbl_Subject(id, name, accredit, price,status));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Subject_Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,11 +64,14 @@ public class Subject_Controller {
     
     public boolean update(tbl_Subject s){
         boolean check = false;
-        String sql = "update tbl_Subject set Name = ? where ID = ?";
+        String sql = "update tbl_Subject set Name = ?,accredit = ?, price = ?, status = ? where ID = ?";
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             PS.setString(1, s.getName());
-            PS.setInt(2, s.getID());
+            PS.setInt(2, s.getAccredit());
+            PS.setFloat(3, s.getPrice());
+            PS.setInt(4, s.getStatus());
+            PS.setInt(5, s.getID());
             PS.execute();
             check = true;
         } catch (SQLException ex) {

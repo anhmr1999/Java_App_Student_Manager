@@ -8,7 +8,9 @@ package App;
 import App.connect.ConnectDB;
 import App.model.tbl_Teacher;
 import App.panel.Login;
+import App.panel.Panel_Home;
 import App.panel.Panel_Student;
+import App.panel.Panel_Subject;
 import App.panel.Panel_User;
 import java.awt.Cursor;
 import java.sql.Connection;
@@ -165,6 +167,11 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
                 SubjectMouseClicked(evt);
             }
         });
+        Subject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SubjectActionPerformed(evt);
+            }
+        });
         jToolBar.add(Subject);
 
         Chart.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -311,6 +318,11 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         setLayer(new Panel_Student(acc, conn));
     }//GEN-LAST:event_StudentActionPerformed
 
+    private void SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubjectActionPerformed
+        Panel_Subject Sub = new Panel_Subject(conn, acc);
+        setLayer(Sub);
+    }//GEN-LAST:event_SubjectActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -372,6 +384,8 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         jToolBar.setVisible(true);
         login.setVisible(false);
         logout.setVisible(true);
+        Panel_Home home = new Panel_Home();
+        setLayer(home);
     }
 
 
