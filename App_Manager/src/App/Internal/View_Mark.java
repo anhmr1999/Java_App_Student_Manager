@@ -38,16 +38,16 @@ public class View_Mark extends javax.swing.JInternalFrame {
         Name.setText(s.getName());
         Student_Name.setText("Học sinh " + s.getName());
         RollNo.setText(s.getRoll());
-        getListMark();
+        getListMark(" WHERE Student_ID = "+s.getId());
         getListSubject();
-        viewTable(0);
+        viewTable();
         setLayer();
         setComboStatus();
     }
 
-    private void getListMark() {
+    private void getListMark(String check) {
         Mark_Controller MC = new Mark_Controller(conn);
-        LM = MC.select(s.getId());
+        LM = MC.select(check);
     }
 
     private void getListSubject() {
@@ -66,129 +66,40 @@ public class View_Mark extends javax.swing.JInternalFrame {
         jLayeredPane.revalidate();
     }
 
-    private void viewTable(int num) {
-        getListMark();
+    private void viewTable() {
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.addColumn("Môn Học");
         dtm.addColumn("Điểm");
         dtm.addColumn("Trạng thái");
         dtm.addColumn("Ghi chú");
-        switch (num) {
-            case 0:
-                for (tbl_Mark m : LM) {
-                    for (tbl_Subject sub : LS) {
-                        if (m.getSubject_ID() == sub.getID()) {
-                            switch (m.getStatus()) {
-                                case 1: {
-                                    Object o[] = {
-                                        sub.getName(), m.getMark(), "Đã Thi", m.getNote()
-                                    };
-                                    dtm.addRow(o);
-                                    break;
-                                }
-                                case 2: {
-                                    Object o[] = {
-                                        sub.getName(), m.getMark(), "Đang nợ môn", m.getNote()
-                                    };
-                                    dtm.addRow(o);
-                                    break;
-                                }
-                                default: {
-                                    Object o[] = {
-                                        sub.getName(), m.getMark(), "Chưa thi", m.getNote()
-                                    };
-                                    dtm.addRow(o);
-                                    break;
-                                }
-                            }
+        for (tbl_Mark m : LM) {
+            for (tbl_Subject sub : LS) {
+                if (m.getSubject_ID() == sub.getID()) {
+                    switch (m.getStatus()) {
+                        case 1: {
+                            Object o[] = {
+                                sub.getName(), m.getMark(), "Đã Thi", m.getNote()
+                            };
+                            dtm.addRow(o);
+                            break;
+                        }
+                        case 2: {
+                            Object o[] = {
+                                sub.getName(), m.getMark(), "Bị Cấm thi", m.getNote()
+                            };
+                            dtm.addRow(o);
+                            break;
+                        }
+                        default: {
+                            Object o[] = {
+                                sub.getName(), m.getMark(), "Chưa thi", m.getNote()
+                            };
+                            dtm.addRow(o);
+                            break;
                         }
                     }
                 }
-                break;
-            case 1:
-                for (tbl_Mark m : LM) {
-                    if (m.getStatus() == 3) {
-                        for (tbl_Subject sub : LS) {
-                            if (m.getSubject_ID() == sub.getID()) {
-                                Object o[] = {
-                                    sub.getName(), m.getMark(), "Chưa thi", m.getNote()
-                                };
-                                dtm.addRow(o);
-                            }
-                        }
-                    }
-                }
-                break;
-            case 2:
-                for (tbl_Mark m : LM) {
-                    if (m.getMark() < 5 && m.getMark() > 0) {
-                        for (tbl_Subject sub : LS) {
-                            if (m.getSubject_ID() == sub.getID()) {
-                                Object o[] = {
-                                    sub.getName(), m.getMark(), "Đã thi", m.getNote()
-                                };
-                                dtm.addRow(o);
-                            }
-                        }
-                    }
-                }
-                break;
-            case 3:
-                for (tbl_Mark m : LM) {
-                    if (m.getMark() <= 6.5 && m.getMark() >= 5) {
-                        for (tbl_Subject sub : LS) {
-                            if (m.getSubject_ID() == sub.getID()) {
-                                Object o[] = {
-                                    sub.getName(), m.getMark(), "Đã thi", m.getNote()
-                                };
-                                dtm.addRow(o);
-                            }
-                        }
-                    }
-                }
-                break;
-            case 4:
-                for (tbl_Mark m : LM) {
-                    if (m.getMark() <= 8 && m.getMark() >= 6.5) {
-                        for (tbl_Subject sub : LS) {
-                            if (m.getSubject_ID() == sub.getID()) {
-                                Object o[] = {
-                                    sub.getName(), m.getMark(), "Đã thi", m.getNote()
-                                };
-                                dtm.addRow(o);
-                            }
-                        }
-                    }
-                }
-                break;
-            case 5:
-                for (tbl_Mark m : LM) {
-                    if (m.getMark() <= 10 && m.getMark() >= 8) {
-                        for (tbl_Subject sub : LS) {
-                            if (m.getSubject_ID() == sub.getID()) {
-                                Object o[] = {
-                                    sub.getName(), m.getMark(), "Đã thi", m.getNote()
-                                };
-                                dtm.addRow(o);
-                            }
-                        }
-                    }
-                }
-                break;
-            default:
-                for (tbl_Mark m : LM) {
-                    if (m.getMark() > 10) {
-                        for (tbl_Subject sub : LS) {
-                            if (m.getSubject_ID() == sub.getID()) {
-                                Object o[] = {
-                                    sub.getName(), m.getMark(), "Đã thi", m.getNote()
-                                };
-                                dtm.addRow(o);
-                            }
-                        }
-                    }
-                }
-                break;
+            }
         }
         jTable.setModel(dtm);
     }
@@ -624,15 +535,35 @@ public class View_Mark extends javax.swing.JInternalFrame {
         }
         if (check) {
             JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm môn thành công");
-            getListMark();
-            viewTable(0);
+            getListMark("WHERE Student_ID = "+s.getId());
+            viewTable();
             setLayer();
         }
     }//GEN-LAST:event_Mark_UpdateActionPerformed
 
     private void FilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilterActionPerformed
         int select_index = jComboBox.getSelectedIndex();
-        viewTable(select_index);
+        switch (select_index) {
+            case 0:
+                getListMark(" WHERE Student_ID = "+s.getId());
+                break;
+            case 1:
+                getListMark(" WHERE Student_ID = "+s.getId()+" AND Status = 3");
+                break;
+            case 2:
+                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark <5 AND Status = 1");
+                break;
+            case 3:
+                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark >=5 AND Mark < 6.5");
+                break;
+            case 4:
+                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark >=6.5 AND Mark <8");
+                break;
+            default:
+                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark >=8");
+                break;
+        }
+        viewTable();
     }//GEN-LAST:event_FilterActionPerformed
 
     private void Filter1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Filter1ActionPerformed
@@ -648,8 +579,8 @@ public class View_Mark extends javax.swing.JInternalFrame {
         }
         if (check) {
             JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm môn thành công");
-            getListMark();
-            viewTable(0);
+            getListMark(" WHERE Student_ID = "+s.getId());
+            viewTable();
             setLayer();
         }
     }//GEN-LAST:event_Filter1ActionPerformed
@@ -671,7 +602,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn môn học cần sửa điểm để tiến hành");
         } else {
             float new_mark = Float.parseFloat(jMark_Student.getText());
-            int new_Status_Mark = jComboStatus.getSelectedIndex() + 1;
+            int new_Status_Mark = jComboStatus.getSelectedIndex()+1;
             String new_not_mark = jNote.getText();
             if (new_mark > 10 || new_mark < 0) {
                 JOptionPane.showMessageDialog(null, "Điểm không hợp lệ");
@@ -682,13 +613,14 @@ public class View_Mark extends javax.swing.JInternalFrame {
             } else {
                 mark_edit.setMark(new_mark);
                 mark_edit.setNote(new_not_mark);
-                mark_edit.setStatus(new_Status_Mark + 1);
+                mark_edit.setStatus(new_Status_Mark);
+                System.out.println(mark_edit.toString());
                 Mark_Controller MC = new Mark_Controller(conn);
                 if (MC.update(mark_edit)) {
                     JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm thành công");
-                    getListMark();
+                    getListMark(" WHERE Student_ID = "+s.getId());
                     getListSubject();
-                    viewTable(0);
+                    viewTable();
                     reloadFormEdit();
                 } else {
                     JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra");

@@ -67,7 +67,7 @@ public class tbl_Mark {
 
     @Override
     public String toString() {
-        return "tbl_Mark{" + "Student_ID=" + Student_ID + ", Subject_ID=" + Subject_ID + ", mark=" + mark + ", note=" + note + '}';
+        return "tbl_Mark{" + "Student_ID=" + Student_ID + ", Subject_ID=" + Subject_ID + ", mark=" + mark + ", status=" + status + ", note=" + note + '}';
     }
 
 }
