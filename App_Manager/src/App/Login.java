@@ -29,24 +29,24 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public interface Call_Login {
-        
+
         public void login_done(tbl_Teacher acc);
     };
-    
+
     Call_Login CL;
     tbl_Teacher acc;
-    
+
     public void setCallBack(Call_Login CL) {
         this.CL = CL;
     }
-    
+
     public Login() {
         initComponents();
         readUserName();
     }
-    
+
     private void saveUserName(String username) {
-        
+
         try {
             FileWriter FW = new FileWriter("User_Save.txt");
             BufferedWriter BW = new BufferedWriter(FW);
@@ -60,7 +60,7 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void readUserName() {
         try {
             FileReader FR = new FileReader("User_Save.txt");
@@ -241,9 +241,13 @@ public class Login extends javax.swing.JFrame {
             if (acc == null) {
                 JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không chính xác", "Cảnh Báo", JOptionPane.ERROR_MESSAGE);
             } else {
-                CL.login_done(acc);
-                saveUserName(email);
-                PassWord.setText("");
+                if (acc.getStatus() == 1) {
+                    CL.login_done(acc);
+                    saveUserName(email);
+                    PassWord.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tài khoản không còn hiệu lực!", "Cảnh Báo", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_LoginActionPerformed

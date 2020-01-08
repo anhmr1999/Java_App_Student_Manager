@@ -20,11 +20,13 @@ public class Class_CallBack implements Login.Call_Login, MainFrame.Call_Logout {
 
     public void run_project() {
         frame_login.setCallBack(this);
+        frame_login.setLocationRelativeTo(null);
         frame_login.setVisible(true);
     }
 
     @Override
     public void logout() {
+        frame_login.setLocationRelativeTo(null);
         frame_login.setVisible(true);
     }
 
@@ -32,6 +34,7 @@ public class Class_CallBack implements Login.Call_Login, MainFrame.Call_Logout {
     public void login_done(tbl_Teacher acc) {
         MainFrame mainf = new MainFrame();
         mainf.setCallBack(this, acc);
+        mainf.setLocationRelativeTo(null);
         mainf.setVisible(true);
         frame_login.setVisible(false);
     }

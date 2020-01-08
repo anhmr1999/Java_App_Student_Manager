@@ -381,14 +381,18 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         JName.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         jDate.setDateFormatString("dd/MM/yyyy");
+        jDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         Gender.add(Nam);
+        Nam.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         Nam.setText("Nam");
 
         Gender.add(Nu);
+        Nu.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         Nu.setText("Nữ");
 
         Gender.add(Unisex);
+        Unisex.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         Unisex.setText("Chưa XĐ");
 
         JClass_Student.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -595,13 +599,13 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 964, Short.MAX_VALUE)
+            .addGap(0, 880, Short.MAX_VALUE)
             .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 666, Short.MAX_VALUE)
+            .addGap(0, 567, Short.MAX_VALUE)
             .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDesktopPaneLayout.createSequentialGroup()
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

@@ -328,6 +328,8 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         });
         Class_PopUp.add(Class_Student);
 
+        jDesktopPane1.setBackground(new java.awt.Color(240, 240, 240));
+
         jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -550,7 +552,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
 
         Save_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Save_Edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit.png"))); // NOI18N
-        Save_Edit.setText("Lưu thông tin");
+        Save_Edit.setText("Lưu lại");
         Save_Edit.setToolTipText("");
         Save_Edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -572,7 +574,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         Panel_Edit_SubjectLayout.setHorizontalGroup(
             Panel_Edit_SubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_Edit_SubjectLayout.createSequentialGroup()
-                .addComponent(End_Edit, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                .addComponent(End_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Save_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -762,7 +764,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
                             .addComponent(jLabel18)
                             .addComponent(jLabel16)
                             .addComponent(jLabel17))
-                        .addGap(0, 173, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel33Layout.setVerticalGroup(
@@ -803,7 +805,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
 
         Save_Edit_Course.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Save_Edit_Course.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit.png"))); // NOI18N
-        Save_Edit_Course.setText("Lưu thông tin");
+        Save_Edit_Course.setText("Lưu lại");
         Save_Edit_Course.setToolTipText("");
         Save_Edit_Course.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -825,27 +827,29 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         jPanel34Layout.setHorizontalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel34Layout.createSequentialGroup()
-                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Refesh_Course, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(End_Edit_Course, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10)
                 .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Add_Course, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                    .addComponent(Save_Edit_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
+                        .addComponent(End_Edit_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Save_Edit_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
+                        .addComponent(Refesh_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Add_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel34Layout.setVerticalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel34Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Add_Course)
-                    .addComponent(Refesh_Course))
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Refesh_Course)
+                    .addComponent(Add_Course, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Save_Edit_Course)
                     .addComponent(End_Edit_Course))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
@@ -1069,7 +1073,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
 
         Save_Edit_Clas.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Save_Edit_Clas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit.png"))); // NOI18N
-        Save_Edit_Clas.setText("Lưu thông tin");
+        Save_Edit_Clas.setText("Lưu lại");
         Save_Edit_Clas.setToolTipText("");
         Save_Edit_Clas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1084,12 +1088,14 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(End_Edit_Clas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Save_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(End_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Save_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -1099,7 +1105,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jButton12)
                     .addComponent(jButton11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Save_Edit_Clas)
                     .addComponent(End_Edit_Clas))
@@ -1409,7 +1415,9 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     }//GEN-LAST:event_End_EditActionPerformed
 
     private void Subject_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Subject_TableMousePressed
-        Subject_Popup.show(Subject_Table, evt.getX(), evt.getY());
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+            Subject_Popup.show(Subject_Table, evt.getX(), evt.getY());
+        }
     }//GEN-LAST:event_Subject_TableMousePressed
 
     private void Subject_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Subject_EditActionPerformed
@@ -1433,7 +1441,9 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     }//GEN-LAST:event_nowActionPerformed
 
     private void Course_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Course_TableMousePressed
-        Course_Popup.show(Course_Table, evt.getX(), evt.getY());
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+            Course_Popup.show(Course_Table, evt.getX(), evt.getY());
+        }
     }//GEN-LAST:event_Course_TableMousePressed
 
     private void Class_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Class_TableMousePressed

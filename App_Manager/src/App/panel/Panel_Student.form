@@ -171,7 +171,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="964" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="880" max="32767" attributes="0"/>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -179,7 +179,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="666" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="567" max="32767" attributes="0"/>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel6" max="32767" attributes="0"/>
@@ -591,12 +591,18 @@
                                 <Component class="com.toedter.calendar.JDateChooser" name="jDate">
                                   <Properties>
                                     <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Arial" size="15" style="0"/>
+                                    </Property>
                                   </Properties>
                                 </Component>
                                 <Component class="javax.swing.JRadioButton" name="Nam">
                                   <Properties>
                                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                                       <ComponentRef name="Gender"/>
+                                    </Property>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Tahoma" size="15" style="0"/>
                                     </Property>
                                     <Property name="text" type="java.lang.String" value="Nam"/>
                                   </Properties>
@@ -606,6 +612,9 @@
                                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                                       <ComponentRef name="Gender"/>
                                     </Property>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Tahoma" size="15" style="0"/>
+                                    </Property>
                                     <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
                                   </Properties>
                                 </Component>
@@ -613,6 +622,9 @@
                                   <Properties>
                                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                                       <ComponentRef name="Gender"/>
+                                    </Property>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Tahoma" size="15" style="0"/>
                                     </Property>
                                     <Property name="text" type="java.lang.String" value="Ch&#x1b0;a X&#x110;"/>
                                   </Properties>

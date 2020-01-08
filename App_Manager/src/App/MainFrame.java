@@ -70,7 +70,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Student = new javax.swing.JButton();
         Subject = new javax.swing.JButton();
         Chart = new javax.swing.JButton();
-        Setting = new javax.swing.JButton();
         jToolBar4 = new javax.swing.JToolBar();
         logout = new javax.swing.JButton();
 
@@ -88,7 +87,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 936, Short.MAX_VALUE)
+            .addGap(0, 955, Short.MAX_VALUE)
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,20 +199,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         });
         jToolBar.add(Chart);
 
-        Setting.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Setting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Setting-icon.png"))); // NOI18N
-        Setting.setText("Cài đặt");
-        Setting.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Setting.setFocusable(false);
-        Setting.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Setting.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Setting.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                SettingMouseClicked(evt);
-            }
-        });
-        jToolBar.add(Setting);
-
         jToolBar4.setFloatable(false);
         jToolBar4.setRollover(true);
 
@@ -283,10 +268,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
 
     }//GEN-LAST:event_ChartMouseClicked
 
-    private void SettingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SettingMouseClicked
-
-    }//GEN-LAST:event_SettingMouseClicked
-
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         JOptionPane.showMessageDialog(rootPane, "Cảm ơn đã sử dụng dịch vụ");
         acc = null;
@@ -355,7 +336,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Chart;
     private javax.swing.JButton Home;
-    private javax.swing.JButton Setting;
     private javax.swing.JButton Student;
     private javax.swing.JButton Subject;
     private javax.swing.JButton User;

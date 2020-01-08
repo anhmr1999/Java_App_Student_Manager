@@ -400,7 +400,6 @@ public class Edit_Teacher extends javax.swing.JInternalFrame {
             int choose = JOptionPane.showConfirmDialog(null, "Bạn có chắc sẽ cập nhập giáo viên với các dữ liệu trên?");
             if (choose == JOptionPane.YES_OPTION) {
                 tbl_Teacher edit_Teacher = new tbl_Teacher(teacher.getID(), name, Phone, Email, pass, Address, DOB, status, id_Role);
-                System.out.println(edit_Teacher.toString());
                 Teacher_Controller TC = new Teacher_Controller(conn);
                 if (TC.update(edit_Teacher)) {
                     JOptionPane.showMessageDialog(null, "Bạn đã thay đổi dữ liệu thành công");

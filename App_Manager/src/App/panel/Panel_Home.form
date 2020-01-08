@@ -103,8 +103,8 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel7" max="32767" attributes="0"/>
-                      <Component id="jPanel8" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jPanel7" pref="869" max="32767" attributes="0"/>
+                      <Component id="jPanel8" alignment="0" pref="869" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -236,7 +236,7 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="324" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="267" max="32767" attributes="0"/>
                                       <Component id="View_Teach" min="-2" pref="130" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -373,7 +373,7 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="324" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="267" max="32767" attributes="0"/>
                                       <Component id="View_Student" min="-2" pref="130" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -519,7 +519,7 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="324" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="267" max="32767" attributes="0"/>
                                       <Component id="View_Subject" min="-2" pref="130" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -656,7 +656,7 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="324" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="267" max="32767" attributes="0"/>
                                       <Component id="View_Chart" min="-2" pref="130" max="-2" attributes="0"/>
                                   </Group>
                               </Group>

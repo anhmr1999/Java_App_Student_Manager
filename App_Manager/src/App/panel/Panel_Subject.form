@@ -137,6 +137,11 @@
           </Layout>
           <SubComponents>
             <Container class="javax.swing.JDesktopPane" name="jDesktopPane1">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="f0" green="f0" red="f0" type="rgb"/>
+                </Property>
+              </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -636,7 +641,7 @@
                                         <DimensionLayout dim="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="End_Edit" pref="145" max="32767" attributes="0"/>
+                                                  <Component id="End_Edit" min="-2" pref="145" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Component id="Save_Edit" min="-2" pref="140" max="-2" attributes="0"/>
                                               </Group>
@@ -660,7 +665,7 @@
                                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                               <Image iconType="3" name="/App/image/edit.png"/>
                                             </Property>
-                                            <Property name="text" type="java.lang.String" value="L&#x1b0;u th&#xf4;ng tin"/>
+                                            <Property name="text" type="java.lang.String" value="L&#x1b0;u l&#x1ea1;i"/>
                                             <Property name="toolTipText" type="java.lang.String" value=""/>
                                           </Properties>
                                           <Events>
@@ -905,7 +910,7 @@
                                                           <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
                                                           <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <EmptySpace min="0" pref="173" max="32767" attributes="0"/>
+                                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
@@ -989,14 +994,17 @@
                                     <DimensionLayout dim="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="Refesh_Course" max="32767" attributes="0"/>
-                                                  <Component id="End_Edit_Course" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="Add_Course" pref="155" max="32767" attributes="0"/>
-                                                  <Component id="Save_Edit_Course" pref="0" max="32767" attributes="0"/>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Component id="End_Edit_Course" min="-2" pref="143" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="Save_Edit_Course" min="-2" pref="155" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Component id="Refesh_Course" min="-2" pref="143" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="Add_Course" min="-2" pref="155" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
@@ -1006,16 +1014,16 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="3" attributes="0">
-                                                  <Component id="Add_Course" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="Refesh_Course" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="Refesh_Course" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="Add_Course" alignment="1" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="3" attributes="0">
                                                   <Component id="Save_Edit_Course" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   <Component id="End_Edit_Course" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
+                                              <EmptySpace pref="201" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -1057,7 +1065,7 @@
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/App/image/edit.png"/>
                                         </Property>
-                                        <Property name="text" type="java.lang.String" value="L&#x1b0;u th&#xf4;ng tin"/>
+                                        <Property name="text" type="java.lang.String" value="L&#x1b0;u l&#x1ea1;i"/>
                                         <Property name="toolTipText" type="java.lang.String" value=""/>
                                       </Properties>
                                       <Events>
@@ -1427,13 +1435,16 @@
                                           <Group type="102" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jButton12" pref="144" max="32767" attributes="0"/>
-                                                  <Component id="End_Edit_Clas" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="Save_Edit_Clas" pref="0" max="32767" attributes="0"/>
-                                                  <Component id="jButton11" pref="143" max="32767" attributes="0"/>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="End_Edit_Clas" min="-2" pref="144" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                                                      <Component id="Save_Edit_Clas" min="-2" pref="143" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="jButton12" max="32767" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="jButton11" min="-2" pref="143" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
@@ -1447,7 +1458,7 @@
                                                   <Component id="jButton12" alignment="2" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jButton11" alignment="2" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="3" attributes="0">
                                                   <Component id="Save_Edit_Clas" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   <Component id="End_Edit_Clas" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1508,7 +1519,7 @@
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/App/image/edit.png"/>
                                         </Property>
-                                        <Property name="text" type="java.lang.String" value="L&#x1b0;u th&#xf4;ng tin"/>
+                                        <Property name="text" type="java.lang.String" value="L&#x1b0;u l&#x1ea1;i"/>
                                         <Property name="toolTipText" type="java.lang.String" value=""/>
                                       </Properties>
                                       <Events>
