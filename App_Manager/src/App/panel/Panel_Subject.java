@@ -5,12 +5,17 @@
  */
 package App.panel;
 
+import App.Internal.View_Class_Student;
+import App.Internal.View_Class_Student.View_Mark_Student;
+import App.Internal.View_Mark;
 import App.controller.Class_Controller;
 import App.controller.Course_Controller;
+import App.controller.Student_Controller;
 import App.controller.Subject_Controller;
 import App.controller.Teacher_Controller;
 import App.model.tbl_Class;
 import App.model.tbl_Course;
+import App.model.tbl_Student;
 import App.model.tbl_Subject;
 import App.model.tbl_Teacher;
 import java.sql.Connection;
@@ -28,11 +33,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hai Anh PC
  */
-public class Panel_Subject extends javax.swing.JPanel {
+public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Student {
 
     /**
      * Creates new form Panel_Subject
      */
+    tbl_Subject edit;
+    tbl_Course course_Edit;
+    tbl_Class edit_class;
     DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public Panel_Subject(Connection conn, tbl_Teacher acc) {
@@ -56,6 +64,12 @@ public class Panel_Subject extends javax.swing.JPanel {
             Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
         }
         set_Cbx_Class_Teacher();
+        Panel_Edit_Subject.setVisible(false);
+        panel_status.setVisible(false);
+        Save_Edit_Course.setVisible(false);
+        End_Edit_Course.setVisible(false);
+        Save_Edit_Clas.setVisible(false);
+        End_Edit_Clas.setVisible(false);
     }
 
     Connection conn;
@@ -69,7 +83,7 @@ public class Panel_Subject extends javax.swing.JPanel {
 
     private void load_Teach() {
         Teacher_Controller TC = new Teacher_Controller(conn);
-        LT = TC.select("");
+        LT = TC.select(" WHERE Role_ID < 4");
     }
 
     private void load_Subject_Table(String check) {
@@ -109,7 +123,9 @@ public class Panel_Subject extends javax.swing.JPanel {
         DTM.addColumn("STT");
         DTM.addColumn("Tên lớp");
         DTM.addColumn("Khóa");
+        DTM.addColumn("Số học sinh");
         DTM.addColumn("Giáo viên chủ nhiệm");
+        Student_Controller SC = new Student_Controller(conn);
         for (int i = 0; i < LC.size(); i++) {
             tbl_Class c = LC.get(i);
             for (tbl_Teacher t : LT) {
@@ -117,7 +133,7 @@ public class Panel_Subject extends javax.swing.JPanel {
                     for (tbl_Course course : LCA) {
                         if (course.getId() == c.getCourse_id()) {
                             Object o[] = {
-                                (i + 1), c.getName(), course.getName(), t.getName()
+                                (i + 1), c.getName(), course.getName(), SC.select(" WHERE Class_ID = " + c.getId()).size(), t.getName()
                             };
                             DTM.addRow(o);
                         }
@@ -186,12 +202,15 @@ public class Panel_Subject extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Subject_Popup = new javax.swing.JPopupMenu();
+        Subject_Edit = new javax.swing.JMenuItem();
+        Course_Popup = new javax.swing.JPopupMenu();
+        Course_Edit = new javax.swing.JMenuItem();
+        Class_PopUp = new javax.swing.JPopupMenu();
+        Class_Edit = new javax.swing.JMenuItem();
+        Class_Student = new javax.swing.JMenuItem();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -214,9 +233,17 @@ public class Panel_Subject extends javax.swing.JPanel {
         Accredit = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         Price = new javax.swing.JFormattedTextField();
+        panel_status = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        now = new javax.swing.JRadioButton();
+        unnow = new javax.swing.JRadioButton();
         jPanel13 = new javax.swing.JPanel();
+        Panel_Add_Subject = new javax.swing.JPanel();
         Add_Subject = new javax.swing.JButton();
         Refesh_Subject = new javax.swing.JButton();
+        Panel_Edit_Subject = new javax.swing.JPanel();
+        Save_Edit = new javax.swing.JButton();
+        End_Edit = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
@@ -238,6 +265,8 @@ public class Panel_Subject extends javax.swing.JPanel {
         jPanel34 = new javax.swing.JPanel();
         Add_Course = new javax.swing.JButton();
         Refesh_Course = new javax.swing.JButton();
+        Save_Edit_Course = new javax.swing.JButton();
+        End_Edit_Course = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
@@ -260,70 +289,46 @@ public class Panel_Subject extends javax.swing.JPanel {
         jPanel27 = new javax.swing.JPanel();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        End_Edit_Clas = new javax.swing.JButton();
+        Save_Edit_Clas = new javax.swing.JButton();
 
-        jPanel5.setBackground(new java.awt.Color(204, 204, 255));
+        Subject_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Subject_Edit.setText("Sửa thông tin môn học");
+        Subject_Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Subject_EditActionPerformed(evt);
+            }
+        });
+        Subject_Popup.add(Subject_Edit);
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/user-icon.png"))); // NOI18N
-        jLabel3.setText("Xin chào Admin !");
+        Course_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Course_Edit.setText("Sửa thông tin");
+        Course_Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Course_EditActionPerformed(evt);
+            }
+        });
+        Course_Popup.add(Course_Edit);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        Class_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Class_Edit.setText("Sửa thông tin lớp");
+        Class_Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Class_EditActionPerformed(evt);
+            }
+        });
+        Class_PopUp.add(Class_Edit);
 
-        jPanel6.setBackground(new java.awt.Color(204, 204, 255));
+        Class_Student.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Class_Student.setText("Danh sách sinh viên");
+        Class_Student.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Class_StudentActionPerformed(evt);
+            }
+        });
+        Class_PopUp.add(Class_Student);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Quản lý khóa, lớp, môn học");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        jDesktopPane1.setBackground(new java.awt.Color(240, 240, 240));
 
         jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
 
@@ -390,17 +395,22 @@ public class Panel_Subject extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Subject_Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Subject_TableMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(Subject_Table);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Môn Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16))); // NOI18N
@@ -424,19 +434,60 @@ public class Panel_Subject extends javax.swing.JPanel {
         Price.setText("0");
         Price.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
 
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel7.setText("Trạng thái:");
+
+        buttonGroup1.add(now);
+        now.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        now.setText("Đang giảng dạy");
+        now.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nowActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(unnow);
+        unnow.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        unnow.setText("Đã Ngưng giảng dạy");
+
+        javax.swing.GroupLayout panel_statusLayout = new javax.swing.GroupLayout(panel_status);
+        panel_status.setLayout(panel_statusLayout);
+        panel_statusLayout.setHorizontalGroup(
+            panel_statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_statusLayout.createSequentialGroup()
+                .addGroup(panel_statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_statusLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(now, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(unnow, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        panel_statusLayout.setVerticalGroup(
+            panel_statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_statusLayout.createSequentialGroup()
+                .addGroup(panel_statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(now, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(unnow)
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Sub_Name)
-                    .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panel_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Sub_Name, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel12Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Accredit, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel12Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel12Layout.createSequentialGroup()
@@ -460,7 +511,9 @@ public class Panel_Subject extends javax.swing.JPanel {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel6)
                     .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE)
+                .addComponent(panel_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         Add_Subject.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -481,39 +534,90 @@ public class Panel_Subject extends javax.swing.JPanel {
             }
         });
 
+        javax.swing.GroupLayout Panel_Add_SubjectLayout = new javax.swing.GroupLayout(Panel_Add_Subject);
+        Panel_Add_Subject.setLayout(Panel_Add_SubjectLayout);
+        Panel_Add_SubjectLayout.setHorizontalGroup(
+            Panel_Add_SubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_Add_SubjectLayout.createSequentialGroup()
+                .addComponent(Refesh_Subject, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Add_Subject))
+        );
+        Panel_Add_SubjectLayout.setVerticalGroup(
+            Panel_Add_SubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Panel_Add_SubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(Add_Subject)
+                .addComponent(Refesh_Subject))
+        );
+
+        Save_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Save_Edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit.png"))); // NOI18N
+        Save_Edit.setText("Lưu lại");
+        Save_Edit.setToolTipText("");
+        Save_Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Save_EditActionPerformed(evt);
+            }
+        });
+
+        End_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        End_Edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Close-icon.png"))); // NOI18N
+        End_Edit.setText("Hủy bỏ");
+        End_Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                End_EditActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout Panel_Edit_SubjectLayout = new javax.swing.GroupLayout(Panel_Edit_Subject);
+        Panel_Edit_Subject.setLayout(Panel_Edit_SubjectLayout);
+        Panel_Edit_SubjectLayout.setHorizontalGroup(
+            Panel_Edit_SubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_Edit_SubjectLayout.createSequentialGroup()
+                .addComponent(End_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Save_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        Panel_Edit_SubjectLayout.setVerticalGroup(
+            Panel_Edit_SubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Panel_Edit_SubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(Save_Edit)
+                .addComponent(End_Edit))
+        );
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
-                .addComponent(Refesh_Subject)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Add_Subject)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Panel_Add_Subject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Panel_Edit_Subject, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(Refesh_Subject)
-                    .addComponent(Add_Subject))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(Panel_Add_Subject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Panel_Edit_Subject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -578,7 +682,7 @@ public class Panel_Subject extends javax.swing.JPanel {
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Seach_Course)
+                .addComponent(Seach_Course, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(Search_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -607,17 +711,22 @@ public class Panel_Subject extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Course_Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Course_TableMousePressed(evt);
+            }
+        });
         jScrollPane4.setViewportView(Course_Table);
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
         jPanel31Layout.setHorizontalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
         );
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
         );
 
         jPanel32.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Khóa Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16))); // NOI18N
@@ -633,6 +742,12 @@ public class Panel_Subject extends javax.swing.JPanel {
 
         jLabel18.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel18.setText("Ngày kết thúc khóa:");
+
+        BeginDate.setDateFormatString("dd/MM/yyyy");
+        BeginDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
+        End_Date.setDateFormatString("dd/MM/yyyy");
+        End_Date.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
         jPanel33.setLayout(jPanel33Layout);
@@ -672,7 +787,7 @@ public class Panel_Subject extends javax.swing.JPanel {
 
         Add_Course.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Add_Course.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Add-icon.png"))); // NOI18N
-        Add_Course.setText("Thêm môn");
+        Add_Course.setText("Thêm mới");
         Add_Course.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Add_CourseActionPerformed(evt);
@@ -688,25 +803,53 @@ public class Panel_Subject extends javax.swing.JPanel {
             }
         });
 
+        Save_Edit_Course.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Save_Edit_Course.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit.png"))); // NOI18N
+        Save_Edit_Course.setText("Lưu lại");
+        Save_Edit_Course.setToolTipText("");
+        Save_Edit_Course.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Save_Edit_CourseActionPerformed(evt);
+            }
+        });
+
+        End_Edit_Course.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        End_Edit_Course.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Close-icon.png"))); // NOI18N
+        End_Edit_Course.setText("Hủy bỏ");
+        End_Edit_Course.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                End_Edit_CourseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
         jPanel34.setLayout(jPanel34Layout);
         jPanel34Layout.setHorizontalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
-                .addComponent(Refesh_Course)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Add_Course)
+            .addGroup(jPanel34Layout.createSequentialGroup()
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
+                        .addComponent(End_Edit_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Save_Edit_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
+                        .addComponent(Refesh_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Add_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel34Layout.setVerticalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel34Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Refesh_Course)
-                    .addComponent(Add_Course))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Add_Course, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Save_Edit_Course)
+                    .addComponent(End_Edit_Course))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
@@ -714,7 +857,9 @@ public class Panel_Subject extends javax.swing.JPanel {
         jPanel32Layout.setHorizontalGroup(
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel32Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel32Layout.setVerticalGroup(
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -730,7 +875,7 @@ public class Panel_Subject extends javax.swing.JPanel {
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel30Layout.setVerticalGroup(
@@ -825,17 +970,22 @@ public class Panel_Subject extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Class_Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Class_TableMousePressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(Class_Table);
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
         jPanel24Layout.setHorizontalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
         );
 
         jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Lớp Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16))); // NOI18N
@@ -896,7 +1046,7 @@ public class Panel_Subject extends javax.swing.JPanel {
 
         jButton11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Add-icon.png"))); // NOI18N
-        jButton11.setText("Thêm môn");
+        jButton11.setText("Thêm lớp");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton11ActionPerformed(evt);
@@ -912,15 +1062,40 @@ public class Panel_Subject extends javax.swing.JPanel {
             }
         });
 
+        End_Edit_Clas.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        End_Edit_Clas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Close-icon.png"))); // NOI18N
+        End_Edit_Clas.setText("Hủy bỏ");
+        End_Edit_Clas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                End_Edit_ClasActionPerformed(evt);
+            }
+        });
+
+        Save_Edit_Clas.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Save_Edit_Clas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit.png"))); // NOI18N
+        Save_Edit_Clas.setText("Lưu lại");
+        Save_Edit_Clas.setToolTipText("");
+        Save_Edit_Clas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Save_Edit_ClasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
-                .addComponent(jButton12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton11)
+            .addGroup(jPanel27Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(End_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Save_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -930,6 +1105,10 @@ public class Panel_Subject extends javax.swing.JPanel {
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jButton12)
                     .addComponent(jButton11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Save_Edit_Clas)
+                    .addComponent(End_Edit_Clas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -987,7 +1166,7 @@ public class Panel_Subject extends javax.swing.JPanel {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1014,19 +1193,12 @@ public class Panel_Subject extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1114,6 +1286,9 @@ public class Panel_Subject extends javax.swing.JPanel {
                 Subject_Controller SC = new Subject_Controller(conn);
                 if (SC.insert(subject) == 1) {
                     JOptionPane.showMessageDialog(null, "Thêm thành công");
+                    Sub_Name.setText("");
+                    Accredit.setValue(0);
+                    Price.setText("0");
                 } else {
                     JOptionPane.showMessageDialog(null, "Lỗi rồi!");
                 }
@@ -1136,6 +1311,13 @@ public class Panel_Subject extends javax.swing.JPanel {
                 Course_Controller CC = new Course_Controller(conn);
                 if (CC.insert(new_course) == 1) {
                     JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công");
+                    Name_Course.setText("");
+                    try {
+                        BeginDate.setDate(sdf.parse("2020-01-01"));
+                        End_Date.setDate(sdf.parse("2020-01-01"));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Lỗi rồi");
                 }
@@ -1167,6 +1349,9 @@ public class Panel_Subject extends javax.swing.JPanel {
                 Class_Controller CC = new Class_Controller(conn);
                 if (CC.insert(new_C) == 1) {
                     JOptionPane.showMessageDialog(null, "Thành công");
+                    Name_Class.setText("");
+                    Cbx_Class_Course.setSelectedIndex(0);
+                    Cbx_Class_Teacher.setSelectedIndex(0);
                 } else {
                     JOptionPane.showMessageDialog(null, "Lỗi rồi");
                 }
@@ -1181,6 +1366,231 @@ public class Panel_Subject extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void Save_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_EditActionPerformed
+        String name = (Sub_Name.getText());
+        int accredit = Integer.parseInt(String.valueOf(Accredit.getValue()));
+        float price = Float.parseFloat(Price.getText());
+        if (now.isSelected()) {
+            edit.setStatus(1);
+        } else {
+            edit.setStatus(2);
+        }
+        if (accredit < 1) {
+            JOptionPane.showMessageDialog(null, "Số tín không thể bằng nhỏ hơn 1");
+        } else if (price < 1) {
+            JOptionPane.showMessageDialog(null, "Học phí thấp thế thì ăn cám à?");
+        } else if ("".equals(name)) {
+            JOptionPane.showMessageDialog(null, "Làm j có môn nào tên là ''?");
+        } else {
+            edit.setName(name);
+            edit.setAccredit(accredit);
+            edit.setPrice(price);
+            Subject_Controller SC = new Subject_Controller(conn);
+            if (SC.update(edit)) {
+                JOptionPane.showMessageDialog(null, "Bạn đã cập nhập dữ liệu thành công");
+                load_Subject_Table("");
+                Panel_Add_Subject.setVisible(true);
+                Panel_Edit_Subject.setVisible(false);
+                jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Môn Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+                Sub_Name.setText("");
+                Accredit.setValue(0);
+                Price.setText("0");
+                panel_status.setVisible(false);
+                edit = null;
+            } else {
+                JOptionPane.showMessageDialog(null, "Lỗi rồi!");
+            }
+        }
+    }//GEN-LAST:event_Save_EditActionPerformed
+
+    private void End_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_End_EditActionPerformed
+        Panel_Add_Subject.setVisible(true);
+        Panel_Edit_Subject.setVisible(false);
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Môn Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+        Sub_Name.setText("");
+        Accredit.setValue(0);
+        Price.setText("0");
+        panel_status.setVisible(false);
+        edit = null;
+    }//GEN-LAST:event_End_EditActionPerformed
+
+    private void Subject_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Subject_TableMousePressed
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+            Subject_Popup.show(Subject_Table, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_Subject_TableMousePressed
+
+    private void Subject_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Subject_EditActionPerformed
+        Panel_Add_Subject.setVisible(false);
+        Panel_Edit_Subject.setVisible(true);
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Sửa Thông Tin Môn Học", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+        edit = LS.get(Subject_Table.getSelectedRow());
+        Sub_Name.setText(edit.getName());
+        Accredit.setValue(edit.getAccredit());
+        Price.setText(String.valueOf(edit.getPrice()));
+        if (edit.getStatus() == 1) {
+            now.setSelected(true);
+        } else {
+            unnow.setSelected(true);
+        }
+        panel_status.setVisible(true);
+    }//GEN-LAST:event_Subject_EditActionPerformed
+
+    private void nowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nowActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nowActionPerformed
+
+    private void Course_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Course_TableMousePressed
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+            Course_Popup.show(Course_Table, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_Course_TableMousePressed
+
+    private void Class_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Class_TableMousePressed
+        Class_PopUp.show(Class_Table, evt.getX(), evt.getY());
+    }//GEN-LAST:event_Class_TableMousePressed
+
+    private void Save_Edit_CourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_Edit_CourseActionPerformed
+        String name_course = Name_Course.getText();
+        String begin_date = sdf.format(BeginDate.getDate());
+        String end_date = sdf.format(End_Date.getDate());
+        if ("".equals(name_course)) {
+            JOptionPane.showMessageDialog(null, "Tên khóa học đang để trống");
+        } else {
+            course_Edit.setName(name_course);
+            course_Edit.setBegin_date(begin_date);
+            course_Edit.setEnd_date(end_date);
+            Course_Controller CC = new Course_Controller(conn);
+            if (CC.update(course_Edit)) {
+                JOptionPane.showMessageDialog(null, "Đã Cập nhập thông tin thành công");
+                course_Edit = null;
+                jPanel32.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm khóa học mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+                Refesh_Course.setVisible(true);
+                Add_Course.setVisible(true);
+                End_Edit_Course.setVisible(false);
+                Save_Edit_Course.setVisible(false);
+                load_Course_Table("");
+                Name_Course.setText("");
+                try {
+                    BeginDate.setDate(sdf.parse("2020-01-01"));
+                    End_Date.setDate(sdf.parse("2020-01-01"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Lỗi rồi");
+            }
+        }
+    }//GEN-LAST:event_Save_Edit_CourseActionPerformed
+
+    private void End_Edit_CourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_End_Edit_CourseActionPerformed
+        course_Edit = null;
+        jPanel32.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm khóa học mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+        Refesh_Course.setVisible(true);
+        Add_Course.setVisible(true);
+        End_Edit_Course.setVisible(false);
+        Save_Edit_Course.setVisible(false);
+        Name_Course.setText("");
+        try {
+            BeginDate.setDate(sdf.parse("2020-01-01"));
+            End_Date.setDate(sdf.parse("2020-01-01"));
+        } catch (ParseException ex) {
+            Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_End_Edit_CourseActionPerformed
+
+    private void End_Edit_ClasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_End_Edit_ClasActionPerformed
+        edit_class = null;
+        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Lớp Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+        Name_Class.setText("");
+        Cbx_Class_Course.setSelectedIndex(0);
+        Cbx_Class_Teacher.setSelectedIndex(0);
+        Save_Edit_Clas.setVisible(false);
+        End_Edit_Clas.setVisible(false);
+        jButton11.setVisible(true);
+        jButton12.setVisible(true);
+    }//GEN-LAST:event_End_Edit_ClasActionPerformed
+
+    private void Save_Edit_ClasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_Edit_ClasActionPerformed
+        String name_Class_edit = Name_Class.getText();
+        int Course_ID_Class_Edit = LCA.get(Cbx_Class_Course.getSelectedIndex()).getId();
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+            int Teacher_ID_Class_Edit = LT.get(Cbx_Class_Teacher.getSelectedIndex()).getID();
+            edit_class.setTeacher_id(Teacher_ID_Class_Edit);
+        }
+        edit_class.setCourse_id(Course_ID_Class_Edit);
+        if ("".equals(name_Class_edit)) {
+            JOptionPane.showMessageDialog(null, "Tên lớp đang để trống");
+        } else {
+            edit_class.setName(name_Class_edit);
+            Class_Controller CC = new Class_Controller(conn);
+            if (CC.update(edit_class)) {
+                JOptionPane.showMessageDialog(null, "Cập nhập dữ liệu thành công");
+                edit_class = null;
+                jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Lớp Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+                Name_Class.setText("");
+                Cbx_Class_Course.setSelectedIndex(0);
+                if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+                    Cbx_Class_Teacher.setSelectedIndex(0);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Lỗi rồi!");
+            }
+        }
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+            load_Class_Table("");
+        } else {
+            load_Class_Table(" WHERE Teacher_ID = " + acc.getID());
+        }
+    }//GEN-LAST:event_Save_Edit_ClasActionPerformed
+
+    private void Course_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Course_EditActionPerformed
+        course_Edit = LCC.get(Course_Table.getSelectedRow());
+        jPanel32.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thông tin khóa học", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+        Refesh_Course.setVisible(false);
+        Add_Course.setVisible(false);
+        End_Edit_Course.setVisible(true);
+        Save_Edit_Course.setVisible(true);
+        Name_Course.setText(course_Edit.getName());
+        try {
+            BeginDate.setDate(sdf.parse(course_Edit.getBegin_date()));
+            End_Date.setDate(sdf.parse(course_Edit.getEnd_date()));
+        } catch (ParseException ex) {
+            Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_Course_EditActionPerformed
+
+    private void Class_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Class_EditActionPerformed
+        edit_class = LC.get(Class_Table.getSelectedRow());
+        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thông Tin Lớp Học", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
+        Name_Class.setText(edit_class.getName());
+        for (int i = 0; i < LCA.size(); i++) {
+            tbl_Course c = LCA.get(i);
+            if (c.getId() == edit_class.getCourse_id()) {
+                Cbx_Class_Course.setSelectedIndex(i);
+            }
+        }
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
+            for (int i = 0; i < LT.size(); i++) {
+                tbl_Teacher t = LT.get(i);
+                if (t.getID() == edit_class.getTeacher_id()) {
+                    Cbx_Class_Teacher.setSelectedIndex(i);
+                }
+            }
+        }
+        Save_Edit_Clas.setVisible(true);
+        End_Edit_Clas.setVisible(true);
+        jButton11.setVisible(false);
+        jButton12.setVisible(false);
+    }//GEN-LAST:event_Class_EditActionPerformed
+
+    private void Class_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Class_StudentActionPerformed
+        tbl_Class Class_View = LC.get(Class_Table.getSelectedRow());
+        View_Class_Student VCS = new View_Class_Student(Class_View, conn, this);
+        jDesktopPane1.add(VCS);
+        VCS.setVisible(true);
+    }//GEN-LAST:event_Class_StudentActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner Accredit;
@@ -1191,29 +1601,44 @@ public class Panel_Subject extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> Cbx_Class_Course;
     private javax.swing.JComboBox<String> Cbx_Class_Teacher;
     private javax.swing.JComboBox<String> Cbx_Subject;
+    private javax.swing.JMenuItem Class_Edit;
+    private javax.swing.JPopupMenu Class_PopUp;
     private javax.swing.JTextField Class_Search;
+    private javax.swing.JMenuItem Class_Student;
     private javax.swing.JTable Class_Table;
+    private javax.swing.JMenuItem Course_Edit;
+    private javax.swing.JPopupMenu Course_Popup;
     private javax.swing.JTable Course_Table;
     private com.toedter.calendar.JDateChooser End_Date;
+    private javax.swing.JButton End_Edit;
+    private javax.swing.JButton End_Edit_Clas;
+    private javax.swing.JButton End_Edit_Course;
     private javax.swing.JTextField Name_Class;
     private javax.swing.JTextField Name_Course;
+    private javax.swing.JPanel Panel_Add_Subject;
+    private javax.swing.JPanel Panel_Edit_Subject;
     private javax.swing.JFormattedTextField Price;
     private javax.swing.JButton Refesh_Course;
     private javax.swing.JButton Refesh_Subject;
     private javax.swing.JButton Reload_Class;
     private javax.swing.JButton Reload_Course;
     private javax.swing.JButton Reload_Subject;
+    private javax.swing.JButton Save_Edit;
+    private javax.swing.JButton Save_Edit_Clas;
+    private javax.swing.JButton Save_Edit_Course;
     private javax.swing.JTextField Seach_Course;
     private javax.swing.JButton Search_Class;
     private javax.swing.JButton Search_Course;
     private javax.swing.JButton Search_Subject;
     private javax.swing.JTextField Sub_Name;
+    private javax.swing.JMenuItem Subject_Edit;
+    private javax.swing.JPopupMenu Subject_Popup;
     private javax.swing.JTextField Subject_Search;
     private javax.swing.JTable Subject_Table;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1223,10 +1648,10 @@ public class Panel_Subject extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1247,9 +1672,6 @@ public class Panel_Subject extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -1257,5 +1679,15 @@ public class Panel_Subject extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JRadioButton now;
+    private javax.swing.JPanel panel_status;
+    private javax.swing.JRadioButton unnow;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void viewMark(tbl_Student s) {
+        View_Mark vm = new View_Mark(conn, s);
+        jDesktopPane1.add(vm);
+        vm.setVisible(true);
+    }
 }

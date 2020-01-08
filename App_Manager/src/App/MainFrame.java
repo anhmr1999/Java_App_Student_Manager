@@ -7,7 +7,7 @@ package App;
 
 import App.connect.ConnectDB;
 import App.model.tbl_Teacher;
-import App.panel.Login;
+import App.panel.Panel_Chart;
 import App.panel.Panel_Home;
 import App.panel.Panel_Student;
 import App.panel.Panel_Subject;
@@ -21,9 +21,8 @@ import javax.swing.JPanel;
  *
  * @author PC Hoang Anh
  */
-public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
+public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Back {
 
-    
     ConnectDB c = new ConnectDB();
     Cursor cur = new Cursor(Cursor.HAND_CURSOR);
     Connection conn = c.connect();
@@ -31,15 +30,21 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
     /**
      * Creates new form MainFrame
      */
+    public interface Call_Logout{
+        public void logout();
+    };
+    Call_Logout CL;
+    public void setCallBack(Call_Logout CL,tbl_Teacher acc){
+        this.CL = CL;
+        this.acc = acc;
+        Panel_Home home = new Panel_Home(conn, acc, this);
+        setLayer(home);
+    }
     public MainFrame() {
         initComponents();
-        c.connect();
-        setLayer(new Login(conn, this));
-        jToolBar.setVisible(false);
-        logout.setVisible(false);
     }
-    
-    public void setLayer(JPanel panel){
+
+    public void setLayer(JPanel panel) {
         jLayeredPane.removeAll();
         jLayeredPane.add(panel);
         jLayeredPane.repaint();
@@ -65,13 +70,8 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         Student = new javax.swing.JButton();
         Subject = new javax.swing.JButton();
         Chart = new javax.swing.JButton();
-        Setting = new javax.swing.JButton();
         jToolBar4 = new javax.swing.JToolBar();
-        login = new javax.swing.JButton();
         logout = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Phần mềm quản lý sinh viên");
@@ -87,11 +87,11 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 936, Short.MAX_VALUE)
+            .addGap(0, 955, Short.MAX_VALUE)
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
+            .addGap(0, 691, Short.MAX_VALUE)
         );
 
         jLayeredPane.add(jPanel, "card2");
@@ -103,6 +103,7 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
 
         jToolBar.setRollover(true);
 
+        Home.setBackground(new java.awt.Color(188, 248, 255));
         Home.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/home-icon.png"))); // NOI18N
         Home.setText("Trang chủ");
@@ -113,6 +114,11 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         Home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 HomeMouseClicked(evt);
+            }
+        });
+        Home.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomeActionPerformed(evt);
             }
         });
         jToolBar.add(Home);
@@ -186,38 +192,15 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
                 ChartMouseClicked(evt);
             }
         });
-        jToolBar.add(Chart);
-
-        Setting.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Setting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Setting-icon.png"))); // NOI18N
-        Setting.setText("Cài đặt");
-        Setting.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Setting.setFocusable(false);
-        Setting.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Setting.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Setting.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                SettingMouseClicked(evt);
+        Chart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChartActionPerformed(evt);
             }
         });
-        jToolBar.add(Setting);
+        jToolBar.add(Chart);
 
         jToolBar4.setFloatable(false);
         jToolBar4.setRollover(true);
-
-        login.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Unlock-icon.png"))); // NOI18N
-        login.setText("Đăng nhập");
-        login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        login.setFocusable(false);
-        login.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        login.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        login.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(login);
 
         logout.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Lock-icon.png"))); // NOI18N
@@ -232,14 +215,6 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
             }
         });
         jToolBar4.add(logout);
-
-        jMenu1.setText("Hệ thống");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Phần mềm");
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -274,44 +249,34 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
     }// </editor-fold>//GEN-END:initComponents
 
     private void HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseClicked
-        
+
     }//GEN-LAST:event_HomeMouseClicked
 
     private void UserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UserMouseClicked
-        setLayer(new Panel_User(acc,conn));
+        setLayer(new Panel_User(acc, conn));
     }//GEN-LAST:event_UserMouseClicked
 
     private void StudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentMouseClicked
-        
+
     }//GEN-LAST:event_StudentMouseClicked
 
     private void SubjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SubjectMouseClicked
-        
+
     }//GEN-LAST:event_SubjectMouseClicked
 
     private void ChartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChartMouseClicked
-        
+
     }//GEN-LAST:event_ChartMouseClicked
-
-    private void SettingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SettingMouseClicked
-        
-    }//GEN-LAST:event_SettingMouseClicked
-
-    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        setLayer(new Login(conn, this));
-    }//GEN-LAST:event_loginActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         JOptionPane.showMessageDialog(rootPane, "Cảm ơn đã sử dụng dịch vụ");
-        setLayer(new Login(conn, this));
         acc = null;
-        jToolBar.setVisible(false);
-        login.setVisible(true);
-        logout.setVisible(false);
+        CL.logout();
+        this.dispose();
     }//GEN-LAST:event_logoutActionPerformed
 
     private void UserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserActionPerformed
-       
+        setLayer(new Panel_User(acc, conn));
     }//GEN-LAST:event_UserActionPerformed
 
     private void StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentActionPerformed
@@ -322,6 +287,16 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
         Panel_Subject Sub = new Panel_Subject(conn, acc);
         setLayer(Sub);
     }//GEN-LAST:event_SubjectActionPerformed
+
+    private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
+        Panel_Home home = new Panel_Home(conn, acc, this);
+        setLayer(home);
+    }//GEN-LAST:event_HomeActionPerformed
+
+    private void ChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChartActionPerformed
+        Panel_Chart PC = new Panel_Chart(conn, acc);
+        setLayer(PC);
+    }//GEN-LAST:event_ChartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -361,32 +336,39 @@ public class MainFrame extends javax.swing.JFrame implements Login.login_acc{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Chart;
     private javax.swing.JButton Home;
-    private javax.swing.JButton Setting;
     private javax.swing.JButton Student;
     private javax.swing.JButton Subject;
     private javax.swing.JButton User;
     private javax.swing.JLayeredPane jLayeredPane;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel;
     private javax.swing.JToolBar jToolBar;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar4;
-    private javax.swing.JButton login;
     private javax.swing.JButton logout;
     // End of variables declaration//GEN-END:variables
 
+
     @Override
-    public void setlogin(tbl_Teacher t) {
-        acc = t;
-        jToolBar.setVisible(true);
-        login.setVisible(false);
-        logout.setVisible(true);
-        Panel_Home home = new Panel_Home();
-        setLayer(home);
+    public void view_Teacher() {
+        setLayer(new Panel_User(acc, conn));
     }
 
+    @Override
+    public void view_Student() {
+        setLayer(new Panel_Student(acc, conn));
+    }
+
+    @Override
+    public void view_Subject() {
+        Panel_Subject Sub = new Panel_Subject(conn, acc);
+        setLayer(Sub);
+    }
+
+    @Override
+    public void view_Chart() {
+        Panel_Chart PC = new Panel_Chart(conn, acc);
+        setLayer(PC);
+    }
 
 }

@@ -58,7 +58,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                 getStudent(" where Class_ID in (select ID from tbl_Class where Teacher_ID = " + acc.getID() + " )");
             }
             loadTable();
-            admin.setText("Xin chào " + acc.getName());
             Nam.doClick();
             setRollNoNewStudent();
             try {
@@ -170,10 +169,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         Edit = new javax.swing.JMenuItem();
         Show_mark = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        admin = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jDesktopPane = new javax.swing.JDesktopPane();
         jPanel6 = new javax.swing.JPanel();
@@ -265,52 +260,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jPopupMenu1.add(Show_mark);
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(200, 150));
-
-        admin.setBackground(new java.awt.Color(204, 204, 255));
-        admin.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        admin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/user-icon.png"))); // NOI18N
-        admin.setText("Xin chào admin");
-        admin.setToolTipText("");
-        admin.setPreferredSize(new java.awt.Dimension(103, 50));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(admin, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(admin, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-        );
-
-        jPanel4.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel4.setPreferredSize(new java.awt.Dimension(565, 150));
-
-        jLabel4.setBackground(new java.awt.Color(204, 204, 255));
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Quản lí sinh viên");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
 
         jPanel5.setBackground(new java.awt.Color(204, 255, 255));
 
@@ -432,14 +381,18 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         JName.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         jDate.setDateFormatString("dd/MM/yyyy");
+        jDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         Gender.add(Nam);
+        Nam.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         Nam.setText("Nam");
 
         Gender.add(Nu);
+        Nu.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         Nu.setText("Nữ");
 
         Gender.add(Unisex);
+        Unisex.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         Unisex.setText("Chưa XĐ");
 
         JClass_Student.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -471,11 +424,10 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(Refesh, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(Refesh, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,13 +599,13 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 972, Short.MAX_VALUE)
+            .addGap(0, 880, Short.MAX_VALUE)
             .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
+            .addGap(0, 567, Short.MAX_VALUE)
             .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDesktopPaneLayout.createSequentialGroup()
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -681,22 +633,14 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE))))
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
-                .addGap(5, 5, 5)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -860,7 +804,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JButton Update_Mark_Student;
     private javax.swing.JMenuItem View;
     private javax.swing.JButton add;
-    private javax.swing.JLabel admin;
     private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JDesktopPane jDesktopPane;
@@ -870,7 +813,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -880,9 +822,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;

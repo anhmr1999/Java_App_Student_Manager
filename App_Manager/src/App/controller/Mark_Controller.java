@@ -44,12 +44,11 @@ public class Mark_Controller {
         return row;
     }
 
-    public List<tbl_Mark> select(int id) {
+    public List<tbl_Mark> select(String check) {
         List<tbl_Mark> LM = new ArrayList<>();
-        String sql = "select Student_ID,Sub_ID,Mark,Status,Note from tbl_Mark where Student_ID = ?";
+        String sql = "select Student_ID,Sub_ID,Mark,Status,Note from tbl_Mark "+check;
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
-            PS.setInt(1, id);
             ResultSet rs = PS.executeQuery();
             while (rs.next()) {
                 int Student_ID = rs.getInt("Student_ID");

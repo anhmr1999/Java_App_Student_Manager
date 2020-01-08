@@ -5,6 +5,22 @@
  */
 package App.panel;
 
+import App.chart.Mark;
+import App.chart.Student;
+import App.controller.Class_Controller;
+import App.controller.Course_Controller;
+import App.model.tbl_Class;
+import App.model.tbl_Course;
+import App.model.tbl_Teacher;
+import java.sql.Connection;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.PieDataset;
+
 /**
  *
  * @author Hai Anh PC
@@ -14,9 +30,77 @@ public class Panel_Chart extends javax.swing.JPanel {
     /**
      * Creates new form Panel_Chart
      */
-    public Panel_Chart() {
+    
+    Connection conn;
+    tbl_Teacher acc;
+    List<tbl_Course> LCourse;
+    List<tbl_Class> LClass;
+    
+
+    public Panel_Chart(Connection conn, tbl_Teacher acc) {
+        this.conn = conn;
+        this.acc = acc;
         initComponents();
+        setCbx_Course();
+        GetPieChar("where Student_ID in (select ID from tbl_Student where Class_ID IN (select ID from tbl_Class where Course_ID = "+LCourse.get(0).getId()+"))","Cơ Cấu Điểm Theo Nhóm Của "+LCourse.get(0).getName());
+        setCbx_Class(" where Course_ID = "+LCourse.get(0).getId());
+        GetBarChar("BIỂU ĐỒ SỐ LƯỢNG HỌC SINH TRONG 5 KHÓA HỌC GẦN NHẤT");
     }
+    
+    public void setCbx_Course(){
+        Course_Controller CC = new Course_Controller(conn);
+        LCourse = CC.select(" ORDER BY ID DESC");
+        DefaultComboBoxModel DCM = new DefaultComboBoxModel();
+        for (tbl_Course c : LCourse) {
+            DCM.addElement(c.getName());
+        }
+        Mark_Cbx_Course.setModel(DCM);
+    }
+    
+    public void setCbx_Class(String check){
+        Class_Controller CC = new Class_Controller(conn);
+        LClass = CC.select(check+" Order by ID DESC");
+        DefaultComboBoxModel DCM = new DefaultComboBoxModel();
+        DCM.addElement("Tất cả");
+        for (tbl_Class c : LClass) {
+            DCM.addElement(c.getName());
+        }
+        Mark_Cbx_Class.setModel(DCM);
+    }
+    
+    public void GetPieChar(String check,String title){
+        Mark m = new Mark(conn, check,title);
+        PieDataset p = m.createDataset();
+        JFreeChart ch = m.createChart(p);
+        ChartPanel CP = new ChartPanel(ch);
+        JFrame frame = new JFrame();
+        frame.add(CP);
+        frame.setSize(600, 400);
+        frame.setVisible(true);
+        jLayeredPane1.removeAll();
+        jLayeredPane1.add(CP);
+        jLayeredPane1.repaint();
+        jLayeredPane1.revalidate();
+        frame.setVisible(false);
+    }
+    
+    public void GetBarChar(String check){
+        Student s = new Student(check, conn);
+        JFreeChart ch = s.createChart();
+        ChartPanel CP = new ChartPanel(ch);
+        CP.setPreferredSize(new java.awt.Dimension(800, 400));
+        JFrame frame = new JFrame();
+        frame.add(CP);
+        frame.setSize(800, 400);
+        frame.setVisible(true);
+        jLayeredPane2.removeAll();
+        jLayeredPane2.add(CP);
+        jLayeredPane2.repaint();
+        jLayeredPane2.revalidate();
+        frame.setVisible(false);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,21 +111,237 @@ public class Panel_Chart extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        Mark_Cbx_Course = new javax.swing.JComboBox<>();
+        Mark_Cbx_Class = new javax.swing.JComboBox<>();
+        View_Chart_Mark = new javax.swing.JButton();
+        PieChart = new javax.swing.JPanel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        Barchart = new javax.swing.JPanel();
+        jLayeredPane2 = new javax.swing.JLayeredPane();
+        jPanel7 = new javax.swing.JPanel();
+
         setPreferredSize(new java.awt.Dimension(1911, 900));
+
+        jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+
+        Mark_Cbx_Course.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Mark_Cbx_Course.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Mark_Cbx_Course.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                Mark_Cbx_CourseItemStateChanged(evt);
+            }
+        });
+        Mark_Cbx_Course.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Mark_Cbx_CourseMouseClicked(evt);
+            }
+        });
+
+        Mark_Cbx_Class.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Mark_Cbx_Class.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Mark_Cbx_Class.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                Mark_Cbx_ClassItemStateChanged(evt);
+            }
+        });
+
+        View_Chart_Mark.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        View_Chart_Mark.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/tick.png"))); // NOI18N
+        View_Chart_Mark.setText("Xem thống kê");
+        View_Chart_Mark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                View_Chart_MarkActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Mark_Cbx_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Mark_Cbx_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(View_Chart_Mark)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(View_Chart_Mark, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Mark_Cbx_Class, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Mark_Cbx_Course, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.add(jPanel6);
+
+        jLayeredPane1.setLayout(new java.awt.FlowLayout());
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 430, Short.MAX_VALUE)
+        );
+
+        jLayeredPane1.add(jPanel5);
+
+        javax.swing.GroupLayout PieChartLayout = new javax.swing.GroupLayout(PieChart);
+        PieChart.setLayout(PieChartLayout);
+        PieChartLayout.setHorizontalGroup(
+            PieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PieChartLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLayeredPane1)
+                .addContainerGap())
+        );
+        PieChartLayout.setVerticalGroup(
+            PieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PieChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PieChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Biểu đồ Điểm", jPanel2);
+
+        jLayeredPane2.setLayout(new java.awt.FlowLayout());
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 887, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 583, Short.MAX_VALUE)
+        );
+
+        jLayeredPane2.add(jPanel7);
+
+        javax.swing.GroupLayout BarchartLayout = new javax.swing.GroupLayout(Barchart);
+        Barchart.setLayout(BarchartLayout);
+        BarchartLayout.setHorizontalGroup(
+            BarchartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BarchartLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        BarchartLayout.setVerticalGroup(
+            BarchartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Barchart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Barchart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Biểu đồ số lượng học sinh", jPanel3);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 526, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void View_Chart_MarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_Chart_MarkActionPerformed
+        int class_select = Mark_Cbx_Class.getSelectedIndex();
+        if(class_select == 0){
+            int id_course = LCourse.get(Mark_Cbx_Course.getSelectedIndex()).getId();
+            GetPieChar("where Student_ID in (select ID from tbl_Student where Class_ID IN (select ID from tbl_Class where Course_ID = "+id_course+"))","Cơ Cấu Điểm Theo Nhóm Của "+LCourse.get(Mark_Cbx_Course.getSelectedIndex()).getName());
+        } else {
+            int Class_ID = LClass.get(class_select-1).getId();
+            GetPieChar("where Student_ID in (select ID from tbl_Student where Class_ID = "+Class_ID+")","Cơ Cấu Điểm Theo Nhóm Của "+LClass.get(class_select-1).getName());
+        }
+    }//GEN-LAST:event_View_Chart_MarkActionPerformed
+
+    private void Mark_Cbx_CourseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Mark_Cbx_CourseMouseClicked
+        
+    }//GEN-LAST:event_Mark_Cbx_CourseMouseClicked
+
+    private void Mark_Cbx_CourseItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_Mark_Cbx_CourseItemStateChanged
+        int course_Id = LCourse.get(Mark_Cbx_Course.getSelectedIndex()).getId();
+        setCbx_Class(" where Course_ID = "+course_Id);
+    }//GEN-LAST:event_Mark_Cbx_CourseItemStateChanged
+
+    private void Mark_Cbx_ClassItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_Mark_Cbx_ClassItemStateChanged
+
+    }//GEN-LAST:event_Mark_Cbx_ClassItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Barchart;
+    private javax.swing.JComboBox<String> Mark_Cbx_Class;
+    private javax.swing.JComboBox<String> Mark_Cbx_Course;
+    private javax.swing.JPanel PieChart;
+    private javax.swing.JButton View_Chart_Mark;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JLayeredPane jLayeredPane2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
