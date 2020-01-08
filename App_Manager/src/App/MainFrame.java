@@ -103,7 +103,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
 
         jToolBar.setRollover(true);
 
-        Home.setBackground(new java.awt.Color(188, 248, 255));
         Home.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/home-icon.png"))); // NOI18N
         Home.setText("Trang chủ");

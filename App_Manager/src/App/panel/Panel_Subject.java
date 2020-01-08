@@ -110,6 +110,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
             }
         }
         Subject_Table.setModel(DTM);
+        Subject_Table.setRowHeight(25);
     }
 
     private void load_Class_Table(String check) {
@@ -142,6 +143,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
             }
         }
         Class_Table.setModel(DTM);
+        Class_Table.setRowHeight(25);
     }
 
     private void load_Course_Table(String check) {
@@ -163,6 +165,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
             DTM.addRow(o);
         }
         Course_Table.setModel(DTM);
+        Course_Table.setRowHeight(25);
     }
 
     private void set_Cbx_Subject() {

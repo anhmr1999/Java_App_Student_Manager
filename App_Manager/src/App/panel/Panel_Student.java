@@ -88,7 +88,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
 
     private void getStudent(String check) {
         Student_Controller SC = new Student_Controller(conn);
-        LS = SC.select(check);
+        LS = SC.select(check+ " ORDER BY ID DESC");
     }
 
     private void loadTable() {
@@ -126,6 +126,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
             }
         }
         Data_Table.setModel(dtm);
+        Data_Table.setRowHeight(25);
     }
 
     private void setRollNoNewStudent() {

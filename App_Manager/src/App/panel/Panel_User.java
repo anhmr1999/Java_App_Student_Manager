@@ -66,51 +66,28 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         Teacher_Controller TC = new Teacher_Controller(conn);
         LT = TC.select(check);
         DefaultTableModel dtm = new DefaultTableModel();
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            dtm.addColumn("Tên Giảng Viên");
-            dtm.addColumn("Số điện thoại");
-            dtm.addColumn("Địa chỉ Email");
-            dtm.addColumn("Mật khẩu");
-            dtm.addColumn("Địa chỉ");
-            dtm.addColumn("Ngày Sinh");
-            dtm.addColumn("Trạng thái");
-            dtm.addColumn("Chức vụ");
-            for (tbl_Teacher t : LT) {
-                for (tbl_Role r : LR) {
-                    if (t.getRole_ID() == r.getId()) {
-                        if (t.getStatus() == 1) {
-                            Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getPass(), t.getAddress(), t.getDOB(), "Đang Giảng Dạy", r.getName()};
-                            dtm.addRow(o);
-                        } else {
-                            Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getPass(), t.getAddress(), t.getDOB(), "Đã Về Hưu", r.getName()};
-                            dtm.addRow(o);
-                        }
-                    }
-                }
-            }
-        } else {
-            dtm.addColumn("Tên Giảng Viên");
-            dtm.addColumn("Số điện thoại");
-            dtm.addColumn("Địa chỉ Email");
-            dtm.addColumn("Địa chỉ");
-            dtm.addColumn("Ngày Sinh");
-            dtm.addColumn("Trạng thái");
-            dtm.addColumn("Chức vụ");
-            for (tbl_Teacher t : LT) {
-                for (tbl_Role r : LR) {
-                    if (t.getRole_ID() == r.getId()) {
-                        if (t.getStatus() == 1) {
-                            Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), t.getDOB(), "Đang Giảng Dạy", r.getName()};
-                            dtm.addRow(o);
-                        } else {
-                            Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), t.getDOB(), "Đã Về Hưu", r.getName()};
-                            dtm.addRow(o);
-                        }
+        dtm.addColumn("Tên Giảng Viên");
+        dtm.addColumn("Số điện thoại");
+        dtm.addColumn("Địa chỉ Email");
+        dtm.addColumn("Địa chỉ");
+        dtm.addColumn("Ngày Sinh");
+        dtm.addColumn("Trạng thái");
+        dtm.addColumn("Chức vụ");
+        for (tbl_Teacher t : LT) {
+            for (tbl_Role r : LR) {
+                if (t.getRole_ID() == r.getId()) {
+                    if (t.getStatus() == 1) {
+                        Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), t.getDOB(), "Đang Giảng Dạy", r.getName()};
+                        dtm.addRow(o);
+                    } else {
+                        Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), t.getDOB(), "Đã Về Hưu", r.getName()};
+                        dtm.addRow(o);
                     }
                 }
             }
         }
         jTable_Teacher.setModel(dtm);
+        jTable_Teacher.setRowHeight(25);
     }
 
     private void set_Combobox() {
@@ -139,8 +116,8 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         }
         return check;
     }
-    
-    private void refesh_Form(){
+
+    private void refesh_Form() {
         jName.setText("");
         jPhone.setText("");
         jEmail.setText("");
@@ -645,7 +622,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String new_DOB = sdf.format(jDate.getDate());
             int selectRole = jRole.getSelectedIndex();
-            int new_id_Role = LR.get(selectRole+2).getId();
+            int new_id_Role = LR.get(selectRole + 2).getId();
             int new_status;
             if (jStatus_1.isSelected()) {
                 new_status = 1;
