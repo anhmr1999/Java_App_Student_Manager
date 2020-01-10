@@ -88,7 +88,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
 
     private void getStudent(String check) {
         Student_Controller SC = new Student_Controller(conn);
-        LS = SC.select(check+ " ORDER BY ID DESC");
+        LS = SC.select(check + " ORDER BY ID DESC");
     }
 
     private void loadTable() {
@@ -652,6 +652,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         }
         JAdress.setText("");
         JClass_Student.setSelectedIndex(0);
+        setRollNoNewStudent();
     }//GEN-LAST:event_RefeshActionPerformed
 
     private void Data_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Data_TableMousePressed
@@ -727,6 +728,19 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
                 } else {
                     getStudent(" where Class_ID in (select ID from tbl_Class where Teacher_ID = " + acc.getID() + " )");
                 }
+                JName.setText("");
+                JRoll.setText("");
+                JPhone.setText("");
+                JEmail.setText("");
+                Nam.doClick();
+                try {
+                    jDate.setDate(new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(Panel_User.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JAdress.setText("");
+                setRollNoNewStudent();
+                JClass_Student.setSelectedIndex(0);
                 loadTable();
             } else {
                 JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra, vui lòng kiểm tra lại");

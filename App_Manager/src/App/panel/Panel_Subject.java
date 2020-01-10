@@ -290,8 +290,8 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         Cbx_Class_Course = new javax.swing.JComboBox<>();
         Cbx_Class_Teacher = new javax.swing.JComboBox<>();
         jPanel27 = new javax.swing.JPanel();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        Add_New_Class = new javax.swing.JButton();
+        Refesh_add_Class = new javax.swing.JButton();
         End_Edit_Clas = new javax.swing.JButton();
         Save_Edit_Clas = new javax.swing.JButton();
 
@@ -1047,21 +1047,21 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Add-icon.png"))); // NOI18N
-        jButton11.setText("Thêm lớp");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        Add_New_Class.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Add_New_Class.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Add-icon.png"))); // NOI18N
+        Add_New_Class.setText("Thêm lớp");
+        Add_New_Class.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                Add_New_ClassActionPerformed(evt);
             }
         });
 
-        jButton12.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Reset-icon.png"))); // NOI18N
-        jButton12.setText("Làm Lại");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        Refesh_add_Class.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Refesh_add_Class.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Reset-icon.png"))); // NOI18N
+        Refesh_add_Class.setText("Làm Lại");
+        Refesh_add_Class.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                Refesh_add_ClassActionPerformed(evt);
             }
         });
 
@@ -1096,9 +1096,9 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Save_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel27Layout.createSequentialGroup()
-                        .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Refesh_add_Class, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Add_New_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -1106,8 +1106,8 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton12)
-                    .addComponent(jButton11))
+                    .addComponent(Refesh_add_Class)
+                    .addComponent(Add_New_Class))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Save_Edit_Clas)
@@ -1273,11 +1273,11 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         }
     }//GEN-LAST:event_Refesh_CourseActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+    private void Refesh_add_ClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Refesh_add_ClassActionPerformed
         Name_Class.setText("");
         Cbx_Class_Course.setSelectedIndex(0);
         Cbx_Class_Teacher.setSelectedIndex(0);
-    }//GEN-LAST:event_jButton12ActionPerformed
+    }//GEN-LAST:event_Refesh_add_ClassActionPerformed
 
     private void Add_SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_SubjectActionPerformed
         if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
@@ -1333,7 +1333,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         load_Course_Table("");
     }//GEN-LAST:event_Add_CourseActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void Add_New_ClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_New_ClassActionPerformed
         tbl_Class new_C;
         if (acc.getRole_ID() > 3) {
             JOptionPane.showMessageDialog(null, "Bạn không đủ quyền hạn để thực hiện");
@@ -1367,7 +1367,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         } else {
             load_Class_Table(" WHERE Teacher_ID = " + acc.getID());
         }
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_Add_New_ClassActionPerformed
 
     private void Save_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_EditActionPerformed
         String name = (Sub_Name.getText());
@@ -1510,8 +1510,8 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         Cbx_Class_Teacher.setSelectedIndex(0);
         Save_Edit_Clas.setVisible(false);
         End_Edit_Clas.setVisible(false);
-        jButton11.setVisible(true);
-        jButton12.setVisible(true);
+        Add_New_Class.setVisible(true);
+        Refesh_add_Class.setVisible(true);
     }//GEN-LAST:event_End_Edit_ClasActionPerformed
 
     private void Save_Edit_ClasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_Edit_ClasActionPerformed
@@ -1536,6 +1536,10 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
                 if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
                     Cbx_Class_Teacher.setSelectedIndex(0);
                 }
+                Save_Edit_Clas.setVisible(false);
+                End_Edit_Clas.setVisible(false);
+                Add_New_Class.setVisible(true);
+                Refesh_add_Class.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Lỗi rồi!");
             }
@@ -1583,8 +1587,8 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         }
         Save_Edit_Clas.setVisible(true);
         End_Edit_Clas.setVisible(true);
-        jButton11.setVisible(false);
-        jButton12.setVisible(false);
+        Add_New_Class.setVisible(false);
+        Refesh_add_Class.setVisible(false);
     }//GEN-LAST:event_Class_EditActionPerformed
 
     private void Class_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Class_StudentActionPerformed
@@ -1598,6 +1602,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner Accredit;
     private javax.swing.JButton Add_Course;
+    private javax.swing.JButton Add_New_Class;
     private javax.swing.JButton Add_Subject;
     private com.toedter.calendar.JDateChooser BeginDate;
     private javax.swing.JComboBox<String> Cbx_Class;
@@ -1623,6 +1628,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     private javax.swing.JFormattedTextField Price;
     private javax.swing.JButton Refesh_Course;
     private javax.swing.JButton Refesh_Subject;
+    private javax.swing.JButton Refesh_add_Class;
     private javax.swing.JButton Reload_Class;
     private javax.swing.JButton Reload_Course;
     private javax.swing.JButton Reload_Subject;
@@ -1639,8 +1645,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     private javax.swing.JTextField Subject_Search;
     private javax.swing.JTable Subject_Table;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
