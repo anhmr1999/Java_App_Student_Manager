@@ -406,6 +406,11 @@ public class View_Mark extends javax.swing.JInternalFrame {
         jMark_Student.setToolTipText("");
         jMark_Student.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jMark_Student.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jMark_Student.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMark_StudentActionPerformed(evt);
+            }
+        });
 
         jScrollPane2.setViewportView(jNote);
 
@@ -614,10 +619,9 @@ public class View_Mark extends javax.swing.JInternalFrame {
                 mark_edit.setMark(new_mark);
                 mark_edit.setNote(new_not_mark);
                 mark_edit.setStatus(new_Status_Mark);
-                System.out.println(mark_edit.toString());
                 Mark_Controller MC = new Mark_Controller(conn);
                 if (MC.update(mark_edit)) {
-                    JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm thành công");
+                    //JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm thành công");
                     getListMark(" WHERE Student_ID = "+s.getId());
                     getListSubject();
                     viewTable();
@@ -628,6 +632,10 @@ public class View_Mark extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_Save_EditActionPerformed
+
+    private void jMark_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMark_StudentActionPerformed
+        jComboStatus.setSelectedIndex(0);
+    }//GEN-LAST:event_jMark_StudentActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

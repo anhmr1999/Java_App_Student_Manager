@@ -1441,9 +1441,9 @@
                                                       <Component id="Save_Edit_Clas" min="-2" pref="143" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" attributes="0">
-                                                      <Component id="jButton12" max="32767" attributes="0"/>
+                                                      <Component id="Refesh_add_Class" max="32767" attributes="0"/>
                                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Component id="jButton11" min="-2" pref="143" max="-2" attributes="0"/>
+                                                      <Component id="Add_New_Class" min="-2" pref="143" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
@@ -1455,8 +1455,8 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="2" attributes="0">
-                                                  <Component id="jButton12" alignment="2" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jButton11" alignment="2" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="Refesh_add_Class" alignment="2" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="Add_New_Class" alignment="2" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="3" attributes="0">
@@ -1469,7 +1469,7 @@
                                     </DimensionLayout>
                                   </Layout>
                                   <SubComponents>
-                                    <Component class="javax.swing.JButton" name="jButton11">
+                                    <Component class="javax.swing.JButton" name="Add_New_Class">
                                       <Properties>
                                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                           <Font name="Arial" size="16" style="0"/>
@@ -1480,10 +1480,10 @@
                                         <Property name="text" type="java.lang.String" value="Th&#xea;m l&#x1edb;p"/>
                                       </Properties>
                                       <Events>
-                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton11ActionPerformed"/>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Add_New_ClassActionPerformed"/>
                                       </Events>
                                     </Component>
-                                    <Component class="javax.swing.JButton" name="jButton12">
+                                    <Component class="javax.swing.JButton" name="Refesh_add_Class">
                                       <Properties>
                                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                           <Font name="Arial" size="16" style="0"/>
@@ -1494,7 +1494,7 @@
                                         <Property name="text" type="java.lang.String" value="L&#xe0;m L&#x1ea1;i"/>
                                       </Properties>
                                       <Events>
-                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton12ActionPerformed"/>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Refesh_add_ClassActionPerformed"/>
                                       </Events>
                                     </Component>
                                     <Component class="javax.swing.JButton" name="End_Edit_Clas">

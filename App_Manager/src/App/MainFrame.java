@@ -27,19 +27,23 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
     Cursor cur = new Cursor(Cursor.HAND_CURSOR);
     Connection conn = c.connect();
     tbl_Teacher acc = null;
+
     /**
      * Creates new form MainFrame
      */
-    public interface Call_Logout{
+    public interface Call_Logout {
+
         public void logout();
     };
     Call_Logout CL;
-    public void setCallBack(Call_Logout CL,tbl_Teacher acc){
+
+    public void setCallBack(Call_Logout CL, tbl_Teacher acc) {
         this.CL = CL;
         this.acc = acc;
         Panel_Home home = new Panel_Home(conn, acc, this);
         setLayer(home);
     }
+
     public MainFrame() {
         initComponents();
     }
@@ -103,7 +107,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
 
         jToolBar.setRollover(true);
 
-        Home.setBackground(new java.awt.Color(188, 248, 255));
         Home.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/home-icon.png"))); // NOI18N
         Home.setText("Trang chủ");
@@ -347,7 +350,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
     private javax.swing.JToolBar jToolBar4;
     private javax.swing.JButton logout;
     // End of variables declaration//GEN-END:variables
-
 
     @Override
     public void view_Teacher() {

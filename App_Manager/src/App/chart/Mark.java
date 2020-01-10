@@ -33,41 +33,40 @@ public class Mark {
     public PieDataset createDataset() {
         Mark_Controller MC = new Mark_Controller(conn);
         List<tbl_Mark> LM = MC.select(check);
-        int num_CT = 0,num_5 = 0, num_6 = 0, num_8 = 0,num_max = 0;
+        int num_CT = 0, num_5 = 0, num_6 = 0, num_8 = 0, num_max = 0;
         for (tbl_Mark m : LM) {
-            if(m.getStatus() == 1){
-                if(m.getMark() < 5){
-                    num_5 +=1;
-                } else if(m.getMark() >=5 && m.getMark() <6.5){
-                    num_6 +=1;
-                } else if(m.getMark() >=6.5 && m.getMark() <8){
-                    num_8 +=1;
+            if (m.getStatus() == 1) {
+                if (m.getMark() < 5) {
+                    num_5 += 1;
+                } else if (m.getMark() >= 5 && m.getMark() < 6.5) {
+                    num_6 += 1;
+                } else if (m.getMark() >= 6.5 && m.getMark() < 8) {
+                    num_8 += 1;
                 } else {
-                    num_max +=1;
+                    num_max += 1;
                 }
             } else {
-                num_CT+=1;
+                num_CT += 1;
             }
         }
-        float CT = ((float)num_CT)/LM.size();
-        float d5 = ((float)num_5)/LM.size();
-        float d6 = ((float)num_6)/LM.size();
-        float d8 = ((float)num_8)/LM.size();
-        float max = ((float) 1) - CT - d5 - d6 -d8;
+        float CT = ((float) num_CT) / LM.size();
+        float d5 = ((float) num_5) / LM.size();
+        float d6 = ((float) num_6) / LM.size();
+        float d8 = ((float) num_8) / LM.size();
+        float max = ((float) 1) - CT - d5 - d6 - d8;
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Chưa Có Điểm ("+num_CT+" )", new Double(CT*100));
-        dataset.setValue("Điểm Yếu ( < 5.0 có "+num_5+" )", new Double(d5*100));
-        dataset.setValue("Điểm Trung Bình ( từ 5-6.5 có "+num_6+" )", new Double(d6*100));
-        dataset.setValue("Điểm Khá ( từ 6.5-8 có "+num_8+" )", new Double(d8*100));
-        dataset.setValue("Điểm Giỏi ( từ 8-10 có "+num_max+" )", new Double(max));
+        dataset.setValue("Chưa Có Điểm", new Double(CT * 100));
+        dataset.setValue("Điểm Yếu", new Double(d5 * 100));
+        dataset.setValue("Điểm Trung Bình", new Double(d6 * 100));
+        dataset.setValue("Điểm Khá", new Double(d8 * 100));
+        dataset.setValue("Điểm Giỏi", new Double(max*100));
         return dataset;
     }
 
-    public Mark(Connection conn, String check,String title) {
+    public Mark(Connection conn, String check, String title) {
         this.conn = conn;
         this.check = check;
         this.title = title;
     }
 
 }
- 
