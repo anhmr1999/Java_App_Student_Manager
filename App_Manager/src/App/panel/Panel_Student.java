@@ -130,10 +130,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     }
 
     private void setRollNoNewStudent() {
-        int ID = 0;
-        for (tbl_Student rollS : LS) {
-            ID = Integer.valueOf(rollS.getRoll().substring(1));
-        }
+        int ID = Integer.valueOf(LS.get(0).getRoll().substring(1));
         ID = ID + 1;
         if (ID < 10) {
             JRoll.setText("S000" + ID);
@@ -162,8 +159,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         Gender = new javax.swing.ButtonGroup();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         View = new javax.swing.JMenuItem();
@@ -208,27 +203,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         JAdress = new javax.swing.JTextField();
         Update_Mark_Student = new javax.swing.JButton();
         JPhone = new javax.swing.JTextField();
-
-        jPanel3.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel3.setPreferredSize(new java.awt.Dimension(565, 150));
-
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 2, 48)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Tài khoản người dùng");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(48, 48, 48))
-        );
 
         View.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         View.setText("Xem ");
@@ -808,7 +782,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JDesktopPane jDesktopPane;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -823,7 +796,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
