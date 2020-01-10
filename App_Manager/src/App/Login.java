@@ -94,6 +94,7 @@ public class Login extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         Login = new javax.swing.JButton();
         saveUser = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -147,6 +148,11 @@ public class Login extends javax.swing.JFrame {
         PassWord.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         PassWord.setToolTipText("");
         PassWord.setEchoChar('*');
+        PassWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PassWordActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -171,15 +177,21 @@ public class Login extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(saveUser)
-                .addGap(89, 89, 89)
+                .addGap(54, 54, 54)
                 .addComponent(Login))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(saveUser))
         );
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 102, 255));
+        jButton1.setText("Xem Hướng Dẫn Sử Dụng");
+        jButton1.setBorder(null);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -196,7 +208,10 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(UserName)
                             .addComponent(PassWord)))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -212,6 +227,8 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -319,9 +336,9 @@ public class Login extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -374,6 +391,32 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LoginActionPerformed
 
+    private void PassWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PassWordActionPerformed
+        String email = UserName.getText();
+        String pass = String.valueOf(PassWord.getPassword());
+        if ("".equals(email)) {
+            JOptionPane.showMessageDialog(null, "Tên đăng nhập đang trống", "Cảnh Báo", JOptionPane.ERROR_MESSAGE);
+        } else if ("".equals(pass)) {
+            JOptionPane.showMessageDialog(null, "Mật Khẩu đang trống", "Cảnh Báo", JOptionPane.ERROR_MESSAGE);
+        } else {
+            ConnectDB cnn = new ConnectDB();
+            Connection conn = cnn.connect();
+            Teacher_Controller TC = new Teacher_Controller(conn);
+            acc = TC.login(email, pass);
+            if (acc == null) {
+                JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không chính xác", "Cảnh Báo", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (acc.getStatus() == 1) {
+                    CL.login_done(acc);
+                    saveUserName(email);
+                    PassWord.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tài khoản không còn hiệu lực!", "Cảnh Báo", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_PassWordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -413,6 +456,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton Login;
     private javax.swing.JPasswordField PassWord;
     private javax.swing.JTextField UserName;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

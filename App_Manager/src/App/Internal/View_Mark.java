@@ -38,7 +38,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
         Name.setText(s.getName());
         Student_Name.setText("Học sinh " + s.getName());
         RollNo.setText(s.getRoll());
-        getListMark(" WHERE Student_ID = "+s.getId());
+        getListMark(" WHERE Student_ID = " + s.getId());
         getListSubject();
         viewTable();
         setLayer();
@@ -102,6 +102,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
             }
         }
         jTable.setModel(dtm);
+        jTable.setRowHeight(25);
     }
 
     private void setComboStatus() {
@@ -134,6 +135,37 @@ public class View_Mark extends javax.swing.JInternalFrame {
         jComboStatus.setSelectedIndex(0);
         jNote.setText("");
         Subject_Edit_Mark.setText("Môn học");
+    }
+
+    private void saveMark() {
+        if (mark_edit == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn môn học cần sửa điểm để tiến hành");
+        } else {
+            float new_mark = Float.parseFloat(jMark_Student.getText());
+            int new_Status_Mark = jComboStatus.getSelectedIndex() + 1;
+            String new_not_mark = jNote.getText();
+            if (new_mark > 10 || new_mark < 0) {
+                JOptionPane.showMessageDialog(null, "Điểm không hợp lệ");
+            } else if (new_mark != 0 && (new_Status_Mark == 3 || new_Status_Mark == 2)) {
+                JOptionPane.showMessageDialog(null, "Cập nhập điểm không chính xác, vui lòng kiểm tra lại");
+            } else if (new_not_mark.length() > 490) {
+                JOptionPane.showMessageDialog(null, "Ghi chú bạn thêm quá dài, không thể cập nhập");
+            } else {
+                mark_edit.setMark(new_mark);
+                mark_edit.setNote(new_not_mark);
+                mark_edit.setStatus(new_Status_Mark);
+                Mark_Controller MC = new Mark_Controller(conn);
+                if (MC.update(mark_edit)) {
+                    JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm thành công");
+                    getListMark(" WHERE Student_ID = " + s.getId());
+                    getListSubject();
+                    viewTable();
+                    reloadFormEdit();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra");
+                }
+            }
+        }
     }
 
     /**
@@ -540,7 +572,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
         }
         if (check) {
             JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm môn thành công");
-            getListMark("WHERE Student_ID = "+s.getId());
+            getListMark("WHERE Student_ID = " + s.getId());
             viewTable();
             setLayer();
         }
@@ -550,22 +582,22 @@ public class View_Mark extends javax.swing.JInternalFrame {
         int select_index = jComboBox.getSelectedIndex();
         switch (select_index) {
             case 0:
-                getListMark(" WHERE Student_ID = "+s.getId());
+                getListMark(" WHERE Student_ID = " + s.getId());
                 break;
             case 1:
-                getListMark(" WHERE Student_ID = "+s.getId()+" AND Status = 3");
+                getListMark(" WHERE Student_ID = " + s.getId() + " AND Status = 3");
                 break;
             case 2:
-                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark <5 AND Status = 1");
+                getListMark(" WHERE Student_ID = " + s.getId() + " AND Mark <5 AND Status = 1");
                 break;
             case 3:
-                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark >=5 AND Mark < 6.5");
+                getListMark(" WHERE Student_ID = " + s.getId() + " AND Mark >=5 AND Mark < 6.5");
                 break;
             case 4:
-                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark >=6.5 AND Mark <8");
+                getListMark(" WHERE Student_ID = " + s.getId() + " AND Mark >=6.5 AND Mark <8");
                 break;
             default:
-                getListMark(" WHERE Student_ID = "+s.getId()+" AND Mark >=8");
+                getListMark(" WHERE Student_ID = " + s.getId() + " AND Mark >=8");
                 break;
         }
         viewTable();
@@ -584,7 +616,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
         }
         if (check) {
             JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm môn thành công");
-            getListMark(" WHERE Student_ID = "+s.getId());
+            getListMark(" WHERE Student_ID = " + s.getId());
             viewTable();
             setLayer();
         }
@@ -603,38 +635,12 @@ public class View_Mark extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_UnchangeMarkActionPerformed
 
     private void Save_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_EditActionPerformed
-        if (mark_edit == null) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn môn học cần sửa điểm để tiến hành");
-        } else {
-            float new_mark = Float.parseFloat(jMark_Student.getText());
-            int new_Status_Mark = jComboStatus.getSelectedIndex()+1;
-            String new_not_mark = jNote.getText();
-            if (new_mark > 10 || new_mark < 0) {
-                JOptionPane.showMessageDialog(null, "Điểm không hợp lệ");
-            } else if (new_mark != 0 && (new_Status_Mark == 3 || new_Status_Mark == 2)) {
-                JOptionPane.showMessageDialog(null, "Cập nhập điểm không chính xác, vui lòng kiểm tra lại");
-            } else if (new_not_mark.length() > 490) {
-                JOptionPane.showMessageDialog(null, "Ghi chú bạn thêm quá dài, không thể cập nhập");
-            } else {
-                mark_edit.setMark(new_mark);
-                mark_edit.setNote(new_not_mark);
-                mark_edit.setStatus(new_Status_Mark);
-                Mark_Controller MC = new Mark_Controller(conn);
-                if (MC.update(mark_edit)) {
-                    //JOptionPane.showMessageDialog(null, "Bạn đã cập nhập điểm thành công");
-                    getListMark(" WHERE Student_ID = "+s.getId());
-                    getListSubject();
-                    viewTable();
-                    reloadFormEdit();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra");
-                }
-            }
-        }
+        saveMark();
     }//GEN-LAST:event_Save_EditActionPerformed
 
     private void jMark_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMark_StudentActionPerformed
         jComboStatus.setSelectedIndex(0);
+        saveMark();
     }//GEN-LAST:event_jMark_StudentActionPerformed
 
 
