@@ -398,21 +398,25 @@
                                                   </Group>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jDate" max="32767" attributes="0"/>
                                                       <Component id="JName" alignment="1" max="32767" attributes="0"/>
-                                                      <Group type="102" attributes="0">
-                                                          <Component id="Nam" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                          <Component id="Nu" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                          <Component id="Unisex" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                      </Group>
                                                       <Component id="JClass_Student" alignment="0" max="32767" attributes="0"/>
                                                       <Component id="JRoll" alignment="0" max="32767" attributes="0"/>
                                                       <Component id="JEmail" alignment="0" max="32767" attributes="0"/>
                                                       <Component id="JAdress" alignment="1" max="32767" attributes="0"/>
                                                       <Component id="JPhone" alignment="0" max="32767" attributes="0"/>
+                                                      <Group type="102" attributes="0">
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="jDate" min="-2" pref="221" max="-2" attributes="0"/>
+                                                              <Group type="102" attributes="0">
+                                                                  <Component id="Nam" min="-2" max="-2" attributes="0"/>
+                                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                  <Component id="Nu" min="-2" max="-2" attributes="0"/>
+                                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                  <Component id="Unisex" min="-2" max="-2" attributes="0"/>
+                                                              </Group>
+                                                          </Group>
+                                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                      </Group>
                                                   </Group>
                                               </Group>
                                               <Component id="jPanel12" alignment="0" max="32767" attributes="0"/>
