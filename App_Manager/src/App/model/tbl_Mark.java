@@ -16,6 +16,7 @@ public class tbl_Mark {
     private float mark;
     private int status;
     private String note;
+    private String Ex_date;
 
     public int getStudent_ID() {
         return Student_ID;
@@ -57,12 +58,21 @@ public class tbl_Mark {
         this.status = status;
     }
 
-    public tbl_Mark(int Student_ID, int Subject_ID, float mark, int status, String note) {
+    public String getEx_date() {
+        return Ex_date;
+    }
+
+    public void setEx_date(String Ex_date) {
+        this.Ex_date = Ex_date;
+    }
+
+    public tbl_Mark(int Student_ID, int Subject_ID, float mark, int status, String note, String Ex_date) {
         this.Student_ID = Student_ID;
         this.Subject_ID = Subject_ID;
         this.mark = mark;
         this.status = status;
         this.note = note;
+        this.Ex_date = Ex_date;
     }
 
     @Override

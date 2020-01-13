@@ -48,7 +48,6 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             getRole();
             load_table("");
             set_Combobox();
-            jStatus_1.doClick();
             try {
                 jDate.setDate(new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01"));
             } catch (ParseException ex) {
@@ -73,14 +72,22 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         dtm.addColumn("Ngày Sinh");
         dtm.addColumn("Trạng thái");
         dtm.addColumn("Chức vụ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dfS = new SimpleDateFormat("dd/MM/yyyy");
         for (tbl_Teacher t : LT) {
+            String DOB = "";
+            try {
+                 DOB = dfS.format(df.parse(t.getDOB()));
+            } catch (ParseException ex) {
+                Logger.getLogger(Panel_User.class.getName()).log(Level.SEVERE, null, ex);
+            }
             for (tbl_Role r : LR) {
                 if (t.getRole_ID() == r.getId()) {
                     if (t.getStatus() == 1) {
-                        Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), t.getDOB(), "Đang Giảng Dạy", r.getName()};
+                        Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), DOB, "Đang Hoạt Động", r.getName()};
                         dtm.addRow(o);
                     } else {
-                        Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), t.getDOB(), "Đã Về Hưu", r.getName()};
+                        Object o[] = {t.getName(), t.getPhone(), t.getEmail(), t.getAddress(), DOB, "Đã Về Hưu", r.getName()};
                         dtm.addRow(o);
                     }
                 }
@@ -127,8 +134,8 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         } catch (ParseException ex) {
             Logger.getLogger(Panel_User.class.getName()).log(Level.SEVERE, null, ex);
         }
+        jPassword.setText("");
         jRole.setSelectedIndex(0);
-        jStatus_1.doClick();
     }
 
     /**
@@ -176,8 +183,6 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         jLabel12 = new javax.swing.JLabel();
         jDate = new com.toedter.calendar.JDateChooser();
         jRole = new javax.swing.JComboBox<>();
-        jStatus_1 = new javax.swing.JRadioButton();
-        jStatus_2 = new javax.swing.JRadioButton();
         jPassword = new javax.swing.JPasswordField();
         showPass = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
@@ -392,25 +397,12 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         jLabel11.setText("Ngày sinh:");
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel12.setText("Role:");
+        jLabel12.setText("Cấp bậc:");
 
         jDate.setDateFormatString("dd/MM/yyyy");
         jDate.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
         jRole.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-
-        Status.add(jStatus_1);
-        jStatus_1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        jStatus_1.setText("Đang giảng dạy");
-
-        Status.add(jStatus_2);
-        jStatus_2.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        jStatus_2.setText("Đã về hưu");
-        jStatus_2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jStatus_2ActionPerformed(evt);
-            }
-        });
 
         jPassword.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPassword.setEchoChar('*');
@@ -442,11 +434,6 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(showPass, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jStatus_1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jStatus_2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -468,11 +455,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRole, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jStatus_1)
-                    .addComponent(jStatus_2))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jPanel11.add(jPanel13);
@@ -593,26 +576,24 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jStatus_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStatus_2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jStatus_2ActionPerformed
+    private void Edit_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_TeacherActionPerformed
+        tbl_Teacher teacher_edit = LT.get(jTable_Teacher.getSelectedRow());
+        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2 || teacher_edit.getID() == acc.getID()) {
+            Edit_Teacher et = new Edit_Teacher(teacher_edit, conn, this);
+            jDesktopPane.add(et);
+            et.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Bạn không đủ quyền hạn để sử dụng chức năng này");
+        }
+    }//GEN-LAST:event_Edit_TeacherActionPerformed
 
     private void Refesh_Form_InsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Refesh_Form_InsertActionPerformed
         refesh_Form();
     }//GEN-LAST:event_Refesh_Form_InsertActionPerformed
 
-    private void ReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReloadActionPerformed
-        load_table("");
-    }//GEN-LAST:event_ReloadActionPerformed
-
-    private void Seach_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seach_TeacherActionPerformed
-        String seach = Seach.getText();
-        load_table(" where Name like N'%" + seach + "%'");
-    }//GEN-LAST:event_Seach_TeacherActionPerformed
-
     private void New_Teacher_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_New_Teacher_AddActionPerformed
         String regex_Phone = "^0[0-9]{9,10}$";
-        if (acc.getRole_ID() == 4) {
+        if (acc.getRole_ID() != 1) {
             JOptionPane.showMessageDialog(null, "Xin lỗi, bạn không có quyền thêm tài khoản");
         } else {
             String new_name = jName.getText();
@@ -623,13 +604,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String new_DOB = sdf.format(jDate.getDate());
             int selectRole = jRole.getSelectedIndex();
-            int new_id_Role = LR.get(selectRole + 2).getId();
-            int new_status;
-            if (jStatus_1.isSelected()) {
-                new_status = 1;
-            } else {
-                new_status = 2;
-            }
+            int new_id_Role = LR.get(selectRole).getId();
             if (new_name.length() == 0 || new_Phone.length() == 0 || new_Email.length() == 0 || new_Address.length() == 0 || new_DOB.length() == 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin vào các trường để tiến hành");
             } else if (new_Phone.length() > 11 || new_Phone.length() < 10 || regex_Phone.matches(new_Phone)) {
@@ -639,8 +614,8 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
             } else {
                 int choose = JOptionPane.showConfirmDialog(null, "Bạn có chắc sẽ thêm một tài khoản với các dữ liệu trên?");
                 if (choose == JOptionPane.YES_OPTION) {
-                    tbl_Teacher newTeacher = new tbl_Teacher(new_name, new_Phone, new_Email, new_pass, new_Address, new_DOB, new_status, new_id_Role);
-//                    System.out.println(newTeacher.toString());
+                    tbl_Teacher newTeacher = new tbl_Teacher(new_name, new_Phone, new_Email, new_pass, new_Address, new_DOB, 1, new_id_Role);
+                    //                    System.out.println(newTeacher.toString());
                     Teacher_Controller TC = new Teacher_Controller(conn);
                     if (TC.insert(newTeacher) == 1) {
                         JOptionPane.showMessageDialog(null, "Bạn đã thêm tài khoản thành công");
@@ -655,24 +630,22 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
         }
     }//GEN-LAST:event_New_Teacher_AddActionPerformed
 
+    private void showPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassActionPerformed
+        jPassword.setEchoChar((char) 0);
+    }//GEN-LAST:event_showPassActionPerformed
+
     private void jTable_TeacherMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_TeacherMousePressed
         jPopupMenu.show(jTable_Teacher, evt.getX(), evt.getY());
     }//GEN-LAST:event_jTable_TeacherMousePressed
 
-    private void Edit_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_TeacherActionPerformed
-        tbl_Teacher teacher_edit = LT.get(jTable_Teacher.getSelectedRow());
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2 || teacher_edit.getID() == acc.getID()) {
-            Edit_Teacher et = new Edit_Teacher(teacher_edit, conn, this);
-            jDesktopPane.add(et);
-            et.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "Bạn không đủ quyền hạn để sử dụng chức năng này");
-        }
-    }//GEN-LAST:event_Edit_TeacherActionPerformed
+    private void Seach_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seach_TeacherActionPerformed
+        String seach = Seach.getText();
+        load_table(" where Name like N'%" + seach + "%'");
+    }//GEN-LAST:event_Seach_TeacherActionPerformed
 
-    private void showPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassActionPerformed
-        jPassword.setEchoChar((char) 0);
-    }//GEN-LAST:event_showPassActionPerformed
+    private void ReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReloadActionPerformed
+        load_table("");
+    }//GEN-LAST:event_ReloadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -714,8 +687,6 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
     private javax.swing.JPopupMenu jPopupMenu;
     private javax.swing.JComboBox<String> jRole;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton jStatus_1;
-    private javax.swing.JRadioButton jStatus_2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable_Teacher;
     private javax.swing.JButton showPass;

@@ -9,7 +9,12 @@ import App.controller.Class_Controller;
 import App.model.tbl_Class;
 import App.model.tbl_Student;
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,7 +45,6 @@ public class View_Info_Student extends javax.swing.JInternalFrame {
         Phone.setText(student.getPhone());
         Mail.setText(student.getEmail());
         Address.setText(student.getAddress());
-        DOB.setText(student.getDOB());
         if(student.getGender() == 1) {
             gender.setText("Nam");
         } else if(student.getGender() == 2){
@@ -57,6 +61,13 @@ public class View_Info_Student extends javax.swing.JInternalFrame {
             status.setText("Đang theo học");
         } else {
             status.setText("Đã tốt nghiệp");
+        }
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dfS = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            DOB.setText(dfS.format(df.parse(student.getDOB())));
+        } catch (ParseException ex) {
+            Logger.getLogger(View_Info_Student.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

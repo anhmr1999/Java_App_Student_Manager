@@ -9,7 +9,12 @@ import App.controller.Student_Controller;
 import App.model.tbl_Class;
 import App.model.tbl_Student;
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,6 +29,8 @@ public class View_Class_Student extends javax.swing.JInternalFrame {
     public interface View_Mark_Student {
 
         public void viewMark(tbl_Student s);
+        
+        public void viewStudent(tbl_Student s);
     };
 
     List<tbl_Student> LS;
@@ -54,25 +61,33 @@ public class View_Class_Student extends javax.swing.JInternalFrame {
         dtm.addColumn("Địa chỉ");
         dtm.addColumn("Giới tính");
         dtm.addColumn("Ngày sinh");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dfS = new SimpleDateFormat("dd/MM/yyyy");
         for (tbl_Student s : LS) {
+            String DOB = "";
+            try {
+                DOB = dfS.format(df.parse(s.getDOB()));
+            } catch (ParseException ex) {
+                Logger.getLogger(View_Info_Student.class.getName()).log(Level.SEVERE, null, ex);
+            }
             switch (s.getGender()) {
                 case 1: {
                     Object o[] = {
-                        s.getRoll(), s.getName(), s.getEmail(), s.getAddress(), "Nam", s.getDOB()
+                        s.getRoll(), s.getName(), s.getEmail(), s.getAddress(), "Nam", DOB
                     };
                     dtm.addRow(o);
                     break;
                 }
                 case 2: {
                     Object o[] = {
-                        s.getRoll(), s.getName(), s.getEmail(), s.getAddress(), "Nữ", s.getDOB()
+                        s.getRoll(), s.getName(), s.getEmail(), s.getAddress(), "Nữ", DOB
                     };
                     dtm.addRow(o);
                     break;
                 }
                 default: {
                     Object o[] = {
-                        s.getRoll(), s.getName(), s.getEmail(), s.getAddress(), "Chưa xác định", s.getDOB()
+                        s.getRoll(), s.getName(), s.getEmail(), s.getAddress(), "Chưa xác định", DOB
                     };
                     dtm.addRow(o);
                     break;
@@ -80,6 +95,7 @@ public class View_Class_Student extends javax.swing.JInternalFrame {
             }
         }
         Table_Content.setModel(dtm);
+        Table_Content.setRowHeight(25);
     }
 
     /**
@@ -93,6 +109,7 @@ public class View_Class_Student extends javax.swing.JInternalFrame {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         Mark_View = new javax.swing.JMenuItem();
+        View_Student = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel = new javax.swing.JLabel();
@@ -109,6 +126,15 @@ public class View_Class_Student extends javax.swing.JInternalFrame {
             }
         });
         jPopupMenu1.add(Mark_View);
+
+        View_Student.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        View_Student.setText("Xem Thông Tin Học Viên");
+        View_Student.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                View_StudentActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(View_Student);
 
         setClosable(true);
         setTitle("Danh sách sinh viên");
@@ -201,10 +227,16 @@ public class View_Class_Student extends javax.swing.JInternalFrame {
         jPopupMenu1.show(Table_Content, evt.getX(), evt.getY());
     }//GEN-LAST:event_Table_ContentMousePressed
 
+    private void View_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_StudentActionPerformed
+        tbl_Student s = LS.get(Table_Content.getSelectedRow());
+        v.viewStudent(s);
+    }//GEN-LAST:event_View_StudentActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Mark_View;
     private javax.swing.JTable Table_Content;
+    private javax.swing.JMenuItem View_Student;
     private javax.swing.JLabel jLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

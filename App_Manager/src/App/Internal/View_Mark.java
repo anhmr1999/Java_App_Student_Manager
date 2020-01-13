@@ -11,7 +11,11 @@ import App.model.tbl_Mark;
 import App.model.tbl_Student;
 import App.model.tbl_Subject;
 import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -126,6 +130,11 @@ public class View_Mark extends javax.swing.JInternalFrame {
             jMark_Student.setText(String.valueOf(mark_edit.getMark()));
             jNote.setText(mark_edit.getNote());
             jComboStatus.setSelectedIndex(mark_edit.getStatus() - 1);
+            try {
+                Ex_date.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(mark_edit.getEx_date()));
+            } catch (ParseException ex) {
+                Logger.getLogger(View_Mark.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -135,6 +144,11 @@ public class View_Mark extends javax.swing.JInternalFrame {
         jComboStatus.setSelectedIndex(0);
         jNote.setText("");
         Subject_Edit_Mark.setText("Môn học");
+        try {
+            Ex_date.setDate(new SimpleDateFormat("yyyy-MM-dd").parse("2000/02/22"));
+        } catch (ParseException ex) {
+            Logger.getLogger(View_Mark.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void saveMark() {
@@ -150,9 +164,12 @@ public class View_Mark extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Cập nhập điểm không chính xác, vui lòng kiểm tra lại");
             } else if (new_not_mark.length() > 490) {
                 JOptionPane.showMessageDialog(null, "Ghi chú bạn thêm quá dài, không thể cập nhập");
+            } else if ("2000/02/22".equals(new SimpleDateFormat("yyyy/MM/dd").format(Ex_date.getDate()))) {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày thi", "Cảnh báo", JOptionPane.ERROR);
             } else {
                 mark_edit.setMark(new_mark);
                 mark_edit.setNote(new_not_mark);
+                mark_edit.setEx_date(new SimpleDateFormat("yyyy/MM/dd").format(Ex_date.getDate()));
                 mark_edit.setStatus(new_Status_Mark);
                 Mark_Controller MC = new Mark_Controller(conn);
                 if (MC.update(mark_edit)) {
@@ -162,7 +179,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
                     viewTable();
                     reloadFormEdit();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra");
+                    JOptionPane.showMessageDialog(null, "Đã có lỗi xảy ra", "Cảnh báo", JOptionPane.ERROR);
                 }
             }
         }
@@ -209,6 +226,8 @@ public class View_Mark extends javax.swing.JInternalFrame {
         jMark_Student = new javax.swing.JFormattedTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jNote = new javax.swing.JEditorPane();
+        jTextStatusMark1 = new javax.swing.JLabel();
+        Ex_date = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setTitle("Xem điểm sinh viên");
@@ -379,7 +398,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox, 0, 467, Short.MAX_VALUE)
+                .addComponent(jComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(Filter, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -446,6 +465,12 @@ public class View_Mark extends javax.swing.JInternalFrame {
 
         jScrollPane2.setViewportView(jNote);
 
+        jTextStatusMark1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jTextStatusMark1.setText("Ngày thi:");
+
+        Ex_date.setDateFormatString("dd/MM/yyyy");
+        Ex_date.setPreferredSize(new java.awt.Dimension(69, 24));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -464,14 +489,18 @@ public class View_Mark extends javax.swing.JInternalFrame {
                             .addComponent(jComboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jMark_Student)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 30, Short.MAX_VALUE)
                         .addComponent(UnchangeMark)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Save_Edit))
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jTextStatusMark1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Ex_date, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jTextNoteMark)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -489,9 +518,13 @@ public class View_Mark extends javax.swing.JInternalFrame {
                     .addComponent(jComboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextStatusMark, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
-                .addComponent(jTextNoteMark, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(Ex_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextStatusMark1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                 .addGap(5, 5, 5)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                .addComponent(jTextNoteMark, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(UnchangeMark, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -508,8 +541,8 @@ public class View_Mark extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         View_MarkLayout.setVerticalGroup(
             View_MarkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,7 +550,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addGroup(View_MarkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -562,7 +595,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
         boolean check = false;
         for (tbl_Subject sub : LS) {
             if (sub.getStatus() == 1) {
-                tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "");
+                tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "", "2000/02/22");
                 if (MC.insert(m) == 1) {
                     check = true;
                 } else {
@@ -608,7 +641,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
         boolean check = false;
         for (tbl_Subject sub : LS) {
             if (sub.getStatus() == 1) {
-                tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "");
+                tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "", "2000/02/22");
                 if (MC.insert(m) == 1) {
                     check = true;
                 }
@@ -645,6 +678,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser Ex_date;
     private javax.swing.JButton Exit;
     private javax.swing.JButton Filter;
     private javax.swing.JButton Filter1;
@@ -676,6 +710,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable;
     private javax.swing.JLabel jTextNoteMark;
     private javax.swing.JLabel jTextStatusMark;
+    private javax.swing.JLabel jTextStatusMark1;
     private javax.swing.JLabel jTextmark;
     // End of variables declaration//GEN-END:variables
 }

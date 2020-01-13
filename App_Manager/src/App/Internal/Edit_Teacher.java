@@ -43,6 +43,7 @@ public class Edit_Teacher extends javax.swing.JInternalFrame {
         this.conn = conn;
         this.RT = RT;
         initComponents();
+        set_Combobox();
         set_Value();
     }
 
@@ -53,13 +54,18 @@ public class Edit_Teacher extends javax.swing.JInternalFrame {
             jEmail.setText(teacher.getEmail());
             jAddress.setText(teacher.getAddress());
             jPassword.setText(teacher.getPass());
+            for (int i = 0; i < LR.size(); i++) {
+                tbl_Role r = LR.get(i);
+                if(r.getId() == teacher.getRole_ID()){
+                    jRole.setSelectedIndex(i);
+                }
+            }
             try {
                 jDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(teacher.getDOB()));
             } catch (ParseException ex) {
                 Logger.getLogger(Edit_Teacher.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        set_Combobox();
         if (teacher.getStatus() == 1) {
             jStatus_1.doClick();
         } else {
@@ -234,7 +240,7 @@ public class Edit_Teacher extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(jStatus_1);
         jStatus_1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        jStatus_1.setText("Đang giảng dạy");
+        jStatus_1.setText("Còn Hoạt Động");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
