@@ -7,7 +7,6 @@ package App.panel;
 
 import App.Internal.Edit_Student;
 import App.Internal.View_Info_Student;
-import App.Internal.View_Mark;
 import App.controller.Class_Controller;
 import App.controller.Mark_Controller;
 import App.controller.Student_Controller;
@@ -163,7 +162,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jPopupMenu1 = new javax.swing.JPopupMenu();
         View = new javax.swing.JMenuItem();
         Edit = new javax.swing.JMenuItem();
-        Show_mark = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jDesktopPane = new javax.swing.JDesktopPane();
@@ -224,19 +222,11 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         });
         jPopupMenu1.add(Edit);
 
-        Show_mark.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Show_mark.setText("Xem điểm");
-        Show_mark.setToolTipText("");
-        Show_mark.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Show_markActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(Show_mark);
-
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jPanel5.setBackground(new java.awt.Color(204, 255, 255));
+
+        jPanel9.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel3.setText("Tên sinh viên:");
@@ -688,14 +678,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         es.setVisible(true);
     }//GEN-LAST:event_EditActionPerformed
 
-    private void Show_markActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Show_markActionPerformed
-        int number_view_mark = Data_Table.getSelectedRow();
-        tbl_Student student_view_mark = LS.get(number_view_mark);
-        View_Mark vm = new View_Mark(conn, student_view_mark);
-        jDesktopPane.add(vm);
-        vm.setVisible(true);
-    }//GEN-LAST:event_Show_markActionPerformed
-
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         String regex_Phone = "^0[0-9]{9,10}$";
         String Roll_New_Student = JRoll.getText();
@@ -759,7 +741,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         for (tbl_Student st : LS) {
             for (tbl_Subject sub : LSub) {
                 if (sub.getStatus() == 1) {
-                    tbl_Mark mark = new tbl_Mark(st.getId(), sub.getID(), 0, 3, "");
+                    tbl_Mark mark = new tbl_Mark(st.getId(), sub.getID(), 0, 3, "", "2222/02/22");
                     if (markControll.insert(mark) == 1) {
                         check_insert = true;
                     }
@@ -790,7 +772,6 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JRadioButton Nu;
     private javax.swing.JButton Refesh;
     private javax.swing.JTextField Seach;
-    private javax.swing.JMenuItem Show_mark;
     private javax.swing.JRadioButton Unisex;
     private javax.swing.JButton Update_Mark_Student;
     private javax.swing.JMenuItem View;

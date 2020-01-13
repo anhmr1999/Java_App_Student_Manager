@@ -8,6 +8,7 @@ package App;
 import App.connect.ConnectDB;
 import App.model.tbl_Teacher;
 import App.panel.Panel_Chart;
+import App.panel.Panel_Class;
 import App.panel.Panel_Home;
 import App.panel.Panel_Student;
 import App.panel.Panel_Subject;
@@ -43,6 +44,20 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         this.acc = acc;
         Panel_Home home = new Panel_Home(conn, acc, this);
         setLayer(home);
+        switch (acc.getRole_ID()) {
+            case 2:
+                JClass_P.setVisible(false);
+                Subject.setVisible(false);
+                Chart.setVisible(false);
+                break;
+            case 3:
+            case 4:
+                Student.setVisible(false);
+                Subject.setVisible(false);
+                break;
+            default:
+                break;
+        }
     }
 
     public MainFrame() {
@@ -72,6 +87,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Home = new javax.swing.JButton();
         User = new javax.swing.JButton();
         Student = new javax.swing.JButton();
+        JClass_P = new javax.swing.JButton();
         Subject = new javax.swing.JButton();
         Chart = new javax.swing.JButton();
         jToolBar4 = new javax.swing.JToolBar();
@@ -175,6 +191,24 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         });
         jToolBar.add(Student);
 
+        JClass_P.setBackground(new java.awt.Color(255, 255, 255));
+        JClass_P.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JClass_P.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Teacher-icon.png"))); // NOI18N
+        JClass_P.setText("QL.Lớp");
+        JClass_P.setActionCommand("QL.Lớp");
+        JClass_P.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153)));
+        JClass_P.setFocusable(false);
+        JClass_P.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        JClass_P.setMaximumSize(new java.awt.Dimension(101, 57));
+        JClass_P.setMinimumSize(new java.awt.Dimension(101, 57));
+        JClass_P.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        JClass_P.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JClass_PActionPerformed(evt);
+            }
+        });
+        jToolBar.add(JClass_P);
+
         Subject.setBackground(new java.awt.Color(255, 255, 255));
         Subject.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Subject.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Subjec-icon.png"))); // NOI18N
@@ -252,8 +286,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,6 +335,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Student.setBackground(Color.WHITE);
         Subject.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }//GEN-LAST:event_UserActionPerformed
 
     private void StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentActionPerformed
@@ -311,6 +345,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         User.setBackground(Color.WHITE);
         Subject.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }//GEN-LAST:event_StudentActionPerformed
 
     private void SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubjectActionPerformed
@@ -321,6 +356,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         User.setBackground(Color.WHITE);
         Student.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }//GEN-LAST:event_SubjectActionPerformed
 
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
@@ -331,6 +367,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Student.setBackground(Color.WHITE);
         Subject.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }//GEN-LAST:event_HomeActionPerformed
 
     private void ChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChartActionPerformed
@@ -341,7 +378,19 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         User.setBackground(Color.WHITE);
         Student.setBackground(Color.WHITE);
         Subject.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }//GEN-LAST:event_ChartActionPerformed
+
+    private void JClass_PActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JClass_PActionPerformed
+        Panel_Class P_C = new Panel_Class(conn, acc);
+        setLayer(P_C);
+        JClass_P.setBackground(Color.CYAN);
+        Home.setBackground(Color.WHITE);
+        Chart.setBackground(Color.WHITE);
+        User.setBackground(Color.WHITE);
+        Student.setBackground(Color.WHITE);
+        Subject.setBackground(Color.WHITE);
+    }//GEN-LAST:event_JClass_PActionPerformed
 
     /**
      * @param args the command line arguments
@@ -381,6 +430,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Chart;
     private javax.swing.JButton Home;
+    private javax.swing.JButton JClass_P;
     private javax.swing.JButton Student;
     private javax.swing.JButton Subject;
     private javax.swing.JButton User;
@@ -394,23 +444,57 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
     @Override
     public void view_Teacher() {
         setLayer(new Panel_User(acc, conn));
+        User.setBackground(Color.CYAN);
+        Home.setBackground(Color.WHITE);
+        Student.setBackground(Color.WHITE);
+        Subject.setBackground(Color.WHITE);
+        Chart.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }
 
     @Override
     public void view_Student() {
-        setLayer(new Panel_Student(acc, conn));
+        if (acc.getRole_ID() == 2) {
+            setLayer(new Panel_Student(acc, conn));
+            Student.setBackground(Color.CYAN);
+            Home.setBackground(Color.WHITE);
+            User.setBackground(Color.WHITE);
+            Subject.setBackground(Color.WHITE);
+            Chart.setBackground(Color.WHITE);
+            JClass_P.setBackground(Color.WHITE);
+        } else {
+            setLayer(new Panel_Class(conn, acc));
+            JClass_P.setBackground(Color.CYAN);
+            Home.setBackground(Color.WHITE);
+            Chart.setBackground(Color.WHITE);
+            User.setBackground(Color.WHITE);
+            Student.setBackground(Color.WHITE);
+            Subject.setBackground(Color.WHITE);
+        }
     }
 
     @Override
     public void view_Subject() {
         Panel_Subject Sub = new Panel_Subject(conn, acc);
         setLayer(Sub);
+        Subject.setBackground(Color.CYAN);
+        Home.setBackground(Color.WHITE);
+        User.setBackground(Color.WHITE);
+        Student.setBackground(Color.WHITE);
+        Chart.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }
 
     @Override
     public void view_Chart() {
         Panel_Chart PC = new Panel_Chart(conn, acc);
         setLayer(PC);
+        Chart.setBackground(Color.CYAN);
+        Home.setBackground(Color.WHITE);
+        User.setBackground(Color.WHITE);
+        Student.setBackground(Color.WHITE);
+        Subject.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
     }
 
 }

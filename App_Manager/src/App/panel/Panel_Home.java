@@ -40,6 +40,18 @@ public class Panel_Home extends javax.swing.JPanel {
         setTeacher();
         setStudent();
         setSubject();
+        switch (acc.getRole_ID()) {
+            case 2:
+                View_Subject.setVisible(false);
+                View_Chart.setVisible(true);
+                break;
+            case 3:
+            case 4:
+                View_Subject.setVisible(false);
+                break;
+            default:
+                break;
+        }
     }
     
     

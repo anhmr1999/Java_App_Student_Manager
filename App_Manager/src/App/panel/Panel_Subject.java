@@ -33,7 +33,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hai Anh PC
  */
-public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Student {
+public class Panel_Subject extends javax.swing.JPanel{
 
     /**
      * Creates new form Panel_Subject
@@ -49,27 +49,18 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         initComponents();
         load_Subject_Table("");
         load_Course_Table("");
-        load_Teach();
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            load_Class_Table("");
-        } else {
-            load_Class_Table(" WHERE Teacher_ID = " + acc.getID());
-        }
         set_Cbx_Subject();
-        set_Cbx_Class();
         try {
             BeginDate.setDate(sdf.parse("2020-01-01"));
             End_Date.setDate(sdf.parse("2020-01-01"));
         } catch (ParseException ex) {
             Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
         }
-        set_Cbx_Class_Teacher();
         Panel_Edit_Subject.setVisible(false);
         panel_status.setVisible(false);
         Save_Edit_Course.setVisible(false);
         End_Edit_Course.setVisible(false);
-        Save_Edit_Clas.setVisible(false);
-        End_Edit_Clas.setVisible(false);
+
     }
 
     Connection conn;
@@ -77,8 +68,8 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
 
     List<tbl_Teacher> LT;
     List<tbl_Subject> LS;
-    List<tbl_Class> LC;
     List<tbl_Course> LCA;
+    List<tbl_Class> LC;
     List<tbl_Course> LCC;
 
     private void load_Teach() {
@@ -113,54 +104,31 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         Subject_Table.setRowHeight(25);
     }
 
-    private void load_Class_Table(String check) {
-        Class_Controller CC = new Class_Controller(conn);
-        if ((acc.getRole_ID() == 1 || acc.getRole_ID() == 2) && "".equals(check)) {
-            LC = CC.select(check);
-        } else {
-            LC = CC.select(check);
-        }
-        DefaultTableModel DTM = new DefaultTableModel();
-        DTM.addColumn("STT");
-        DTM.addColumn("Tên lớp");
-        DTM.addColumn("Khóa");
-        DTM.addColumn("Số học sinh");
-        DTM.addColumn("Giáo viên chủ nhiệm");
-        Student_Controller SC = new Student_Controller(conn);
-        for (int i = 0; i < LC.size(); i++) {
-            tbl_Class c = LC.get(i);
-            for (tbl_Teacher t : LT) {
-                if (t.getID() == c.getTeacher_id()) {
-                    for (tbl_Course course : LCA) {
-                        if (course.getId() == c.getCourse_id()) {
-                            Object o[] = {
-                                (i + 1), c.getName(), course.getName(), SC.select(" WHERE Class_ID = " + c.getId()).size(), t.getName()
-                            };
-                            DTM.addRow(o);
-                        }
-                    }
-                }
-            }
-        }
-        Class_Table.setModel(DTM);
-        Class_Table.setRowHeight(25);
-    }
-
     private void load_Course_Table(String check) {
         Course_Controller CC = new Course_Controller(conn);
         Class_Controller Class_C = new Class_Controller(conn);
-        LCA = CC.select("");
         LCC = CC.select(check);
+        LCA = CC.select("");
         DefaultTableModel DTM = new DefaultTableModel();
         DTM.addColumn("STT");
         DTM.addColumn("Tên");
         DTM.addColumn("Số lớp");
         DTM.addColumn("Khai giảng");
         DTM.addColumn("Kết thúc");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dfS = new SimpleDateFormat("dd/MM/yyyy");
         for (int i = 0; i < LCC.size(); i++) {
+            String begindate = "";
+            String enddate = "";
             tbl_Course c = LCC.get(i);
+            try {
+                begindate = dfS.format(df.parse(c.getBegin_date()));
+                enddate = dfS.format(df.parse(c.getEnd_date()));
+            } catch (ParseException ex) {
+                Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Object o[] = {
-                (i + 1), c.getName(), Class_C.select(" WHERE Course_ID = " + c.getId()).size(), c.getBegin_date(), c.getEnd_date()
+                (i + 1), c.getName(), Class_C.select(" WHERE Course_ID = " + c.getId()).size(), begindate, enddate
             };
             DTM.addRow(o);
         }
@@ -173,27 +141,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         DCM.addElement("Đang giảng dạy");
         DCM.addElement("Đã ngưng giảng dạy");
         Cbx_Subject.setModel(DCM);
-    }
-
-    private void set_Cbx_Class() {
-        DefaultComboBoxModel DCM = new DefaultComboBoxModel();
-        for (tbl_Course c : LCA) {
-            DCM.addElement(c.getName());
-        }
-        Cbx_Class.setModel(DCM);
-        Cbx_Class_Course.setModel(DCM);
-    }
-
-    private void set_Cbx_Class_Teacher() {
-        DefaultComboBoxModel DCM = new DefaultComboBoxModel();
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            for (tbl_Teacher t : LT) {
-                DCM.addElement(t.getName());
-            }
-        } else {
-            DCM.addElement(acc.getName());
-        }
-        Cbx_Class_Teacher.setModel(DCM);
     }
 
     /**
@@ -209,9 +156,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         Subject_Edit = new javax.swing.JMenuItem();
         Course_Popup = new javax.swing.JPopupMenu();
         Course_Edit = new javax.swing.JMenuItem();
-        Class_PopUp = new javax.swing.JPopupMenu();
-        Class_Edit = new javax.swing.JMenuItem();
-        Class_Student = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -270,30 +214,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         Refesh_Course = new javax.swing.JButton();
         Save_Edit_Course = new javax.swing.JButton();
         End_Edit_Course = new javax.swing.JButton();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel22 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        Class_Search = new javax.swing.JTextField();
-        Cbx_Class = new javax.swing.JComboBox<>();
-        Search_Class = new javax.swing.JButton();
-        Reload_Class = new javax.swing.JButton();
-        jPanel23 = new javax.swing.JPanel();
-        jPanel24 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        Class_Table = new javax.swing.JTable();
-        jPanel25 = new javax.swing.JPanel();
-        jPanel26 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        Name_Class = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        Cbx_Class_Course = new javax.swing.JComboBox<>();
-        Cbx_Class_Teacher = new javax.swing.JComboBox<>();
-        jPanel27 = new javax.swing.JPanel();
-        Add_New_Class = new javax.swing.JButton();
-        Refesh_add_Class = new javax.swing.JButton();
-        End_Edit_Clas = new javax.swing.JButton();
-        Save_Edit_Clas = new javax.swing.JButton();
 
         Subject_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Subject_Edit.setText("Sửa thông tin môn học");
@@ -312,24 +232,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
             }
         });
         Course_Popup.add(Course_Edit);
-
-        Class_Edit.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Class_Edit.setText("Sửa thông tin lớp");
-        Class_Edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Class_EditActionPerformed(evt);
-            }
-        });
-        Class_PopUp.add(Class_Edit);
-
-        Class_Student.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Class_Student.setText("Danh sách sinh viên");
-        Class_Student.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Class_StudentActionPerformed(evt);
-            }
-        });
-        Class_PopUp.add(Class_Student);
 
         jDesktopPane1.setBackground(new java.awt.Color(240, 240, 240));
 
@@ -905,264 +807,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
 
         jTabbedPane1.addTab("Khóa học", jPanel7);
 
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel11.setText("Tên Lớp:");
-
-        Class_Search.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-
-        Cbx_Class.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        Cbx_Class.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        Cbx_Class.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Cbx_ClassActionPerformed(evt);
-            }
-        });
-
-        Search_Class.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        Search_Class.setText("Tìm kiếm");
-        Search_Class.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Search_ClassActionPerformed(evt);
-            }
-        });
-
-        Reload_Class.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        Reload_Class.setText("Tải lại D.Sách");
-        Reload_Class.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Reload_ClassActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Class_Search)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Cbx_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Search_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Reload_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(Search_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Cbx_Class)
-                    .addComponent(Class_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Reload_Class, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        Class_Table.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        Class_Table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        Class_Table.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                Class_TableMousePressed(evt);
-            }
-        });
-        jScrollPane3.setViewportView(Class_Table);
-
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-        );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
-        );
-
-        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Lớp Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16))); // NOI18N
-
-        jLabel12.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel12.setText("Tên Lớp Học:");
-
-        Name_Class.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        Name_Class.setToolTipText("");
-
-        jLabel13.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel13.setText("Khóa học:");
-
-        jLabel14.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel14.setText("Giáo viên chủ nhiệm:");
-
-        Cbx_Class_Course.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        Cbx_Class_Course.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        Cbx_Class_Teacher.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        Cbx_Class_Teacher.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
-        jPanel26.setLayout(jPanel26Layout);
-        jPanel26Layout.setHorizontalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel26Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Name_Class)
-                    .addGroup(jPanel26Layout.createSequentialGroup()
-                        .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(Cbx_Class_Course, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Cbx_Class_Teacher, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel26Layout.setVerticalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel26Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel12)
-                .addGap(10, 10, 10)
-                .addComponent(Name_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Cbx_Class_Course, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel14)
-                .addGap(18, 18, 18)
-                .addComponent(Cbx_Class_Teacher, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        Add_New_Class.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Add_New_Class.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Add-icon.png"))); // NOI18N
-        Add_New_Class.setText("Thêm lớp");
-        Add_New_Class.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Add_New_ClassActionPerformed(evt);
-            }
-        });
-
-        Refesh_add_Class.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Refesh_add_Class.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Reset-icon.png"))); // NOI18N
-        Refesh_add_Class.setText("Làm Lại");
-        Refesh_add_Class.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Refesh_add_ClassActionPerformed(evt);
-            }
-        });
-
-        End_Edit_Clas.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        End_Edit_Clas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Button-Close-icon.png"))); // NOI18N
-        End_Edit_Clas.setText("Hủy bỏ");
-        End_Edit_Clas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                End_Edit_ClasActionPerformed(evt);
-            }
-        });
-
-        Save_Edit_Clas.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        Save_Edit_Clas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit.png"))); // NOI18N
-        Save_Edit_Clas.setText("Lưu lại");
-        Save_Edit_Clas.setToolTipText("");
-        Save_Edit_Clas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Save_Edit_ClasActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
-        jPanel27.setLayout(jPanel27Layout);
-        jPanel27Layout.setHorizontalGroup(
-            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel27Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel27Layout.createSequentialGroup()
-                        .addComponent(End_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Save_Edit_Clas, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel27Layout.createSequentialGroup()
-                        .addComponent(Refesh_add_Class, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Add_New_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel27Layout.setVerticalGroup(
-            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel27Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(Refesh_add_Class)
-                    .addComponent(Add_New_Class))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Save_Edit_Clas)
-                    .addComponent(End_Edit_Clas))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel23Layout.createSequentialGroup()
-                .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Lớp Học", jPanel14);
-
         jDesktopPane1.setLayer(jTabbedPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -1216,10 +860,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Cbx_ClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cbx_ClassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Cbx_ClassActionPerformed
-
     private void Reload_SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Reload_SubjectActionPerformed
         load_Subject_Table("");
     }//GEN-LAST:event_Reload_SubjectActionPerformed
@@ -1227,14 +867,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     private void Reload_CourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Reload_CourseActionPerformed
         load_Course_Table("");
     }//GEN-LAST:event_Reload_CourseActionPerformed
-
-    private void Reload_ClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Reload_ClassActionPerformed
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            load_Class_Table("");
-        } else {
-            load_Class_Table(" WHERE Teacher_ID = " + acc.getID());
-        }
-    }//GEN-LAST:event_Reload_ClassActionPerformed
 
     private void Search_SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Search_SubjectActionPerformed
         String seach = Subject_Search.getText();
@@ -1246,16 +878,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         String search = Seach_Course.getText();
         load_Course_Table(" WHERE Name LIKE N'%" + search + "%'");
     }//GEN-LAST:event_Search_CourseActionPerformed
-
-    private void Search_ClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Search_ClassActionPerformed
-        String seachr = Class_Search.getText();
-        int course_id = LCA.get(Cbx_Class.getSelectedIndex()).getId();
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            load_Class_Table("WHERE Name LIKE N'%" + seachr + "%' AND Course_ID = " + course_id);
-        } else {
-            load_Class_Table("WHERE Name LIKE N'%" + seachr + "%' AND Course_ID = " + course_id + " AND Teacher_ID = " + acc.getID());
-        }
-    }//GEN-LAST:event_Search_ClassActionPerformed
 
     private void Refesh_SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Refesh_SubjectActionPerformed
         Sub_Name.setText("");
@@ -1272,12 +894,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
             Logger.getLogger(Panel_Subject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_Refesh_CourseActionPerformed
-
-    private void Refesh_add_ClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Refesh_add_ClassActionPerformed
-        Name_Class.setText("");
-        Cbx_Class_Course.setSelectedIndex(0);
-        Cbx_Class_Teacher.setSelectedIndex(0);
-    }//GEN-LAST:event_Refesh_add_ClassActionPerformed
 
     private void Add_SubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_SubjectActionPerformed
         if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
@@ -1332,42 +948,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         }
         load_Course_Table("");
     }//GEN-LAST:event_Add_CourseActionPerformed
-
-    private void Add_New_ClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_New_ClassActionPerformed
-        tbl_Class new_C;
-        if (acc.getRole_ID() > 3) {
-            JOptionPane.showMessageDialog(null, "Bạn không đủ quyền hạn để thực hiện");
-        } else {
-            if (acc.getRole_ID() == 2) {
-                String name = Name_Class.getText();
-                int Course_ID = LCA.get(Cbx_Class_Course.getSelectedIndex()).getId();
-                new_C = new tbl_Class(name, Course_ID, acc.getID());
-            } else {
-                String name = Name_Class.getText();
-                int Course_ID = LCA.get(Cbx_Class_Course.getSelectedIndex()).getId();
-                int Teach_ID = LT.get(Cbx_Class_Teacher.getSelectedIndex()).getID();
-                new_C = new tbl_Class(name, Course_ID, Teach_ID);
-            }
-            if (!"".equals(new_C.getName())) {
-                Class_Controller CC = new Class_Controller(conn);
-                if (CC.insert(new_C) == 1) {
-                    JOptionPane.showMessageDialog(null, "Thành công");
-                    Name_Class.setText("");
-                    Cbx_Class_Course.setSelectedIndex(0);
-                    Cbx_Class_Teacher.setSelectedIndex(0);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Lỗi rồi");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Tên đang trống");
-            }
-        }
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            load_Class_Table("");
-        } else {
-            load_Class_Table(" WHERE Teacher_ID = " + acc.getID());
-        }
-    }//GEN-LAST:event_Add_New_ClassActionPerformed
 
     private void Save_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_EditActionPerformed
         String name = (Sub_Name.getText());
@@ -1449,10 +1029,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         }
     }//GEN-LAST:event_Course_TableMousePressed
 
-    private void Class_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Class_TableMousePressed
-        Class_PopUp.show(Class_Table, evt.getX(), evt.getY());
-    }//GEN-LAST:event_Class_TableMousePressed
-
     private void Save_Edit_CourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_Edit_CourseActionPerformed
         String name_course = Name_Course.getText();
         String begin_date = sdf.format(BeginDate.getDate());
@@ -1502,55 +1078,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         }
     }//GEN-LAST:event_End_Edit_CourseActionPerformed
 
-    private void End_Edit_ClasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_End_Edit_ClasActionPerformed
-        edit_class = null;
-        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Lớp Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
-        Name_Class.setText("");
-        Cbx_Class_Course.setSelectedIndex(0);
-        Cbx_Class_Teacher.setSelectedIndex(0);
-        Save_Edit_Clas.setVisible(false);
-        End_Edit_Clas.setVisible(false);
-        Add_New_Class.setVisible(true);
-        Refesh_add_Class.setVisible(true);
-    }//GEN-LAST:event_End_Edit_ClasActionPerformed
-
-    private void Save_Edit_ClasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_Edit_ClasActionPerformed
-        String name_Class_edit = Name_Class.getText();
-        int Course_ID_Class_Edit = LCA.get(Cbx_Class_Course.getSelectedIndex()).getId();
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            int Teacher_ID_Class_Edit = LT.get(Cbx_Class_Teacher.getSelectedIndex()).getID();
-            edit_class.setTeacher_id(Teacher_ID_Class_Edit);
-        }
-        edit_class.setCourse_id(Course_ID_Class_Edit);
-        if ("".equals(name_Class_edit)) {
-            JOptionPane.showMessageDialog(null, "Tên lớp đang để trống");
-        } else {
-            edit_class.setName(name_Class_edit);
-            Class_Controller CC = new Class_Controller(conn);
-            if (CC.update(edit_class)) {
-                JOptionPane.showMessageDialog(null, "Cập nhập dữ liệu thành công");
-                edit_class = null;
-                jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thêm Lớp Học Mới", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
-                Name_Class.setText("");
-                Cbx_Class_Course.setSelectedIndex(0);
-                if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-                    Cbx_Class_Teacher.setSelectedIndex(0);
-                }
-                Save_Edit_Clas.setVisible(false);
-                End_Edit_Clas.setVisible(false);
-                Add_New_Class.setVisible(true);
-                Refesh_add_Class.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Lỗi rồi!");
-            }
-        }
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            load_Class_Table("");
-        } else {
-            load_Class_Table(" WHERE Teacher_ID = " + acc.getID());
-        }
-    }//GEN-LAST:event_Save_Edit_ClasActionPerformed
-
     private void Course_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Course_EditActionPerformed
         course_Edit = LCC.get(Course_Table.getSelectedRow());
         jPanel32.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thông tin khóa học", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
@@ -1567,76 +1094,30 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
         }
     }//GEN-LAST:event_Course_EditActionPerformed
 
-    private void Class_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Class_EditActionPerformed
-        edit_class = LC.get(Class_Table.getSelectedRow());
-        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thông Tin Lớp Học", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 16)));
-        Name_Class.setText(edit_class.getName());
-        for (int i = 0; i < LCA.size(); i++) {
-            tbl_Course c = LCA.get(i);
-            if (c.getId() == edit_class.getCourse_id()) {
-                Cbx_Class_Course.setSelectedIndex(i);
-            }
-        }
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2) {
-            for (int i = 0; i < LT.size(); i++) {
-                tbl_Teacher t = LT.get(i);
-                if (t.getID() == edit_class.getTeacher_id()) {
-                    Cbx_Class_Teacher.setSelectedIndex(i);
-                }
-            }
-        }
-        Save_Edit_Clas.setVisible(true);
-        End_Edit_Clas.setVisible(true);
-        Add_New_Class.setVisible(false);
-        Refesh_add_Class.setVisible(false);
-    }//GEN-LAST:event_Class_EditActionPerformed
-
-    private void Class_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Class_StudentActionPerformed
-        tbl_Class Class_View = LC.get(Class_Table.getSelectedRow());
-        View_Class_Student VCS = new View_Class_Student(Class_View, conn, this);
-        jDesktopPane1.add(VCS);
-        VCS.setVisible(true);
-    }//GEN-LAST:event_Class_StudentActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner Accredit;
     private javax.swing.JButton Add_Course;
-    private javax.swing.JButton Add_New_Class;
     private javax.swing.JButton Add_Subject;
     private com.toedter.calendar.JDateChooser BeginDate;
-    private javax.swing.JComboBox<String> Cbx_Class;
-    private javax.swing.JComboBox<String> Cbx_Class_Course;
-    private javax.swing.JComboBox<String> Cbx_Class_Teacher;
     private javax.swing.JComboBox<String> Cbx_Subject;
-    private javax.swing.JMenuItem Class_Edit;
-    private javax.swing.JPopupMenu Class_PopUp;
-    private javax.swing.JTextField Class_Search;
-    private javax.swing.JMenuItem Class_Student;
-    private javax.swing.JTable Class_Table;
     private javax.swing.JMenuItem Course_Edit;
     private javax.swing.JPopupMenu Course_Popup;
     private javax.swing.JTable Course_Table;
     private com.toedter.calendar.JDateChooser End_Date;
     private javax.swing.JButton End_Edit;
-    private javax.swing.JButton End_Edit_Clas;
     private javax.swing.JButton End_Edit_Course;
-    private javax.swing.JTextField Name_Class;
     private javax.swing.JTextField Name_Course;
     private javax.swing.JPanel Panel_Add_Subject;
     private javax.swing.JPanel Panel_Edit_Subject;
     private javax.swing.JFormattedTextField Price;
     private javax.swing.JButton Refesh_Course;
     private javax.swing.JButton Refesh_Subject;
-    private javax.swing.JButton Refesh_add_Class;
-    private javax.swing.JButton Reload_Class;
     private javax.swing.JButton Reload_Course;
     private javax.swing.JButton Reload_Subject;
     private javax.swing.JButton Save_Edit;
-    private javax.swing.JButton Save_Edit_Clas;
     private javax.swing.JButton Save_Edit_Course;
     private javax.swing.JTextField Seach_Course;
-    private javax.swing.JButton Search_Class;
     private javax.swing.JButton Search_Course;
     private javax.swing.JButton Search_Subject;
     private javax.swing.JTextField Sub_Name;
@@ -1646,10 +1127,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     private javax.swing.JTable Subject_Table;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1664,14 +1141,7 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
@@ -1683,7 +1153,6 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JRadioButton now;
@@ -1691,10 +1160,4 @@ public class Panel_Subject extends javax.swing.JPanel implements View_Mark_Stude
     private javax.swing.JRadioButton unnow;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void viewMark(tbl_Student s) {
-        View_Mark vm = new View_Mark(conn, s);
-        jDesktopPane1.add(vm);
-        vm.setVisible(true);
-    }
 }

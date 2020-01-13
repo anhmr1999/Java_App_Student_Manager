@@ -29,7 +29,7 @@ public class Mark_Controller {
 
     public int insert(tbl_Mark m) {
         int row = 0;
-        String sql = "insert into tbl_Mark(Student_ID,Sub_ID,Mark,Note,Status) values(?,?,?,?,?)";
+        String sql = "insert into tbl_Mark(Student_ID,Sub_ID,Mark,Note,Status,Ex_Date) values(?,?,?,?,?,?)";
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             PS.setInt(1, m.getStudent_ID());
@@ -37,6 +37,7 @@ public class Mark_Controller {
             PS.setFloat(3, m.getMark());
             PS.setString(4, m.getNote());
             PS.setInt(5, m.getStatus());
+            PS.setString(6, m.getEx_date());
             row = PS.executeUpdate();
         } catch (SQLException ex) {
             System.out.print("Đã tồn tại điểm \n");
@@ -46,7 +47,7 @@ public class Mark_Controller {
 
     public List<tbl_Mark> select(String check) {
         List<tbl_Mark> LM = new ArrayList<>();
-        String sql = "select Student_ID,Sub_ID,Mark,Status,Note from tbl_Mark "+check;
+        String sql = "select Student_ID,Sub_ID,Mark,Status,Note,Ex_Date from tbl_Mark "+check;
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             ResultSet rs = PS.executeQuery();
@@ -56,7 +57,8 @@ public class Mark_Controller {
                 float mark = rs.getFloat("Mark");
                 int status = rs.getInt("Status");
                 String note = rs.getString("Note");
-                LM.add(new tbl_Mark(Student_ID, Subject_ID, mark, status, note));
+                String ex_date = rs.getString("Ex_Date");
+                LM.add(new tbl_Mark(Student_ID, Subject_ID, mark, status, note,ex_date));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Mark_Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,14 +68,15 @@ public class Mark_Controller {
     
     public boolean update(tbl_Mark m){
         boolean check = false;
-        String sql = "update tbl_Mark set Mark = ?, Note = ?, Status = ? where Student_ID = ? AND Sub_ID = ?";
+        String sql = "update tbl_Mark set Mark = ?, Note = ?, Status = ?, Ex_Date = ? where Student_ID = ? AND Sub_ID = ?";
         try {
             PreparedStatement PS = cnn.prepareCall(sql);
             PS.setFloat(1, m.getMark());
             PS.setString(2, m.getNote());
             PS.setInt(3, m.getStatus());
-            PS.setInt(4, m.getStudent_ID());
-            PS.setInt(5, m.getSubject_ID());
+            PS.setString(4, m.getEx_date());
+            PS.setInt(5, m.getStudent_ID());
+            PS.setInt(6, m.getSubject_ID());
             PS.execute();
             check = true;
         } catch (SQLException ex) {

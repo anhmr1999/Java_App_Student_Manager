@@ -68,10 +68,11 @@ GO
 create table tbl_Mark(
 	Student_ID int foreign key references tbl_Student(ID) not null,
 	Sub_ID int foreign key references tbl_Subject(ID) not null,
+	Ex_Date date default(GetDate()) not null,
 	Mark float,
 	Status int default(3), /*1 - Đã thi, 2- Cấm thi, 3- Chưa thi*/
 	Note nvarchar(500),
-	primary key (Student_ID,Sub_ID)
+	primary key (Student_ID,Sub_ID, Ex_Date)
 )
 GO
 
