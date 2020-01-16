@@ -145,7 +145,7 @@ public class View_Mark extends javax.swing.JInternalFrame {
         jNote.setText("");
         Subject_Edit_Mark.setText("Môn học");
         try {
-            Ex_date.setDate(new SimpleDateFormat("yyyy-MM-dd").parse("2000/02/22"));
+            Ex_date.setDate(new SimpleDateFormat("yyyy-MM-dd").parse("2000-02-22"));
         } catch (ParseException ex) {
             Logger.getLogger(View_Mark.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -235,10 +235,10 @@ public class View_Mark extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel1.setText("Học Sinh:");
 
-        Name.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Name.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         Name.setText("Nguyễn Văn A");
 
-        RollNo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        RollNo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         RollNo.setText("21212");
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -641,9 +641,17 @@ public class View_Mark extends javax.swing.JInternalFrame {
         boolean check = false;
         for (tbl_Subject sub : LS) {
             if (sub.getStatus() == 1) {
-                tbl_Mark m = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "", "2000/02/22");
-                if (MC.insert(m) == 1) {
-                    check = true;
+                boolean kt = true;
+                for (tbl_Mark m : LM) {
+                    if (m.getSubject_ID() == sub.getID()) {
+                        kt = false;
+                    }
+                }
+                if (kt) {
+                    tbl_Mark mark = new tbl_Mark(s.getId(), sub.getID(), 0, 3, "", "2000/02/22");
+                    if (MC.insert(mark) == 1) {
+                        check = true;
+                    }
                 }
             }
         }

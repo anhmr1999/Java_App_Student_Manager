@@ -7,6 +7,7 @@ package App;
 
 import App.connect.ConnectDB;
 import App.model.tbl_Teacher;
+import App.panel.Panel_Account;
 import App.panel.Panel_Chart;
 import App.panel.Panel_Class;
 import App.panel.Panel_Home;
@@ -23,13 +24,12 @@ import javax.swing.JPanel;
  *
  * @author PC Hoang Anh
  */
-public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Back {
+public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Back, Panel_Account.ChangeAcc {
 
     ConnectDB c = new ConnectDB();
     Cursor cur = new Cursor(Cursor.HAND_CURSOR);
     Connection conn = c.connect();
     tbl_Teacher acc = null;
-
     /**
      * Creates new form MainFrame
      */
@@ -90,12 +90,14 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         JClass_P = new javax.swing.JButton();
         Subject = new javax.swing.JButton();
         Chart = new javax.swing.JButton();
+        Edit_Accout = new javax.swing.JButton();
         jToolBar4 = new javax.swing.JToolBar();
         logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Phần mềm quản lý sinh viên");
         setBackground(new java.awt.Color(255, 255, 255));
+        setMinimumSize(new java.awt.Dimension(951, 752));
 
         jLayeredPane.setBackground(new java.awt.Color(255, 255, 255));
         jLayeredPane.setLayout(new java.awt.CardLayout());
@@ -145,7 +147,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         User.setBackground(new java.awt.Color(255, 255, 255));
         User.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         User.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/user-icon.png"))); // NOI18N
-        User.setText("Q.L giảng viên");
+        User.setText("D.S Tài Khoản");
         User.setToolTipText("");
         User.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153)));
         User.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -195,7 +197,6 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         JClass_P.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JClass_P.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/Teacher-icon.png"))); // NOI18N
         JClass_P.setText("QL.Lớp");
-        JClass_P.setActionCommand("QL.Lớp");
         JClass_P.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153)));
         JClass_P.setFocusable(false);
         JClass_P.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -256,6 +257,23 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
             }
         });
         jToolBar.add(Chart);
+
+        Edit_Accout.setBackground(new java.awt.Color(255, 255, 255));
+        Edit_Accout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Edit_Accout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/image/edit_user.png"))); // NOI18N
+        Edit_Accout.setText("Tài Khoản");
+        Edit_Accout.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 153), new java.awt.Color(204, 204, 204)));
+        Edit_Accout.setFocusable(false);
+        Edit_Accout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Edit_Accout.setMaximumSize(new java.awt.Dimension(101, 57));
+        Edit_Accout.setMinimumSize(new java.awt.Dimension(101, 57));
+        Edit_Accout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        Edit_Accout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Edit_AccoutActionPerformed(evt);
+            }
+        });
+        jToolBar.add(Edit_Accout);
 
         jToolBar4.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar4.setFloatable(false);
@@ -336,6 +354,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Subject.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
         JClass_P.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
     }//GEN-LAST:event_UserActionPerformed
 
     private void StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentActionPerformed
@@ -357,6 +376,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Student.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
         JClass_P.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
     }//GEN-LAST:event_SubjectActionPerformed
 
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
@@ -368,6 +388,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Subject.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
         JClass_P.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
     }//GEN-LAST:event_HomeActionPerformed
 
     private void ChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChartActionPerformed
@@ -379,6 +400,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Student.setBackground(Color.WHITE);
         Subject.setBackground(Color.WHITE);
         JClass_P.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
     }//GEN-LAST:event_ChartActionPerformed
 
     private void JClass_PActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JClass_PActionPerformed
@@ -390,7 +412,20 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         User.setBackground(Color.WHITE);
         Student.setBackground(Color.WHITE);
         Subject.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
     }//GEN-LAST:event_JClass_PActionPerformed
+
+    private void Edit_AccoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_AccoutActionPerformed
+        Panel_Account PA = new Panel_Account(this, conn, acc);
+        setLayer(PA);
+        Edit_Accout.setBackground(Color.CYAN);
+        Home.setBackground(Color.WHITE);
+        Chart.setBackground(Color.WHITE);
+        User.setBackground(Color.WHITE);
+        Student.setBackground(Color.WHITE);
+        Subject.setBackground(Color.WHITE);
+        JClass_P.setBackground(Color.WHITE);
+    }//GEN-LAST:event_Edit_AccoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -429,6 +464,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Chart;
+    private javax.swing.JButton Edit_Accout;
     private javax.swing.JButton Home;
     private javax.swing.JButton JClass_P;
     private javax.swing.JButton Student;
@@ -450,6 +486,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Subject.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
         JClass_P.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
     }
 
     @Override
@@ -462,6 +499,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
             Subject.setBackground(Color.WHITE);
             Chart.setBackground(Color.WHITE);
             JClass_P.setBackground(Color.WHITE);
+            Edit_Accout.setBackground(Color.WHITE);
         } else {
             setLayer(new Panel_Class(conn, acc));
             JClass_P.setBackground(Color.CYAN);
@@ -470,6 +508,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
             User.setBackground(Color.WHITE);
             Student.setBackground(Color.WHITE);
             Subject.setBackground(Color.WHITE);
+            Edit_Accout.setBackground(Color.WHITE);
         }
     }
 
@@ -483,6 +522,7 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Student.setBackground(Color.WHITE);
         Chart.setBackground(Color.WHITE);
         JClass_P.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
     }
 
     @Override
@@ -495,6 +535,12 @@ public class MainFrame extends javax.swing.JFrame implements Panel_Home.Call_Bac
         Student.setBackground(Color.WHITE);
         Subject.setBackground(Color.WHITE);
         JClass_P.setBackground(Color.WHITE);
+        Edit_Accout.setBackground(Color.WHITE);
+    }
+    
+    @Override
+    public void change(tbl_Teacher new_acc) {
+        acc = new_acc;
     }
 
 }

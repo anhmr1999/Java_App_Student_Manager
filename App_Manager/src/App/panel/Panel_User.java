@@ -578,7 +578,7 @@ public class Panel_User extends javax.swing.JPanel implements ReloadTable {
 
     private void Edit_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_TeacherActionPerformed
         tbl_Teacher teacher_edit = LT.get(jTable_Teacher.getSelectedRow());
-        if (acc.getRole_ID() == 1 || acc.getRole_ID() == 2 || teacher_edit.getID() == acc.getID()) {
+        if (acc.getRole_ID() == 1 || teacher_edit.getID() == acc.getID()) {
             Edit_Teacher et = new Edit_Teacher(teacher_edit, conn, this);
             jDesktopPane.add(et);
             et.setVisible(true);

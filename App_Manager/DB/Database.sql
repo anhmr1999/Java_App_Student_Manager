@@ -142,6 +142,6 @@ select * from tbl_Teacher
 select * from tbl_Course
 select * from tbl_Class
 select * from tbl_Subject
-select * from tbl_Student
+select * from tbl_Student where RollNo = 'S0011'
 select * from tbl_Role
 select * from tbl_Mark
