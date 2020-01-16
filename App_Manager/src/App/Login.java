@@ -108,6 +108,8 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Đăng nhập hệ thống");
         setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(430, 630));
+        setMinimumSize(new java.awt.Dimension(420, 610));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

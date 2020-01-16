@@ -7,6 +7,7 @@ package App.panel;
 
 import App.Internal.Edit_Student;
 import App.Internal.View_Info_Student;
+import App.Internal.View_Mark;
 import App.controller.Class_Controller;
 import App.controller.Mark_Controller;
 import App.controller.Student_Controller;
@@ -162,6 +163,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         jPopupMenu1 = new javax.swing.JPopupMenu();
         View = new javax.swing.JMenuItem();
         Edit = new javax.swing.JMenuItem();
+        View_Mark = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jDesktopPane = new javax.swing.JDesktopPane();
@@ -221,6 +223,15 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
             }
         });
         jPopupMenu1.add(Edit);
+
+        View_Mark.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        View_Mark.setText("Xem Điểm");
+        View_Mark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                View_MarkActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(View_Mark);
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -648,6 +659,9 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     }//GEN-LAST:event_RefeshActionPerformed
 
     private void Data_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Data_TableMousePressed
+        if(acc.getRole_ID() != 1){
+            View_Mark.setVisible(false);
+        }
         jPopupMenu1.show(Data_Table, evt.getX(), evt.getY());
     }//GEN-LAST:event_Data_TableMousePressed
 
@@ -755,6 +769,14 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
         }
     }//GEN-LAST:event_Update_Mark_StudentActionPerformed
 
+    private void View_MarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_MarkActionPerformed
+        int number_view_mark = Data_Table.getSelectedRow();
+        tbl_Student student_view_mark = LS.get(number_view_mark);
+        View_Mark vm =  new View_Mark(conn, student_view_mark);
+        jDesktopPane.add(vm);
+        vm.setVisible(true);
+    }//GEN-LAST:event_View_MarkActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button_Seach;
@@ -775,6 +797,7 @@ public class Panel_Student extends javax.swing.JPanel implements Edit_Student.re
     private javax.swing.JRadioButton Unisex;
     private javax.swing.JButton Update_Mark_Student;
     private javax.swing.JMenuItem View;
+    private javax.swing.JMenuItem View_Mark;
     private javax.swing.JButton add;
     private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDate;
